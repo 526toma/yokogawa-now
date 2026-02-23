@@ -1171,6 +1171,10 @@ input:focus {
   transition-duration: 300ms;
 }
 
+.\[flow\:postLi-\>single\] {
+  flow: postLi->single;
+}
+
 /* カスタムスタイルをここに追加できます */
 
 #smaWrapper {
