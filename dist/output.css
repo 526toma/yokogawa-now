@@ -629,6 +629,10 @@ input:focus {
   bottom: 0px;
 }
 
+.bottom-3 {
+  bottom: 0.75rem;
+}
+
 .bottom-4 {
   bottom: 1rem;
 }
@@ -683,6 +687,10 @@ input:focus {
 
 .z-50 {
   z-index: 50;
+}
+
+.col-span-2 {
+  grid-column: span 2 / span 2;
 }
 
 .mx-auto {
@@ -820,6 +828,14 @@ input:focus {
   max-height: 100vh;
 }
 
+.min-h-28 {
+  min-height: 7rem;
+}
+
+.min-h-32 {
+  min-height: 8rem;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -869,6 +885,18 @@ input:focus {
   cursor: pointer;
 }
 
+.resize-none {
+  resize: none;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .items-end {
   align-items: flex-end;
 }
@@ -889,6 +917,15 @@ input:focus {
   gap: 0px;
 }
 
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.gap-x-0\.5 {
+  -moz-column-gap: 0.125rem;
+       column-gap: 0.125rem;
+}
+
 .gap-x-1 {
   -moz-column-gap: 0.25rem;
        column-gap: 0.25rem;
@@ -902,6 +939,12 @@ input:focus {
 .gap-x-3 {
   -moz-column-gap: 0.75rem;
        column-gap: 0.75rem;
+}
+
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
 .space-y-3 > :not([hidden]) ~ :not([hidden]) {
@@ -936,6 +979,10 @@ input:focus {
 
 .rounded-lg {
   border-radius: 0.5rem;
+}
+
+.rounded-md {
+  border-radius: 0.375rem;
 }
 
 .rounded-none {
@@ -993,6 +1040,16 @@ input:focus {
   border-color: rgb(59 130 246 / var(--tw-border-opacity, 1));
 }
 
+.border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
+}
+
+.border-gray-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
+}
+
 .border-transparent {
   border-color: transparent;
 }
@@ -1022,6 +1079,11 @@ input:focus {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
 }
 
+.bg-gray-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
@@ -1040,6 +1102,10 @@ input:focus {
 .bg-red-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
+}
+
+.bg-transparent {
+  background-color: transparent;
 }
 
 .bg-white {
@@ -1088,6 +1154,11 @@ input:focus {
   padding-right: 1rem;
 }
 
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -1114,6 +1185,10 @@ input:focus {
   padding-bottom: 1rem;
 }
 
+.pb-8 {
+  padding-bottom: 2rem;
+}
+
 .pt-1 {
   padding-top: 0.25rem;
 }
@@ -1138,6 +1213,10 @@ input:focus {
   padding-top: 1rem;
 }
 
+.text-left {
+  text-align: left;
+}
+
 .text-right {
   text-align: right;
 }
@@ -1146,9 +1225,9 @@ input:focus {
   font-size: 11px;
 }
 
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .text-sm {
@@ -1210,6 +1289,11 @@ input:focus {
 
 .opacity-50 {
   opacity: 0.5;
+}
+
+.outline-none {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
 .outline {
@@ -1478,6 +1562,11 @@ input:focus {
   justify-content: center;
 }
 
+#createPostTypeView .postsBannerCard,
+#createPostFormView .postsBannerCard {
+  border-radius: 0.6rem;
+}
+
 .postsBannerDots {
   justify-content: center;
   gap: 0.5rem;
@@ -1557,6 +1646,11 @@ input:focus {
   border-radius: 0.75rem;
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
+#createPostTypeView .postLiImages,
+#createPostFormView .postLiImages {
+  border-radius: 0.6rem;
 }
 
 .postLiImages:empty {
@@ -1709,6 +1803,10 @@ input:focus {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.postImageModalNavBtn svg {
+  display: block;
+}
+
 .postImageModalPrev {
   left: 0.5rem;
 }
@@ -1850,6 +1948,9 @@ input:focus {
   top: 50%;
   left: 50%;
   width: min(26rem, calc(100% - 2rem));
+  max-height: min(80vh, 36rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transform: translate(-50%, -50%);
   border-radius: 1rem;
   background: #fff;
@@ -1884,6 +1985,196 @@ input:focus {
 
 #toUpSlide.active {
   transform: translateY(0%);
+}
+
+#toUpSlide.active.slideLeft {
+  transform: translateY(0%) translateX(-3rem);
+}
+
+.createPostTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.createPostTagBtn {
+  border-radius: 9999px;
+  border: 1px solid #93c5fd;
+  background: #fff;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.82rem;
+  color: #0284c7;
+}
+
+.createPostTagBtn:hover {
+  background: #f8fafc;
+}
+
+.createPostTagBtn:active {
+  background: #f1f5f9;
+}
+
+.createPostTagBtn.is-active {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  color: #fff;
+}
+
+.createPostTagBtn.is-active:hover {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  color: #fff;
+}
+
+#createPostContent {
+  min-height: 8rem;
+}
+
+.createPostImagePreview {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.createPostImageTile {
+  position: relative;
+}
+
+.createPostImageThumb,
+.createPostImageAddTile {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.45rem;
+}
+
+.createPostImageThumb {
+  border: 1px solid #d1d5db;
+  background-color: #f3f4f6;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.createPostImageAddTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d1d5db;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.createPostImageAddTile span {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.createPostImageAddTile:hover {
+  background: #f9fafb;
+}
+
+.createPostImageAddTile:active {
+  background: #f3f4f6;
+}
+
+.createPostImageRemoveBtn {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 55%);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.createPostAnonymousToggle {
+  position: relative;
+  width: 2.5rem;
+  height: 1.45rem;
+  border: 0;
+  border-radius: 9999px;
+  background: #d1d5db;
+}
+
+.createPostAnonymousToggleKnob {
+  position: absolute;
+  top: 0.14rem;
+  left: 0.14rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 9999px;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.createPostAnonymousToggle.is-active {
+  background: #3b82f6;
+}
+
+.createPostAnonymousToggle.is-active .createPostAnonymousToggleKnob {
+  transform: translateX(1.05rem);
+}
+
+.createPostBinaryBtn {
+  min-width: 4.5rem;
+  height: 2rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0 0.75rem;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.createPostBinaryBtn.is-active {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  color: #fff;
+}
+
+.createPostSelect {
+  cursor: pointer;
+  outline: none;
+}
+
+.createPostSelect:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#createPostSubmitBtn:disabled {
+  background: #d1d5db;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+#createPostSubmitBtn.active {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+#createPostSubmitBtn.active:active {
+  background: #2563eb;
+}
+
+#createPostTypeView .rounded-xl,
+#createPostFormView .rounded-xl {
+  border-radius: 0.6rem;
+}
+
+#createPostTypeView .rounded-lg,
+#createPostFormView .rounded-lg {
+  border-radius: 0.5rem;
 }
 
 #dynamicSlideRoot .dynamicSlidePanel {
@@ -2035,9 +2326,24 @@ svg[stroke-width] {
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:text-blue-600:hover {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity, 1));
+}
+
+.active\:bg-gray-200:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+}
+
 .active\:bg-red-600:active {
   --tw-bg-opacity: 1;
   background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
+}
+
+.active\:text-blue-700:active {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity, 1));
 }
 
 @media (min-width: 768px) {

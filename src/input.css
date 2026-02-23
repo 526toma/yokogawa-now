@@ -378,6 +378,10 @@
   @apply absolute top-1/2 z-10 size-10 -translate-y-1/2;
 }
 
+.postImageModalNavBtn svg {
+  display: block;
+}
+
 .postImageModalPrev {
   @apply left-2;
 }
@@ -505,6 +509,9 @@
   top: 50%;
   left: 50%;
   width: min(26rem, calc(100% - 2rem));
+  max-height: min(80vh, 36rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transform: translate(-50%, -50%);
   border-radius: 1rem;
   background: #fff;
@@ -538,6 +545,196 @@
 }
 #toUpSlide.active {
   transform: translateY(0%);
+}
+
+#toUpSlide.active.slideLeft {
+  transform: translateY(0%) translateX(-3rem);
+}
+
+.createPostTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.createPostTagBtn {
+  border-radius: 9999px;
+  border: 1px solid #93c5fd;
+  background: #fff;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.82rem;
+  color: #0284c7;
+}
+
+.createPostTagBtn:hover {
+  background: #f8fafc;
+}
+
+.createPostTagBtn:active {
+  background: #f1f5f9;
+}
+
+.createPostTagBtn.is-active {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  color: #fff;
+}
+
+.createPostTagBtn.is-active:hover {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  color: #fff;
+}
+
+#createPostContent {
+  min-height: 8rem;
+}
+
+.createPostImagePreview {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.createPostImageTile {
+  position: relative;
+}
+
+.createPostImageThumb,
+.createPostImageAddTile {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.45rem;
+}
+
+.createPostImageThumb {
+  border: 1px solid #d1d5db;
+  background-color: #f3f4f6;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.createPostImageAddTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d1d5db;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.createPostImageAddTile span {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.createPostImageAddTile:hover {
+  background: #f9fafb;
+}
+
+.createPostImageAddTile:active {
+  background: #f3f4f6;
+}
+
+.createPostImageRemoveBtn {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 55%);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.createPostAnonymousToggle {
+  position: relative;
+  width: 2.5rem;
+  height: 1.45rem;
+  border: 0;
+  border-radius: 9999px;
+  background: #d1d5db;
+}
+
+.createPostAnonymousToggleKnob {
+  position: absolute;
+  top: 0.14rem;
+  left: 0.14rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 9999px;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.createPostAnonymousToggle.is-active {
+  background: #3b82f6;
+}
+
+.createPostAnonymousToggle.is-active .createPostAnonymousToggleKnob {
+  transform: translateX(1.05rem);
+}
+
+.createPostBinaryBtn {
+  min-width: 4.5rem;
+  height: 2rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0 0.75rem;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.createPostBinaryBtn.is-active {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  color: #fff;
+}
+
+.createPostSelect {
+  cursor: pointer;
+  outline: none;
+}
+
+.createPostSelect:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#createPostSubmitBtn:disabled {
+  background: #d1d5db;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+#createPostSubmitBtn.active {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+#createPostSubmitBtn.active:active {
+  background: #2563eb;
+}
+
+#createPostTypeView .rounded-xl,
+#createPostFormView .rounded-xl {
+  border-radius: 0.6rem;
+}
+
+#createPostTypeView .rounded-lg,
+#createPostFormView .rounded-lg {
+  border-radius: 0.5rem;
 }
 
 #dynamicSlideRoot .dynamicSlidePanel {

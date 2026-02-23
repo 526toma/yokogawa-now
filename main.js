@@ -47,6 +47,95 @@ $(document).ready(function () {
   const $closeUserInfoSlide = $(".closeUserInfoSlide");
   const $messageInput = $("#messageInput");
   const $messagePostBtn = $("#messagePostBtn");
+  const $createPostTypeView = $("#createPostTypeView");
+  const $createPostFormView = $("#createPostFormView");
+  const $createPostImageInput = $("#createPostImageInput");
+  const $createPostImagePreview = $("#createPostImagePreview");
+  const $createPostDefaultTextWrap = $("#createPostDefaultTextWrap");
+  const $createPostYuzuriDetailWrap = $("#createPostYuzuriDetailWrap");
+  const $createPostYuzuriTitle = $("#createPostYuzuriTitle");
+  const $createPostYuzuriBody = $("#createPostYuzuriBody");
+  const $createPostYuzuriPrice = $("#createPostYuzuriPrice");
+  const $createPostYuzuriCategory = $("#createPostYuzuriCategory");
+  const $createPostYuzuriPlace = $("#createPostYuzuriPlace");
+  const $createPostContent = $("#createPostContent");
+  const $createPostSubmitBtn = $("#createPostSubmitBtn");
+  const $createPostSlideTitle = $("#createPostSlideTitle");
+  const $createPostTags = $("#createPostTags");
+  const $createPostTagsWrap = $("#createPostTagsWrap");
+  const $createPostAnonymousWrap = $("#createPostAnonymousWrap");
+  const $createPostAnonymousToggle = $("#createPostAnonymousToggle");
+  const $createPostEventWrap = $("#createPostEventWrap");
+  const $createPostEventName = $("#createPostEventName");
+  const $createPostEventStartDate = $("#createPostEventStartDate");
+  const $createPostEventEndDate = $("#createPostEventEndDate");
+  const $toUpSlideCloseIcon = $("#toUpSlideCloseIcon");
+  const $toUpSlideBackIcon = $("#toUpSlideBackIcon");
+  const CREATE_POST_MAX_IMAGES = 4;
+  let createPostSelectedFiles = [];
+  let activeCreatePostType = "post";
+  const createPostTypeConfig = {
+    post: {
+      title: "つぶやき",
+      placeholder: "例）街の発見をつぶやく",
+      submitLabel: "投稿する",
+      tags: ["#つぶやき", "#まちメモ日記", "#グルメ", "#地域活動", "#防災・防犯", "#雑談"],
+      defaultActiveTags: ["#つぶやき"],
+      allowAnonymous: false,
+      allowEventFields: false,
+      allowYuzuriFields: false,
+    },
+    oshiete: {
+      title: "おしえて",
+      placeholder: "例）習い事を探しています。ご存知の方は教えてください。",
+      submitLabel: "投稿する",
+      tags: [
+        "#おしえて",
+        "#お得情報",
+        "#グルメ",
+        "#地域活動",
+        "#子育て",
+        "#病院",
+        "#行ってみた",
+        "#開店・閉店情報",
+        "#遊び場",
+        "#雑談",
+      ],
+      defaultActiveTags: ["#おしえて"],
+      allowAnonymous: true,
+      allowEventFields: false,
+      allowYuzuriFields: false,
+    },
+    recruit: {
+      title: "募集",
+      placeholder: "例）一緒に〇〇しよう、一緒に飲みに行こう、花見のメンバー募集など",
+      submitLabel: "投稿する",
+      tags: ["#募集", "#お得情報", "#地域活動", "#子育て", "#病院", "#行ってみた", "#遊び場", "#雑談"],
+      defaultActiveTags: ["#募集"],
+      allowAnonymous: false,
+      allowEventFields: false,
+    },
+    event: {
+      title: "イベント",
+      placeholder: "例）みんなの家カレー発表会を開催します！",
+      submitLabel: "投稿する",
+      tags: ["#イベント", "#地域活動", "#子育て", "#グルメ", "#遊び場", "#雑談"],
+      defaultActiveTags: ["#イベント"],
+      allowAnonymous: false,
+      allowEventFields: true,
+      allowYuzuriFields: false,
+    },
+    yuzuri: {
+      title: "譲り合い",
+      placeholder: "例）譲りたいものや条件を入力する",
+      submitLabel: "投稿する",
+      tags: [],
+      defaultActiveTags: [],
+      allowAnonymous: false,
+      allowEventFields: false,
+      allowYuzuriFields: true,
+    },
+  };
   let homeSlideIndex = Math.max(0, $mainHeaderMenuBtns.index($mainHeaderMenuBtns.filter(".active")));
   const maxHomeSlideIndex = Math.min($mainHeaderMenuBtns.length, $homeWrapperInners.length) - 1;
   let postImageModalSources = [];
@@ -59,6 +148,8 @@ $(document).ready(function () {
   let toUpSlideTouchStartY = 0;
   let userInfoSlideTouchStartX = 0;
   let userInfoSlideTouchStartY = 0;
+  let dynamicPanelTouchStartX = 0;
+  let dynamicPanelTouchStartY = 0;
   const $dynamicSlideRoot = $("#dynamicSlideRoot");
   let dynamicSlideZ = 60;
 
@@ -459,6 +550,32 @@ $(document).ready(function () {
     openDynamicSlide(messageHtml, "dynamic-message");
   }
 
+  function openCreateTemplateSlide() {
+    const templateHtml = `
+      <div class="relative w-full h-full">
+        <div class="absolute top-0 left-0 z-10 w-full bg-white">
+          <div class="relative w-full h-12 fij">
+            <div class="absolute top-0 left-0 z-10 cursor-pointer size-12 fij dynamicPanelClose">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </div>
+            <p class="font-bold">定型文</p>
+          </div>
+        </div>
+        <div class="h-full pt-12 overflow-auto bg-gray-100">
+          <div class="p-3 space-y-2">
+            <button type="button" class="w-full p-3 text-sm text-left bg-white rounded-lg">【挨拶】こんにちは、よろしくお願いします。</button>
+            <button type="button" class="w-full p-3 text-sm text-left bg-white rounded-lg">【依頼】ご存知の方がいれば教えてください。</button>
+            <button type="button" class="w-full p-3 text-sm text-left bg-white rounded-lg">【募集】参加できる方はコメントください。</button>
+          </div>
+        </div>
+      </div>
+    `;
+    $toUpSlide.addClass("slideLeft");
+    openDynamicSlide(templateHtml, "dynamic-create-template");
+  }
+
   function renderPostImageModal() {
     if (postImageModalSources.length === 0) return;
 
@@ -566,6 +683,25 @@ $(document).ready(function () {
     }
   }
 
+  function closeDynamicPanel($panel) {
+    if (!$panel || $panel.length === 0) return;
+    const isClosingLastDynamicPanel = $dynamicSlideRoot.children(".dynamicSlidePanel").length === 1;
+    const $prevPanel = $panel.prevAll(".dynamicSlidePanel").first();
+    if ($prevPanel.length > 0) {
+      $prevPanel.removeClass("slideLeft");
+    }
+    if (isClosingLastDynamicPanel && !$toLeftSlide.hasClass("active")) {
+      $homeInner.removeClass("slideLeft");
+    }
+    if (isClosingLastDynamicPanel && $toUpSlide.hasClass("active")) {
+      $toUpSlide.removeClass("slideLeft");
+    }
+    $panel.removeClass("active");
+    setTimeout(function () {
+      $panel.remove();
+    }, 300);
+  }
+
   function centerMainHeaderMenuBtn(index, behavior = "smooth") {
     if ($mainHeaderMenuWrapper.length === 0 || $mainHeaderMenuBtns.length === 0) return;
     const wrapper = $mainHeaderMenuWrapper[0];
@@ -597,6 +733,129 @@ $(document).ready(function () {
     if ($messageInput.length === 0 || $messagePostBtn.length === 0) return;
     const hasValue = ($messageInput.val() || "").toString().trim().length > 0;
     $messagePostBtn.toggleClass("active", hasValue);
+  }
+
+  function showCreatePostTypeView() {
+    if ($createPostTypeView.length === 0 || $createPostFormView.length === 0) return;
+    $createPostFormView.addClass("hidden");
+    $createPostTypeView.removeClass("hidden");
+    $toUpSlideBackIcon.addClass("hidden");
+    $toUpSlideCloseIcon.removeClass("hidden");
+    $createPostSlideTitle.text("投稿");
+  }
+
+  function showCreatePostFormView() {
+    if ($createPostTypeView.length === 0 || $createPostFormView.length === 0) return;
+    $createPostTypeView.addClass("hidden");
+    $createPostFormView.removeClass("hidden");
+    $toUpSlideCloseIcon.addClass("hidden");
+    $toUpSlideBackIcon.removeClass("hidden");
+  }
+
+  function syncCreatePostImageInputFiles() {
+    if ($createPostImageInput.length === 0) return;
+    if (typeof DataTransfer === "undefined") return;
+    const dataTransfer = new DataTransfer();
+    createPostSelectedFiles.forEach(function (file) {
+      dataTransfer.items.add(file);
+    });
+    $createPostImageInput[0].files = dataTransfer.files;
+  }
+
+  function syncCreatePostSubmitBtnActive() {
+    if ($createPostSubmitBtn.length === 0) return;
+    const sourceText = activeCreatePostType === "yuzuri" ? $createPostYuzuriBody.val() : $createPostContent.val();
+    const hasValue = (sourceText || "").toString().trim().length > 0;
+    $createPostSubmitBtn.toggleClass("active", hasValue).prop("disabled", !hasValue);
+  }
+
+  function resetCreatePostFormState() {
+    createPostSelectedFiles = [];
+    syncCreatePostImageInputFiles();
+    renderCreatePostImagePreview();
+    $createPostContent.val("");
+    $createPostTags.find(".createPostTagBtn").removeClass("is-active");
+    $createPostAnonymousToggle.removeClass("is-active").attr("aria-pressed", "false");
+    $createPostYuzuriTitle.val("");
+    $createPostYuzuriBody.val("");
+    $createPostYuzuriPrice.val("");
+    $createPostYuzuriCategory.val("");
+    $createPostYuzuriPlace.val("");
+    $createPostEventName.val("");
+    $createPostEventStartDate.val("");
+    $createPostEventEndDate.val("");
+    $createPostEventWrap.find(".createPostBinaryBtn").removeClass("is-active");
+    $createPostEventWrap.find('.createPostBinaryBtn[data-group="eventHost"][data-value="no"]').addClass("is-active");
+    $createPostEventWrap.find('.createPostBinaryBtn[data-group="eventRecruit"][data-value="off"]').addClass("is-active");
+    syncCreatePostSubmitBtnActive();
+  }
+
+  function renderCreatePostImagePreview() {
+    if ($createPostImagePreview.length === 0) return;
+    $createPostImagePreview.empty();
+    createPostSelectedFiles.forEach(function (file, index) {
+      const imageUrl = URL.createObjectURL(file);
+      $createPostImagePreview.append(`
+        <div class="createPostImageTile">
+          <div class="createPostImageThumb" style="background-image:url('${imageUrl}')"></div>
+          <button type="button" class="createPostImageRemoveBtn" data-index="${index}" aria-label="画像を削除する">×</button>
+        </div>
+      `);
+    });
+    if (createPostSelectedFiles.length < CREATE_POST_MAX_IMAGES) {
+      $createPostImagePreview.append(`
+        <label for="createPostImageInput" class="createPostImageAddTile" aria-label="画像を追加する">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </label>
+      `);
+    }
+  }
+
+  function renderCreatePostTags(type) {
+    const config = createPostTypeConfig[type];
+    if (!config || !Array.isArray(config.tags) || $createPostTags.length === 0) return;
+    $createPostTags.empty();
+    const activeTags = Array.isArray(config.defaultActiveTags) ? config.defaultActiveTags : [];
+    config.tags.forEach(function (tag) {
+      const safeTag = $("<div>").text(tag).html();
+      const isActive = activeTags.includes(tag) ? " is-active" : "";
+      $createPostTags.append(`<button type="button" class="createPostTagBtn${isActive}">${safeTag}</button>`);
+    });
+  }
+
+  function applyCreatePostType(type) {
+    const nextType = (type || "").toString();
+    const config = createPostTypeConfig[nextType];
+    if (!config) return;
+    activeCreatePostType = nextType;
+    $createPostSlideTitle.text(config.title);
+    $createPostContent.attr("placeholder", config.placeholder);
+    $createPostSubmitBtn.text(config.submitLabel);
+    renderCreatePostTags(nextType);
+    syncCreatePostSubmitBtnActive();
+    if (config.allowAnonymous) {
+      $createPostAnonymousWrap.removeClass("hidden");
+    } else {
+      $createPostAnonymousWrap.addClass("hidden");
+      $createPostAnonymousToggle.removeClass("is-active").attr("aria-pressed", "false");
+    }
+    if (config.allowEventFields) {
+      $createPostEventWrap.removeClass("hidden");
+    } else {
+      $createPostEventWrap.addClass("hidden");
+    }
+    if (config.allowYuzuriFields) {
+      $createPostDefaultTextWrap.addClass("hidden");
+      $createPostTagsWrap.addClass("hidden");
+      $createPostYuzuriDetailWrap.removeClass("hidden");
+    } else {
+      $createPostDefaultTextWrap.removeClass("hidden");
+      $createPostTagsWrap.removeClass("hidden");
+      $createPostYuzuriDetailWrap.addClass("hidden");
+    }
   }
 
   if (maxHomeSlideIndex >= 0) {
@@ -639,6 +898,9 @@ $(document).ready(function () {
   });
 
   $openToUpSlide.on("click", function () {
+    showCreatePostTypeView();
+    renderCreatePostImagePreview();
+    $toUpSlide.removeClass("slideLeft");
     $toUpSlide.addClass("active");
   });
 
@@ -655,6 +917,14 @@ $(document).ready(function () {
   });
 
   $closeToUpSlide.on("click", function () {
+    if ($createPostFormView.length > 0 && !$createPostFormView.hasClass("hidden")) {
+      resetCreatePostFormState();
+      showCreatePostTypeView();
+      return;
+    }
+    resetCreatePostFormState();
+    showCreatePostTypeView();
+    $toUpSlide.removeClass("slideLeft");
     $toUpSlide.removeClass("active");
   });
 
@@ -695,7 +965,61 @@ $(document).ready(function () {
     const deltaY = touch.clientY - toUpSlideTouchStartY;
 
     if (Math.abs(deltaY) < 50 || Math.abs(deltaY) <= Math.abs(deltaX) || deltaY <= 0) return;
+    resetCreatePostFormState();
+    showCreatePostTypeView();
+    $toUpSlide.removeClass("slideLeft");
     $toUpSlide.removeClass("active");
+  });
+
+  $(document).on("click", ".createPostTypeBtn", function () {
+    const type = ($(this).data("type") || "").toString();
+    if (type !== "post" && type !== "oshiete" && type !== "recruit" && type !== "event" && type !== "yuzuri") return;
+    applyCreatePostType(type);
+    showCreatePostFormView();
+  });
+
+  $(document).on("click", ".createPostTagBtn", function () {
+    $(this).toggleClass("is-active");
+  });
+
+  $createPostContent.on("input", function () {
+    syncCreatePostSubmitBtnActive();
+  });
+
+  $createPostYuzuriBody.on("input", function () {
+    syncCreatePostSubmitBtnActive();
+  });
+
+  $createPostAnonymousToggle.on("click", function () {
+    const nextState = !$(this).hasClass("is-active");
+    $(this).toggleClass("is-active", nextState).attr("aria-pressed", nextState ? "true" : "false");
+  });
+
+  $(document).on("click", ".createPostBinaryBtn", function () {
+    const group = ($(this).data("group") || "").toString();
+    if (!group) return;
+    $createPostEventWrap.find(`.createPostBinaryBtn[data-group="${group}"]`).removeClass("is-active");
+    $(this).addClass("is-active");
+  });
+
+  $(document).on("click", ".openCreateTemplateSlide", function (event) {
+    event.stopPropagation();
+    openCreateTemplateSlide();
+  });
+
+  $createPostImageInput.on("change", function () {
+    const nextFiles = Array.from(this.files || []);
+    createPostSelectedFiles = createPostSelectedFiles.concat(nextFiles).slice(0, CREATE_POST_MAX_IMAGES);
+    syncCreatePostImageInputFiles();
+    renderCreatePostImagePreview();
+  });
+
+  $(document).on("click", ".createPostImageRemoveBtn", function () {
+    const index = Number($(this).data("index"));
+    if (Number.isNaN(index) || index < 0 || index >= createPostSelectedFiles.length) return;
+    createPostSelectedFiles.splice(index, 1);
+    syncCreatePostImageInputFiles();
+    renderCreatePostImagePreview();
   });
 
   $userInfoSlide.on("touchstart", function (event) {
@@ -835,19 +1159,25 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".dynamicPanelClose", function () {
+    closeDynamicPanel($(this).closest(".dynamicSlidePanel"));
+  });
+
+  $(document).on("touchstart", ".dynamicSlidePanel", function (event) {
+    const touch = event.originalEvent.changedTouches[0];
+    dynamicPanelTouchStartX = touch.clientX;
+    dynamicPanelTouchStartY = touch.clientY;
+  });
+
+  $(document).on("touchend", ".dynamicSlidePanel", function (event) {
     const $panel = $(this).closest(".dynamicSlidePanel");
-    const isClosingLastDynamicPanel = $dynamicSlideRoot.children(".dynamicSlidePanel").length === 1;
-    const $prevPanel = $panel.prevAll(".dynamicSlidePanel").first();
-    if ($prevPanel.length > 0) {
-      $prevPanel.removeClass("slideLeft");
-    }
-    if (isClosingLastDynamicPanel && !$toLeftSlide.hasClass("active")) {
-      $homeInner.removeClass("slideLeft");
-    }
-    $panel.removeClass("active");
-    setTimeout(function () {
-      $panel.remove();
-    }, 300);
+    if (!$panel.hasClass("active")) return;
+    if (!$panel.is($dynamicSlideRoot.children(".dynamicSlidePanel").last())) return;
+    const touch = event.originalEvent.changedTouches[0];
+    const deltaX = touch.clientX - dynamicPanelTouchStartX;
+    const deltaY = touch.clientY - dynamicPanelTouchStartY;
+
+    if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY) || deltaX <= 0) return;
+    closeDynamicPanel($panel);
   });
 
   $closePostImageModal.on("click", function () {
@@ -913,11 +1243,18 @@ $(document).ready(function () {
     if ($userInfoSlide.hasClass("active")) {
       closeUserInfoSlide();
     }
+    if ($toUpSlide.hasClass("active")) {
+      resetCreatePostFormState();
+      showCreatePostTypeView();
+      $toUpSlide.removeClass("slideLeft");
+      $toUpSlide.removeClass("active");
+    }
   });
 
   randomizePostLiImages();
   setPostLiImagesLayout();
   syncMessagePostBtnActive();
+  syncCreatePostSubmitBtnActive();
 
   if ($postsBannerViewport.length > 0) {
     setPostsBannerDot(Math.max(0, $postsBannerDots.index($postsBannerDots.filter(".active"))));
