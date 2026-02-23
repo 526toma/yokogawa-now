@@ -1,0 +1,25 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "src/**",
+      "tailwind.config.js",
+      "postcss.config.js",
+      "package.json",
+      "package-lock.json",
+      ".prettierrc",
+      ".prettierignore",
+      ".gitignore"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,21 @@
+{
+  "name": "jquery-tailwind-project",
+  "version": "1.0.0",
+  "description": "jQueryとTailwind CSSを使ったプロジェクト",
+  "type": "module",
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "format": "prettier --write \"**/*.{html,js,css,json}\"",
+    "format:check": "prettier --check \"**/*.{html,js,css,json}\"",
+    "deploy": "firebase deploy"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "prettier": "^3.2.5",
+    "firebase": "^10.7.1",
+    "firebase-tools": "^13.0.0"
+  }
+}

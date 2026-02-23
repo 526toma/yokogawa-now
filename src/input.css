@@ -1,0 +1,375 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* カスタムスタイルをここに追加できます */
+@layer base {
+  body {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  p {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* スクロールバーを非表示 */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+@screen md {
+  #smaWrapper {
+    height: calc(100% - 2rem);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.fij {
+  @apply flex items-center justify-center;
+}
+
+.mainHeaderMenuBtns p {
+  @apply text-sm leading-none text-gray-400 w-fit;
+}
+
+.mainHeaderMenuBtns p span {
+  @apply inline-block;
+}
+
+.mainHeaderMenuBtns.active p {
+  @apply font-bold text-black relative;
+}
+
+.mainHeaderMenuBtns.active p::after {
+  content: "";
+  @apply absolute left-1/2 h-1 bg-red-500 rounded-t-sm;
+  bottom: -1px;
+  width: 100%;
+  transform: translateX(-50%) scaleX(1.2);
+  transform-origin: center;
+}
+
+.mainHeaderMenuBtns.active p span {
+  transform: scale(1.2);
+}
+.bottomMenu.active svg {
+  stroke-width: 2px;
+}
+.bottomMenu.active p {
+  @apply font-bold;
+}
+
+.contentsWrapper {
+  @apply hidden;
+}
+.contentsWrapper.active {
+  @apply block;
+}
+
+.homeSliderViewport {
+  @apply w-full overflow-hidden;
+  touch-action: pan-y;
+}
+
+.homeSliderTrack {
+  @apply flex w-full;
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+
+.homeWrapperInner {
+  @apply w-full flex-shrink-0;
+}
+#homeInner.slideLeft {
+  transform: translateX(-3rem);
+}
+#toLeftSlide {
+  transform: translateX(100%);
+}
+#toLeftSlide.active {
+  transform: translateX(0%);
+}
+
+#mainHeaderWrapper,
+#bottomMenuWrapper {
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+
+#mainHeaderWrapper.scroll-hidden {
+  transform: translateY(-100%);
+}
+
+#bottomMenuWrapper.scroll-hidden {
+  transform: translateY(100%);
+}
+
+#openPostFormBtn {
+  bottom: 5.5rem;
+  transition: bottom 0.25s ease;
+  will-change: bottom;
+}
+
+#bottomMenuWrapper.scroll-hidden ~ #openPostFormBtn {
+  bottom: 1rem;
+}
+
+.rhw {
+  @apply relative h-full w-full;
+}
+
+.fi {
+  @apply flex items-center;
+}
+
+.toLeftSlideInner {
+  @apply hidden;
+}
+
+.toLeftSlideInner.active {
+  @apply block;
+}
+
+.newsBodyInner {
+  @apply hidden;
+}
+
+.newsBodyInner.active {
+  @apply block;
+}
+
+#newsHeader .newsHeaderToggle {
+  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+}
+
+#newsHeader .newsHeaderToggle p {
+  font-weight: 400;
+}
+
+#newsHeader .newsHeaderToggle.active {
+  @apply text-black;
+}
+
+#newsHeader .newsHeaderToggle.active p {
+  font-weight: 700;
+}
+
+.postsBannerViewport {
+  @apply flex w-full overflow-x-auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.postsBannerItem {
+  @apply w-full flex-shrink-0 px-3;
+  scroll-snap-align: start;
+}
+
+.postsBannerCard {
+  @apply h-36 w-full rounded-xl bg-white px-4 text-sm font-bold text-gray-700 fij;
+}
+
+.postsBannerDots {
+  @apply pt-2 pb-4 fi justify-center gap-2;
+}
+
+.postsBannerDot {
+  @apply size-2 rounded-full bg-red-300 transition;
+}
+
+.postsBannerDot.active {
+  @apply bg-red-500;
+}
+
+#homePostToggle {
+  @apply overflow-hidden;
+}
+
+#homePostToggle > div {
+  @apply text-gray-700 cursor-pointer rounded-none;
+}
+
+#homePostToggle > div:first-child {
+  @apply rounded-l-full;
+}
+
+#homePostToggle > div:last-child {
+  @apply rounded-r-full;
+}
+
+#homePostToggle > div.active {
+  @apply bg-red-500 text-white;
+}
+
+.clamp1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clamp4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+.postLiImages {
+  @apply mt-3 grid gap-0 overflow-hidden rounded-xl bg-white;
+}
+
+.postLiImages:empty {
+  display: none;
+}
+
+.postLiImageWrap {
+  @apply relative overflow-hidden bg-gray-200;
+  aspect-ratio: 1 / 1;
+}
+
+.postLiImage {
+  @apply block h-full w-full object-cover transition-opacity duration-200;
+}
+
+.postLiImage:hover {
+  @apply opacity-75;
+}
+
+.postLiImages.count-1 {
+  grid-template-columns: 1fr;
+}
+
+.postLiImages.count-1 .postLiImageWrap {
+  aspect-ratio: 16 / 10;
+}
+
+.postLiImages.count-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.postLiImages.count-3 {
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.postLiImages.count-3 .postLiImageWrap:nth-child(1) {
+  grid-row: span 2 / span 2;
+}
+
+.postLiImages.count-3 .postLiImageWrap:nth-child(n + 2) {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 0;
+}
+
+.postLiImages.count-4plus {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.postLiImageWrap.hidden-by-count {
+  display: none;
+}
+
+.postLiImageWrap.is-more::after {
+  content: attr(data-more);
+  @apply absolute inset-0 z-10 fij text-xl font-bold text-white;
+  background: rgb(0 0 0 / 45%);
+}
+
+.postImageModal {
+  @apply fixed inset-0 z-50 hidden;
+  background: rgb(0 0 0 / 75%);
+}
+
+.postImageModal.active {
+  @apply flex items-center justify-center;
+}
+
+.postImageModalBody {
+  @apply w-full;
+}
+
+.postImageModalViewport {
+  @apply w-full overflow-hidden;
+  touch-action: pan-y;
+}
+
+.postImageModalTrack {
+  @apply flex w-full;
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+
+.postImageModalSlide {
+  @apply w-full flex-shrink-0;
+}
+
+.postImageModalImage {
+  @apply w-full max-h-screen object-contain;
+}
+
+.postImageModalCircleBtn {
+  @apply rounded-full text-white fij;
+  background: rgb(0 0 0 / 45%);
+}
+
+.postImageModalCloseBtn {
+  @apply absolute top-2 left-2 z-10 size-10;
+}
+
+.postImageModalNavBtn {
+  @apply absolute top-1/2 z-10 size-10 -translate-y-1/2;
+}
+
+.postImageModalPrev {
+  @apply left-2;
+}
+
+.postImageModalNext {
+  @apply right-2;
+}
+
+.postImageModalDots {
+  @apply absolute bottom-4 left-1/2 z-10 fi -translate-x-1/2 gap-2;
+}
+
+.postImageModalDot {
+  @apply size-2 rounded-full bg-white/40;
+}
+
+.postImageModalDot.active {
+  @apply bg-white;
+}
+
+#toUpSlide {
+  transform: translateY(100%);
+}
+#toUpSlide.active {
+  transform: translateY(0%);
+}
+
+.postLi:hover {
+  @apply bg-gray-50 transition;
+}
+
+#messagePostBtn.active {
+  @apply bg-blue-500 text-white font-bold active:bg-blue-600;
+}
