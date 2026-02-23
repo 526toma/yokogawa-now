@@ -175,6 +175,7 @@ $(document).ready(function () {
     $homeWrapperInners.removeClass("active");
     $homeWrapperInners.eq(nextIndex).addClass("active");
     $homeSliderTrack.css("transform", `translateX(-${nextIndex * 100}%)`);
+    setHomeChromeHiddenByScroll(false);
   }
 
   function syncMessagePostBtnActive() {
@@ -372,26 +373,29 @@ $(document).ready(function () {
     startPostsBannerAutoSlide();
   }
 
-  const homeWrapper = document.getElementById("homeWrapper");
   let touchStartX = 0;
   let touchStartY = 0;
-  let lastHomeScrollTop = 0;
+  const homeInnerLastScrollTops = [];
   let isHomeChromeHiddenByScroll = false;
   const homeScrollThreshold = 8;
 
-  if (homeWrapper) {
-    homeWrapper.addEventListener(
+  $homeWrapperInners.each(function () {
+    this.addEventListener(
       "scroll",
       function () {
-        const currentScrollTop = homeWrapper.scrollTop;
-        const delta = currentScrollTop - lastHomeScrollTop;
+        if (!this.classList.contains("active")) return;
+
+        const panelIndex = $homeWrapperInners.index(this);
+        const currentScrollTop = this.scrollTop;
+        const prevScrollTop = homeInnerLastScrollTops[panelIndex] ?? 0;
+        const delta = currentScrollTop - prevScrollTop;
 
         if (currentScrollTop <= 0) {
           if (isHomeChromeHiddenByScroll) {
             setHomeChromeHiddenByScroll(false);
             isHomeChromeHiddenByScroll = false;
           }
-          lastHomeScrollTop = 0;
+          homeInnerLastScrollTops[panelIndex] = 0;
           return;
         }
 
@@ -403,12 +407,12 @@ $(document).ready(function () {
           isHomeChromeHiddenByScroll = false;
         }
 
-        lastHomeScrollTop = currentScrollTop;
+        homeInnerLastScrollTops[panelIndex] = currentScrollTop;
       },
       { passive: true }
     );
 
-    homeWrapper.addEventListener(
+    this.addEventListener(
       "touchstart",
       function (event) {
         const touch = event.changedTouches[0];
@@ -418,7 +422,7 @@ $(document).ready(function () {
       { passive: true }
     );
 
-    homeWrapper.addEventListener(
+    this.addEventListener(
       "touchend",
       function (event) {
         const touch = event.changedTouches[0];
@@ -434,5 +438,5 @@ $(document).ready(function () {
       },
       { passive: true }
     );
-  }
+  });
 });

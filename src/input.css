@@ -84,18 +84,18 @@
 }
 
 .homeSliderViewport {
-  @apply w-full overflow-hidden;
+  @apply h-full w-full overflow-hidden;
   touch-action: pan-y;
 }
 
 .homeSliderTrack {
-  @apply flex w-full;
+  @apply flex h-full w-full;
   transition: transform 0.25s ease;
   will-change: transform;
 }
 
 .homeWrapperInner {
-  @apply w-full flex-shrink-0;
+  @apply h-full w-full flex-shrink-0 overflow-auto pb-20 pt-24;
 }
 #homeInner.slideLeft {
   transform: translateX(-3rem);
