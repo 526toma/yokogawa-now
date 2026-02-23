@@ -512,8 +512,8 @@
 }
 
 .dynamicDmProfileModalIcon {
-  width: 4rem;
-  height: 4rem;
+  width: 4.5rem;
+  height: 4.5rem;
   margin: 0 auto 0.75rem;
   border-radius: 9999px;
   background-color: #f3f4f6;
@@ -528,7 +528,7 @@
 
 .dynamicDmProfileModalDesc {
   white-space: pre-line;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.75;
   color: #111827;
 }
@@ -608,6 +608,10 @@
 }
 
 .dynamicFollowToggleBtn.is-following {
+  @apply bg-blue-500 text-white;
+}
+
+.dynamicFollowToggleBtn.is-following:hover {
   @apply bg-blue-500 text-white;
 }
 

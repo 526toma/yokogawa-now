@@ -1857,8 +1857,8 @@ input:focus {
 }
 
 .dynamicDmProfileModalIcon {
-  width: 4rem;
-  height: 4rem;
+  width: 4.5rem;
+  height: 4.5rem;
   margin: 0 auto 0.75rem;
   border-radius: 9999px;
   background-color: #f3f4f6;
@@ -1873,7 +1873,7 @@ input:focus {
 
 .dynamicDmProfileModalDesc {
   white-space: pre-line;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.75;
   color: #111827;
 }
@@ -1987,6 +1987,13 @@ input:focus {
 }
 
 .dynamicFollowToggleBtn.is-following {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.dynamicFollowToggleBtn.is-following:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
   --tw-text-opacity: 1;
