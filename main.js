@@ -3,6 +3,7 @@ $(document).ready(function () {
   console.log("jQueryが正常に読み込まれました！");
   console.log("jQueryバージョン:", $.fn.jquery);
   const $mainHeaderMenuBtns = $(".mainHeaderMenuBtns");
+  const $mainHeaderMenuWrapper = $("#mainHeaderMenuWrapper");
   const $homeWrapperInners = $(".homeWrapperInner");
   const $homeSliderTrack = $("#homeSliderTrack");
   const $bottomMenus = $(".bottomMenu");
@@ -31,6 +32,19 @@ $(document).ready(function () {
   const $postImageModalPrev = $("#postImageModalPrev");
   const $postImageModalNext = $("#postImageModalNext");
   const $closePostImageModal = $("#closePostImageModal");
+  const $singleConfigBtn = $(".singleConfigBtn");
+  const $singleBody = $("#singleBody");
+  const $singleBodyInner = $("#singleBodyInner");
+  const $singleActionSheetRoot = $("#singleActionSheetRoot");
+  const $singleActionSheetCurtain = $("#singleActionSheetCurtain");
+  const $singleActionSheetCancel = $("#singleActionSheetCancel");
+  const $cofigUserInfoSlide = $(".cofigUserInfoSlide");
+  const $userInfoActionSheetRoot = $("#userInfoActionSheetRoot");
+  const $userInfoActionSheetCurtain = $("#userInfoActionSheetCurtain");
+  const $userInfoActionSheetCancel = $("#userInfoActionSheetCancel");
+  const $userInfoSlide = $("#userInfoSlide");
+  const $userInfoSlideIcon = $("#userInfoSlide .icon_bg").first();
+  const $closeUserInfoSlide = $(".closeUserInfoSlide");
   const $messageInput = $("#messageInput");
   const $messagePostBtn = $("#messagePostBtn");
   let homeSlideIndex = Math.max(0, $mainHeaderMenuBtns.index($mainHeaderMenuBtns.filter(".active")));
@@ -39,6 +53,12 @@ $(document).ready(function () {
   let postImageModalIndex = 0;
   let postImageModalTouchStartX = 0;
   let postImageModalTouchStartY = 0;
+  let toLeftSlideTouchStartX = 0;
+  let toLeftSlideTouchStartY = 0;
+  let toUpSlideTouchStartX = 0;
+  let toUpSlideTouchStartY = 0;
+  let userInfoSlideTouchStartX = 0;
+  let userInfoSlideTouchStartY = 0;
 
   function setPostsBannerDot(index) {
     if ($postsBannerDots.length === 0) return;
@@ -164,7 +184,59 @@ $(document).ready(function () {
     postImageModalIndex = 0;
   }
 
-  function setHomeSlide(index) {
+  function openSingleActionSheet() {
+    if ($singleActionSheetRoot.length === 0) return;
+    $singleActionSheetRoot.attr("aria-hidden", "false").addClass("active");
+  }
+
+  function closeSingleActionSheet() {
+    if ($singleActionSheetRoot.length === 0) return;
+    $singleActionSheetRoot.attr("aria-hidden", "true").removeClass("active");
+  }
+
+  function openUserInfoActionSheet() {
+    if ($userInfoActionSheetRoot.length === 0) return;
+    $userInfoActionSheetRoot.attr("aria-hidden", "false").addClass("active");
+  }
+
+  function closeUserInfoActionSheet() {
+    if ($userInfoActionSheetRoot.length === 0) return;
+    $userInfoActionSheetRoot.attr("aria-hidden", "true").removeClass("active");
+  }
+
+  function openUserInfoSlide(iconBackgroundImage = "") {
+    if ($userInfoSlide.length === 0) return;
+    if ($userInfoSlideIcon.length > 0) {
+      $userInfoSlideIcon.css("background-image", iconBackgroundImage && iconBackgroundImage !== "none" ? iconBackgroundImage : "none");
+    }
+    $userInfoSlide.addClass("active");
+    $homeInner.addClass("slideLeft");
+    $toLeftSlide.addClass("slideLeft");
+  }
+
+  function closeUserInfoSlide() {
+    if ($userInfoSlide.length === 0) return;
+    closeUserInfoActionSheet();
+    $userInfoSlide.removeClass("active");
+    $toLeftSlide.removeClass("slideLeft");
+    if (!$toLeftSlide.hasClass("active")) {
+      $homeInner.removeClass("slideLeft");
+    }
+  }
+
+  function centerMainHeaderMenuBtn(index, behavior = "smooth") {
+    if ($mainHeaderMenuWrapper.length === 0 || $mainHeaderMenuBtns.length === 0) return;
+    const wrapper = $mainHeaderMenuWrapper[0];
+    const button = $mainHeaderMenuBtns.eq(index)[0];
+    if (!wrapper || !button) return;
+
+    const maxScrollLeft = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
+    const targetScrollLeft = button.offsetLeft - (wrapper.clientWidth - button.clientWidth) / 2;
+    const nextScrollLeft = Math.max(0, Math.min(targetScrollLeft, maxScrollLeft));
+    wrapper.scrollTo({ left: nextScrollLeft, behavior });
+  }
+
+  function setHomeSlide(index, menuScrollBehavior = "smooth") {
     if (maxHomeSlideIndex < 0) return;
 
     const nextIndex = Math.max(0, Math.min(index, maxHomeSlideIndex));
@@ -175,6 +247,7 @@ $(document).ready(function () {
     $homeWrapperInners.removeClass("active");
     $homeWrapperInners.eq(nextIndex).addClass("active");
     $homeSliderTrack.css("transform", `translateX(-${nextIndex * 100}%)`);
+    centerMainHeaderMenuBtn(nextIndex, menuScrollBehavior);
     setHomeChromeHiddenByScroll(false);
   }
 
@@ -185,7 +258,7 @@ $(document).ready(function () {
   }
 
   if (maxHomeSlideIndex >= 0) {
-    setHomeSlide(Math.min(homeSlideIndex, maxHomeSlideIndex));
+    setHomeSlide(Math.min(homeSlideIndex, maxHomeSlideIndex), "auto");
   }
   setNewsHeaderToggle(Math.max(0, $newsHeaderToggles.index($newsHeaderToggles.filter(".active"))));
 
@@ -215,6 +288,7 @@ $(document).ready(function () {
     }
 
     $toLeftSlide.addClass("active");
+    $toLeftSlide.removeClass("slideLeft");
     $homeInner.addClass("slideLeft");
   });
 
@@ -223,12 +297,65 @@ $(document).ready(function () {
   });
 
   $closeToLeftSlide.on("click", function () {
+    closeSingleActionSheet();
     $toLeftSlide.removeClass("active");
+    $toLeftSlide.removeClass("slideLeft");
     $homeInner.removeClass("slideLeft");
   });
 
   $closeToUpSlide.on("click", function () {
     $toUpSlide.removeClass("active");
+  });
+
+  $toLeftSlide.on("touchstart", function (event) {
+    const touch = event.originalEvent.changedTouches[0];
+    toLeftSlideTouchStartX = touch.clientX;
+    toLeftSlideTouchStartY = touch.clientY;
+  });
+
+  $toLeftSlide.on("touchend", function (event) {
+    if (!$toLeftSlide.hasClass("active")) return;
+    const touch = event.originalEvent.changedTouches[0];
+    const deltaX = touch.clientX - toLeftSlideTouchStartX;
+    const deltaY = touch.clientY - toLeftSlideTouchStartY;
+
+    if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY) || deltaX <= 0) return;
+    closeSingleActionSheet();
+    $toLeftSlide.removeClass("active");
+    $toLeftSlide.removeClass("slideLeft");
+    $homeInner.removeClass("slideLeft");
+  });
+
+  $toUpSlide.on("touchstart", function (event) {
+    const touch = event.originalEvent.changedTouches[0];
+    toUpSlideTouchStartX = touch.clientX;
+    toUpSlideTouchStartY = touch.clientY;
+  });
+
+  $toUpSlide.on("touchend", function (event) {
+    if (!$toUpSlide.hasClass("active")) return;
+    const touch = event.originalEvent.changedTouches[0];
+    const deltaX = touch.clientX - toUpSlideTouchStartX;
+    const deltaY = touch.clientY - toUpSlideTouchStartY;
+
+    if (Math.abs(deltaY) < 50 || Math.abs(deltaY) <= Math.abs(deltaX) || deltaY <= 0) return;
+    $toUpSlide.removeClass("active");
+  });
+
+  $userInfoSlide.on("touchstart", function (event) {
+    const touch = event.originalEvent.changedTouches[0];
+    userInfoSlideTouchStartX = touch.clientX;
+    userInfoSlideTouchStartY = touch.clientY;
+  });
+
+  $userInfoSlide.on("touchend", function (event) {
+    if (!$userInfoSlide.hasClass("active")) return;
+    const touch = event.originalEvent.changedTouches[0];
+    const deltaX = touch.clientX - userInfoSlideTouchStartX;
+    const deltaY = touch.clientY - userInfoSlideTouchStartY;
+
+    if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY) || deltaX <= 0) return;
+    closeUserInfoSlide();
   });
 
   $newsHeaderToggles.on("click", function () {
@@ -258,10 +385,57 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".postLi", function () {
+    if ($singleBodyInner.length > 0) {
+      const $postClone = $(this).clone();
+      $postClone.find(".postLiComments").remove();
+      $singleBodyInner.empty().append($postClone);
+    }
+
     const targetTitle = $(this).data("title") || "single";
     showToLeftSlideInner(targetTitle);
     $toLeftSlide.addClass("active");
+    $toLeftSlide.removeClass("slideLeft");
     $homeInner.addClass("slideLeft");
+    if ($singleBody.length > 0) {
+      $singleBody.scrollTop(0);
+    }
+  });
+
+  $singleConfigBtn.on("click", function (event) {
+    event.stopPropagation();
+    openSingleActionSheet();
+  });
+
+  $singleActionSheetCurtain.on("click", function () {
+    closeSingleActionSheet();
+  });
+
+  $singleActionSheetCancel.on("click", function () {
+    closeSingleActionSheet();
+  });
+
+  $cofigUserInfoSlide.on("click", function (event) {
+    event.stopPropagation();
+    openUserInfoActionSheet();
+  });
+
+  $userInfoActionSheetCurtain.on("click", function () {
+    closeUserInfoActionSheet();
+  });
+
+  $userInfoActionSheetCancel.on("click", function () {
+    closeUserInfoActionSheet();
+  });
+
+  $closeUserInfoSlide.on("click", function () {
+    closeUserInfoSlide();
+  });
+
+  $(document).on("click", ".postLiIcon, .postLiCommentsLi > div:first-child, .singleCommentsLi > div:first-child", function (event) {
+    event.stopPropagation();
+    const $clickedIcon = $(event.target).closest(".icon_bg");
+    const iconBackgroundImage = ($clickedIcon.length > 0 ? $clickedIcon.css("background-image") : $(this).css("background-image")) || "";
+    openUserInfoSlide(iconBackgroundImage);
   });
 
   $closePostImageModal.on("click", function () {
@@ -314,8 +488,19 @@ $(document).ready(function () {
   });
 
   $(document).on("keydown", function (event) {
-    if (event.key !== "Escape" || !$postImageModal.hasClass("active")) return;
-    closePostImageModal();
+    if (event.key !== "Escape") return;
+    if ($postImageModal.hasClass("active")) {
+      closePostImageModal();
+    }
+    if ($singleActionSheetRoot.hasClass("active")) {
+      closeSingleActionSheet();
+    }
+    if ($userInfoActionSheetRoot.hasClass("active")) {
+      closeUserInfoActionSheet();
+    }
+    if ($userInfoSlide.hasClass("active")) {
+      closeUserInfoSlide();
+    }
   });
 
   randomizePostLiImages();
@@ -439,4 +624,12 @@ $(document).ready(function () {
       { passive: true }
     );
   });
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("/sw.js").catch(function (error) {
+        console.error("Service Worker registration failed:", error);
+      });
+    });
+  }
 });

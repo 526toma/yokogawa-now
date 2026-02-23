@@ -4,7 +4,15 @@
 
 /* カスタムスタイルをここに追加できます */
 @layer base {
+  html,
   body {
+    height: 100%;
+    min-height: 100%;
+    min-height: -webkit-fill-available;
+    min-height: 100svh;
+    margin: 0;
+    padding: 0;
+    background: #fff;
     word-wrap: break-word;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -32,9 +40,30 @@
   }
 }
 
+#smaWrapper {
+  height: 100vh;
+  min-height: 100vh;
+  height: -webkit-fill-available;
+  min-height: -webkit-fill-available;
+  height: 100svh;
+  min-height: 100svh;
+  padding: 0;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+@supports (height: 100dvh) {
+  #smaWrapper {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+}
+
 @screen md {
   #smaWrapper {
     height: calc(100% - 2rem);
+    min-height: auto;
+    padding: 0;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -96,6 +125,7 @@
 
 .homeWrapperInner {
   @apply h-full w-full flex-shrink-0 overflow-auto pb-20 pt-24;
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom));
 }
 #homeInner.slideLeft {
   transform: translateX(-3rem);
@@ -107,10 +137,19 @@
   transform: translateX(0%);
 }
 
+#toLeftSlide.active.slideLeft {
+  transform: translateX(-3rem);
+}
+
 #mainHeaderWrapper,
 #bottomMenuWrapper {
   transition: transform 0.25s ease;
   will-change: transform;
+}
+
+#bottomMenuWrapper {
+  height: calc(5rem + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 #mainHeaderWrapper.scroll-hidden {
@@ -118,17 +157,17 @@
 }
 
 #bottomMenuWrapper.scroll-hidden {
-  transform: translateY(100%);
+  transform: translateY(calc(100% + env(safe-area-inset-bottom) + 8px));
 }
 
 #openPostFormBtn {
-  bottom: 5.5rem;
+  bottom: calc(5.5rem + env(safe-area-inset-bottom));
   transition: bottom 0.25s ease;
   will-change: bottom;
 }
 
 #bottomMenuWrapper.scroll-hidden ~ #openPostFormBtn {
-  bottom: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
 }
 
 .rhw {
@@ -203,11 +242,11 @@
 }
 
 #homePostToggle > div {
-  @apply text-gray-700 cursor-pointer rounded-none;
+  @apply text-gray-700 cursor-pointer rounded-none border border-red-500;
 }
 
 #homePostToggle > div:first-child {
-  @apply rounded-l-full;
+  @apply rounded-l-full border-r-0;
 }
 
 #homePostToggle > div:last-child {
@@ -359,6 +398,82 @@
   @apply bg-white;
 }
 
+.singleActionSheetRoot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.singleActionSheetRoot.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.singleActionSheetCurtain {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgb(0 0 0 / 35%);
+}
+
+.singleActionSheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 0.75rem calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+  transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.singleActionSheetRoot.active .singleActionSheet {
+  transform: translateY(0);
+}
+
+.singleActionSheetGroup {
+  overflow: hidden;
+  border-radius: 0.875rem;
+  background: rgb(248 248 248 / 97%);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 12%);
+}
+
+.singleActionSheetItem,
+.singleActionSheetCancel {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.95rem 1rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #111827;
+  text-align: center;
+}
+
+.singleActionSheetItem + .singleActionSheetItem {
+  border-top: 1px solid rgb(0 0 0 / 0.08);
+}
+
+.singleActionSheetItem:active,
+.singleActionSheetCancel:active {
+  background: rgb(0 0 0 / 0.06);
+}
+
+.singleActionSheetItem.danger {
+  color: #dc2626;
+}
+
+.singleActionSheetCancel {
+  margin-top: 0.5rem;
+  border-radius: 0.875rem;
+  background: rgb(255 255 255 / 97%);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 10%);
+}
+
 #toUpSlide {
   transform: translateY(100%);
 }
@@ -366,10 +481,62 @@
   transform: translateY(0%);
 }
 
+#userInfoSlide {
+  transform: translateX(100%);
+}
+
+#userInfoSlide.active {
+  transform: translateX(0%);
+}
+
 .postLi:hover {
   @apply bg-gray-50 transition;
 }
 
+#singleBodyInner .postLi:hover {
+  @apply bg-white;
+}
+
+#singleBodyInner .postLi:last-child {
+  border-bottom-width: 0;
+}
+
+#singleBodyInner .postLi {
+  cursor: auto;
+}
+
+#singleBodyInner .potLiBtns button {
+  cursor: pointer;
+}
+
+#singleBodyInner .postLiImage,
+#singleBodyInner .potLiBtns .gap-x-1 {
+  cursor: pointer;
+}
+
+.postLiIcon,
+.postLiCommentsLi > div:first-child,
+.singleCommentsLi > div:first-child {
+  cursor: pointer;
+}
+
 #messagePostBtn.active {
   @apply bg-blue-500 text-white font-bold active:bg-blue-600;
+}
+
+.singleCommentsLi:not(:last-child):after {
+  content: " ";
+  @apply absolute top-10 w-1 bg-gray-100;
+  left: 1.1rem;
+  height: calc(100% - 2.5rem);
+}
+
+.icon_bg {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.userInfoData > div {
+  flex: 1 1 0;
 }
