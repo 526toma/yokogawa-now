@@ -16,7 +16,7 @@ $(document).ready(function () {
   const $closeToUpSlide = $(".closeToUpSlide");
   const $toLeftSlide = $("#toLeftSlide");
   const $toUpSlide = $("#toUpSlide");
-  const $toLeftSlideInners = $(".toLeftSlideInner");
+  let $toLeftSlideInners = $(".toLeftSlideInner");
   const $homeInner = $("#homeInner");
   const $newsHeaderToggles = $(".newsHeaderToggle");
   const $newsHeaderToggleBar = $("#newsHeaderToggleBar");
@@ -59,6 +59,8 @@ $(document).ready(function () {
   let toUpSlideTouchStartY = 0;
   let userInfoSlideTouchStartX = 0;
   let userInfoSlideTouchStartY = 0;
+  const $dynamicSlideRoot = $("#dynamicSlideRoot");
+  let dynamicSlideZ = 60;
 
   function setPostsBannerDot(index) {
     if ($postsBannerDots.length === 0) return;
@@ -139,6 +141,324 @@ $(document).ready(function () {
     $toLeftSlideInners.eq(0).addClass("active");
   }
 
+  function openDynamicSlide(contentHtml, panelClass) {
+    if ($dynamicSlideRoot.length === 0) return $();
+    const zIndex = dynamicSlideZ++;
+    $homeInner.addClass("slideLeft");
+    const $prevTop = $dynamicSlideRoot.children(".dynamicSlidePanel").last();
+    if ($prevTop.length > 0) {
+      $prevTop.addClass("slideLeft");
+    }
+    const $panel = $(`
+      <div class="absolute top-0 left-0 w-full h-full bg-white transition duration-300 pointer-events-auto dynamicSlidePanel ${panelClass}" style="z-index:${zIndex}">
+        ${contentHtml}
+      </div>
+    `);
+    $dynamicSlideRoot.append($panel);
+    requestAnimationFrame(function () {
+      $panel.addClass("active");
+    });
+    return $panel;
+  }
+
+  function openDynamicSingleFromPost($sourcePost) {
+    const $postClone = $sourcePost.clone();
+    $postClone.find(".postLiComments").remove();
+    $postClone.removeClass("border-b cursor-pointer hover:bg-gray-50");
+    $postClone.addClass("border-b-0 cursor-auto");
+    $postClone.find(".postLiImage").addClass("cursor-pointer");
+    $postClone.find(".potLiBtns button, .potLiBtns .gap-x-1").addClass("cursor-pointer");
+    const singleHtml = `
+      <div class="relative w-full h-full">
+        <div class="absolute top-0 left-0 z-10 w-full bg-white">
+          <div class="relative w-full h-12 fij">
+            <div class="absolute top-0 left-0 z-10 cursor-pointer size-12 fij dynamicPanelClose">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </div>
+            <div class="absolute top-0 right-0 z-10 cursor-pointer size-12 fij singleConfigBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="19" cy="12" r="1"></circle>
+                <circle cx="5" cy="12" r="1"></circle>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="h-full pt-12 overflow-auto bg-gray-100" style="padding-bottom: 7rem">
+          <div class="dynamicSingleBodyInner"></div>
+          <div class="px-4 bg-white">
+            <ul>
+              <li class="relative flex singleCommentsLi gap-x-2">
+                <div class="flex-shrink-0 bg-gray-100 rounded-full size-10 icon_bg" style="background-image: url(https://xsgames.co/randomusers/assets/avatars/male/74.jpg);"></div>
+                <div>
+                  <div class="flex-grow p-3 mb-3 bg-gray-100 rounded-xl">
+                    <p>name</p>
+                    <p class="text-sm">commentcommentcommentcommentcomment</p>
+                    <p class="text-xs">2/23 13:01</p>
+                    <div class="flex">
+                      <div class="flex items-center ml-auto gap-x-1">
+                        <button type="button" class="ml-auto postLiCommentFavoBtn">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                          </svg>
+                        </button>
+                        <p class="text-xs">1</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="relative flex singleCommentsLi gap-x-2">
+                <div class="flex-shrink-0 bg-gray-100 rounded-full size-10 icon_bg" style="background-image: url(https://xsgames.co/randomusers/assets/avatars/female/22.jpg);"></div>
+                <div>
+                  <div class="flex-grow p-3 mb-3 bg-gray-100 rounded-xl">
+                    <p>name</p>
+                    <p class="text-sm">commentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcommentcomment</p>
+                    <p class="text-xs">2/23 13:01</p>
+                    <div class="flex">
+                      <div class="flex items-center ml-auto gap-x-1">
+                        <button type="button" class="ml-auto postLiCommentFavoBtn">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                          </svg>
+                        </button>
+                        <p class="text-xs">1</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 z-10 w-full pb-3 bg-white border-t rounded-t-xl" style="height: 7rem">
+          <div class="px-4 pt-3 dynamicSingleComposer">
+            <input type="text" class="w-full px-3 mb-1.5 border rounded-lg h-9 bg-gray-50 dynamicMessageInput" placeholder="メッセージ" />
+            <div class="fi">
+              <input type="file" class="hidden" id="dynamicMessageFileBtn" />
+              <label for="dynamicMessageFileBtn" class="cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="stroke-blue-500">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <path d="M20.4 14.5L16 10 4 20" />
+                </svg>
+              </label>
+              <button type="button" class="h-8 px-3 ml-auto text-xs text-gray-500 bg-gray-100 rounded-full fij dynamicMessagePostBtn" disabled>
+                コメントする
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="singleActionSheetRoot" class="singleActionSheetRoot" aria-hidden="true">
+          <button id="singleActionSheetCurtain" type="button" class="singleActionSheetCurtain" aria-label="アクションシートを閉じる"></button>
+          <div id="singleActionSheet" class="singleActionSheet" role="dialog" aria-modal="true">
+            <div class="singleActionSheetGroup">
+              <button type="button" class="singleActionSheetItem">共有する</button>
+              <button type="button" class="singleActionSheetItem">ブックマークする</button>
+              <button type="button" class="singleActionSheetItem danger">この投稿を運営に報告する</button>
+            </div>
+            <button id="singleActionSheetCancel" type="button" class="singleActionSheetCancel">キャンセル</button>
+          </div>
+        </div>
+      </div>
+    `;
+    const $panel = openDynamicSlide(singleHtml, "dynamic-single");
+    $panel.find(".dynamicSingleBodyInner").empty().append($postClone);
+  }
+
+  function openDynamicUserInfo(iconBackgroundImage = "") {
+    const userInfoHtml = `
+      <div class="relative w-full h-full">
+        <div class="absolute top-0 left-0 z-10 w-full h-12 bg-white fij">
+          <div class="absolute top-0 left-0 cursor-pointer size-12 fij dynamicPanelClose">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </div>
+          <p class="font-bold">プロフィール</p>
+          <div class="absolute top-0 right-0 cursor-pointer size-12 fij cofigUserInfoSlide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="1"></circle>
+              <circle cx="19" cy="12" r="1"></circle>
+              <circle cx="5" cy="12" r="1"></circle>
+            </svg>
+          </div>
+        </div>
+        <div class="h-full pt-12 overflow-auto bg-gray-100">
+          <div class="px-4 pt-2 pb-4 mb-3 bg-white">
+            <div class="flex mb-4 gap-x-3">
+              <div class="flex-shrink-0 bg-gray-100 rounded-full size-16 icon_bg dynamicUserInfoIcon"></div>
+              <div class="flex-grow">
+                <p class="font-bold">name</p>
+                <p class="mb-2 text-sm">text</p>
+                <div class="flex mb-2 text-sm gap-x-3">
+                  <div class="flex gap-x-1">
+                    <p>フォロー</p>
+                    <p class="font-bold text-blue-500 cursor-pointer">1</p>
+                  </div>
+                  <div class="flex gap-x-1">
+                    <p>フォロワー</p>
+                    <p class="font-bold text-blue-500 cursor-pointer">1</p>
+                  </div>
+                </div>
+                <div class="flex w-full gap-x-3">
+                  <button
+                    type="button"
+                    class="w-1/2 h-7 text-xs font-bold text-blue-500 border border-blue-500 rounded-full fij hover:bg-blue-50 dynamicFollowToggleBtn"
+                  >
+                    フォローする
+                  </button>
+                  <button
+                    type="button"
+                    class="w-1/2 h-7 text-xs font-bold text-blue-500 border border-blue-500 rounded-full fij hover:bg-blue-50 openDynamicMessageSlide"
+                  >
+                    メッセージを送る
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p class="mb-4 text-sm userInfoText">
+              texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext
+            </p>
+            <div class="p-3 text-gray-500 bg-gray-100 rounded userInfoData fi gap-x-3">
+              <div class="flex p-2 bg-white rounded gap-x-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="flex-shrink-0"
+                >
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                  ></path>
+                </svg>
+                <div>
+                  <p class="text-xs">もらったイイネ</p>
+                  <p class="font-bold text-md">123</p>
+                </div>
+              </div>
+              <div class="flex p-2 bg-white rounded gap-x-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="flex-shrink-0"
+                >
+                  <path
+                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+                  ></path>
+                </svg>
+                <div>
+                  <p class="text-xs">もらったコメント</p>
+                  <p class="font-bold text-md">123</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div><ul class="dynamicUserInfoPosts"></ul></div>
+        </div>
+      </div>
+    `;
+    const $panel = openDynamicSlide(userInfoHtml, "dynamic-user-info");
+    if (iconBackgroundImage && iconBackgroundImage !== "none") {
+      $panel.find(".dynamicUserInfoIcon").css("background-image", iconBackgroundImage);
+    }
+    const $samplePost = $(".homeWrapperInner.active .postLi").first().clone();
+    if ($samplePost.length > 0) {
+      $panel.find(".dynamicUserInfoPosts").append($samplePost);
+    }
+  }
+
+  function openDynamicMessageSlide() {
+    const messageHtml = `
+      <div class="relative w-full h-full">
+        <div class="absolute top-0 left-0 z-10 w-full bg-white">
+          <div class="relative w-full h-12 fij">
+            <div class="absolute top-0 left-0 z-10 cursor-pointer size-12 fij dynamicPanelClose">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </div>
+            <p class="font-bold">メッセージ</p>
+          </div>
+        </div>
+        <div class="h-full pt-12 overflow-auto bg-gray-100" style="padding-bottom: 7rem">
+          <div class="px-3 py-3 space-y-3">
+            <div class="flex items-end gap-x-1">
+              <div
+                class="flex-shrink-0 bg-gray-200 rounded-full size-8 icon_bg cursor-pointer dynamicDmProfileTrigger"
+                style="background-image: url(https://xsgames.co/randomusers/assets/avatars/female/22.jpg);"
+                data-profile-name="ピアッザ公式"
+                data-profile-desc="ピアッザです！\n皆様と一緒に現代版のご近所ネットワークを創れることをこころより願っています。\nよろしくお願いいたします！\n\nこのアカウントにDMをいただいても返信できかねます。"
+              ></div>
+              <div>
+                <div class="px-3 py-2 bg-white rounded-2xl rounded-bl-sm">
+                  <p class="text-sm leading-relaxed">こんにちは！今日どう？</p>
+                </div>
+                <p class="mt-1 text-[11px] text-gray-400">13:02</p>
+              </div>
+            </div>
+            <div class="flex items-end justify-end gap-x-1">
+              <div class="text-right">
+                <div class="px-3 py-2 text-white bg-blue-500 rounded-2xl rounded-br-sm">
+                  <p class="text-sm leading-relaxed">今ちょうど空いたよ！</p>
+                </div>
+                <p class="mt-1 text-[11px] text-gray-400">13:04 既読</p>
+              </div>
+              <div
+                class="flex-shrink-0 bg-gray-200 rounded-full size-8 icon_bg cursor-pointer dynamicDmProfileTrigger"
+                style="background-image: url(https://xsgames.co/randomusers/assets/avatars/male/74.jpg);"
+                data-profile-name="name"
+                data-profile-desc="texttexttexttexttexttexttexttexttexttext"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 z-10 w-full pb-3 bg-white border-t rounded-t-xl" style="height: 7rem">
+          <div class="px-4 pt-3 dynamicDmComposer">
+            <input type="text" class="w-full px-3 mb-1.5 border rounded-lg h-9 bg-gray-50 dynamicDmInput" placeholder="メッセージ" />
+            <div class="fi">
+              <label class="cursor-pointer">
+                <input type="file" class="hidden dynamicDmFileBtn" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="stroke-blue-500">
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <path d="M20.4 14.5L16 10 4 20" />
+                </svg>
+              </label>
+              <button type="button" class="h-8 px-3 ml-auto text-xs text-gray-500 bg-gray-100 rounded-full fij dynamicDmSendBtn" disabled>
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="dynamicDmProfileModalRoot" aria-hidden="true">
+          <button type="button" class="dynamicDmProfileModalCurtain" aria-label="プロフィールモーダルを閉じる"></button>
+          <div class="dynamicDmProfileModalCard">
+            <div class="dynamicDmProfileModalIcon icon_bg"></div>
+            <p class="dynamicDmProfileModalName">name</p>
+            <p class="dynamicDmProfileModalDesc"></p>
+          </div>
+        </div>
+      </div>
+    `;
+    openDynamicSlide(messageHtml, "dynamic-message");
+  }
+
   function renderPostImageModal() {
     if (postImageModalSources.length === 0) return;
 
@@ -184,14 +504,19 @@ $(document).ready(function () {
     postImageModalIndex = 0;
   }
 
-  function openSingleActionSheet() {
-    if ($singleActionSheetRoot.length === 0) return;
-    $singleActionSheetRoot.attr("aria-hidden", "false").addClass("active");
+  function openSingleActionSheet($context) {
+    const $root =
+      $context && $context.length > 0
+        ? $context.find("#singleActionSheetRoot").first()
+        : $("#singleActionSheetRoot").last();
+    if ($root.length === 0) return;
+    $root.attr("aria-hidden", "false").addClass("active");
   }
 
-  function closeSingleActionSheet() {
-    if ($singleActionSheetRoot.length === 0) return;
-    $singleActionSheetRoot.attr("aria-hidden", "true").removeClass("active");
+  function closeSingleActionSheet($root) {
+    const $targets = $root && $root.length > 0 ? $root : $("#singleActionSheetRoot");
+    if ($targets.length === 0) return;
+    $targets.attr("aria-hidden", "true").removeClass("active");
   }
 
   function openUserInfoActionSheet() {
@@ -277,6 +602,9 @@ $(document).ready(function () {
   if (maxHomeSlideIndex >= 0) {
     setHomeSlide(Math.min(homeSlideIndex, maxHomeSlideIndex), "auto");
   }
+  $(".toLeftSlideInner[data-title='single']").remove();
+  $("#userInfoSlide").remove();
+  $toLeftSlideInners = $(".toLeftSlideInner");
   setNewsHeaderToggle(Math.max(0, $newsHeaderToggles.index($newsHeaderToggles.filter(".active"))));
 
   $mainHeaderWrapper.toggleClass("hidden", $bottomMenus.index($bottomMenus.filter(".active")) !== 0);
@@ -399,6 +727,58 @@ $(document).ready(function () {
     syncMessagePostBtnActive();
   });
 
+  $(document).on("input", ".dynamicMessageInput", function () {
+    const hasValue = ($(this).val() || "").toString().trim().length > 0;
+    $(this)
+      .closest(".dynamicSingleComposer")
+      .find(".dynamicMessagePostBtn")
+      .toggleClass("active", hasValue)
+      .prop("disabled", !hasValue);
+  });
+
+  $(document).on("click", ".openDynamicMessageSlide", function (event) {
+    event.stopPropagation();
+    openDynamicMessageSlide();
+  });
+
+  $(document).on("input", ".dynamicDmInput", function () {
+    const hasValue = ($(this).val() || "").toString().trim().length > 0;
+    $(this)
+      .closest(".dynamicDmComposer")
+      .find(".dynamicDmSendBtn")
+      .toggleClass("active", hasValue)
+      .prop("disabled", !hasValue);
+  });
+
+  $(document).on("click", ".dynamicFollowToggleBtn", function (event) {
+    event.stopPropagation();
+    const $btn = $(this);
+    const isFollowing = $btn.hasClass("is-following");
+    $btn.toggleClass("is-following", !isFollowing);
+    $btn.text(isFollowing ? "フォローする" : "フォロー中");
+  });
+
+  $(document).on("click", ".dynamicDmProfileTrigger", function (event) {
+    event.stopPropagation();
+    const $trigger = $(this);
+    const $panel = $trigger.closest(".dynamic-message");
+    const $modal = $panel.find(".dynamicDmProfileModalRoot").first();
+    if ($modal.length === 0) return;
+
+    const profileImage = $trigger.css("background-image") || "";
+    const profileName = ($trigger.data("profile-name") || "name").toString();
+    const profileDesc = ($trigger.data("profile-desc") || "").toString();
+
+    $modal.find(".dynamicDmProfileModalIcon").css("background-image", profileImage);
+    $modal.find(".dynamicDmProfileModalName").text(profileName);
+    $modal.find(".dynamicDmProfileModalDesc").text(profileDesc);
+    $modal.attr("aria-hidden", "false").addClass("active");
+  });
+
+  $(document).on("click", ".dynamicDmProfileModalCurtain", function () {
+    $(this).closest(".dynamicDmProfileModalRoot").attr("aria-hidden", "true").removeClass("active");
+  });
+
   $(document).on("click", ".postLiImage", function (event) {
     event.stopPropagation();
     const $imagesInPost = $(this).closest(".postLi").find(".postLiImage");
@@ -413,39 +793,24 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".postLi", function () {
-    if ($(this).closest("#userInfoSlide").length > 0) return;
-
-    if ($singleBodyInner.length > 0) {
-      const $postClone = $(this).clone();
-      $postClone.find(".postLiComments").remove();
-      $singleBodyInner.empty().append($postClone);
-    }
-
-    bringToLeftSlideToFront();
-    const targetTitle = $(this).data("title") || "single";
-    showToLeftSlideInner(targetTitle);
-    $toLeftSlide.addClass("active");
-    $toLeftSlide.removeClass("slideLeft");
-    $homeInner.addClass("slideLeft");
-    if ($singleBody.length > 0) {
-      $singleBody.scrollTop(0);
-    }
+    if ($(this).closest(".dynamic-single").length > 0) return;
+    openDynamicSingleFromPost($(this));
   });
 
-  $singleConfigBtn.on("click", function (event) {
+  $(document).on("click", ".singleConfigBtn", function (event) {
     event.stopPropagation();
-    openSingleActionSheet();
+    openSingleActionSheet($(this).closest(".dynamicSlidePanel, .toLeftSlideInner"));
   });
 
-  $singleActionSheetCurtain.on("click", function () {
-    closeSingleActionSheet();
+  $(document).on("click", "#singleActionSheetCurtain", function () {
+    closeSingleActionSheet($(this).closest("#singleActionSheetRoot"));
   });
 
-  $singleActionSheetCancel.on("click", function () {
-    closeSingleActionSheet();
+  $(document).on("click", "#singleActionSheetCancel", function () {
+    closeSingleActionSheet($(this).closest("#singleActionSheetRoot"));
   });
 
-  $cofigUserInfoSlide.on("click", function (event) {
+  $(document).on("click", ".cofigUserInfoSlide", function (event) {
     event.stopPropagation();
     openUserInfoActionSheet();
   });
@@ -466,7 +831,23 @@ $(document).ready(function () {
     event.stopPropagation();
     const $clickedIcon = $(event.target).closest(".icon_bg");
     const iconBackgroundImage = ($clickedIcon.length > 0 ? $clickedIcon.css("background-image") : $(this).css("background-image")) || "";
-    openUserInfoSlide(iconBackgroundImage);
+    openDynamicUserInfo(iconBackgroundImage);
+  });
+
+  $(document).on("click", ".dynamicPanelClose", function () {
+    const $panel = $(this).closest(".dynamicSlidePanel");
+    const isClosingLastDynamicPanel = $dynamicSlideRoot.children(".dynamicSlidePanel").length === 1;
+    const $prevPanel = $panel.prevAll(".dynamicSlidePanel").first();
+    if ($prevPanel.length > 0) {
+      $prevPanel.removeClass("slideLeft");
+    }
+    if (isClosingLastDynamicPanel && !$toLeftSlide.hasClass("active")) {
+      $homeInner.removeClass("slideLeft");
+    }
+    $panel.removeClass("active");
+    setTimeout(function () {
+      $panel.remove();
+    }, 300);
   });
 
   $closePostImageModal.on("click", function () {
@@ -523,7 +904,7 @@ $(document).ready(function () {
     if ($postImageModal.hasClass("active")) {
       closePostImageModal();
     }
-    if ($singleActionSheetRoot.hasClass("active")) {
+    if ($("#singleActionSheetRoot.active").length > 0) {
       closeSingleActionSheet();
     }
     if ($userInfoActionSheetRoot.hasClass("active")) {

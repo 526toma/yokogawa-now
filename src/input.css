@@ -436,7 +436,7 @@
 .singleActionSheetGroup {
   overflow: hidden;
   border-radius: 0.875rem;
-  background: rgb(248 248 248 / 97%);
+  background: rgb(248 248 248);
   box-shadow: 0 10px 32px rgb(0 0 0 / 12%);
 }
 
@@ -445,7 +445,7 @@
   display: block;
   width: 100%;
   border: 0;
-  background: transparent;
+  background: #fff;
   padding: 0.95rem 1rem;
   font-size: 1.05rem;
   font-weight: 500;
@@ -458,9 +458,14 @@
   border-top: 1px solid rgb(0 0 0 / 0.08);
 }
 
+.singleActionSheetItem:hover,
+.singleActionSheetCancel:hover {
+  @apply bg-gray-50;
+}
+
 .singleActionSheetItem:active,
 .singleActionSheetCancel:active {
-  background: rgb(0 0 0 / 0.06);
+  @apply bg-gray-100;
 }
 
 .singleActionSheetItem.danger {
@@ -470,8 +475,62 @@
 .singleActionSheetCancel {
   margin-top: 0.5rem;
   border-radius: 0.875rem;
-  background: rgb(255 255 255 / 97%);
+  background: rgb(255 255 255);
   box-shadow: 0 10px 32px rgb(0 0 0 / 10%);
+}
+
+.dynamicDmProfileModalRoot {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.dynamicDmProfileModalRoot.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dynamicDmProfileModalCurtain {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgb(0 0 0 / 35%);
+}
+
+.dynamicDmProfileModalCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(26rem, calc(100% - 2rem));
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1.5rem;
+}
+
+.dynamicDmProfileModalIcon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 0.75rem;
+  border-radius: 9999px;
+  background-color: #f3f4f6;
+}
+
+.dynamicDmProfileModalName {
+  margin-bottom: 0.75rem;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.dynamicDmProfileModalDesc {
+  white-space: pre-line;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #111827;
 }
 
 #toUpSlide {
@@ -479,6 +538,18 @@
 }
 #toUpSlide.active {
   transform: translateY(0%);
+}
+
+#dynamicSlideRoot .dynamicSlidePanel {
+  transform: translateX(100%);
+}
+
+#dynamicSlideRoot .dynamicSlidePanel.active {
+  transform: translateX(0%);
+}
+
+#dynamicSlideRoot .dynamicSlidePanel.slideLeft {
+  transform: translateX(-3rem);
 }
 
 #userInfoSlide {
@@ -494,6 +565,10 @@
 }
 
 #singleBodyInner .postLi:hover {
+  @apply bg-white;
+}
+
+.dynamicSingleBodyInner .postLi:hover {
   @apply bg-white;
 }
 
@@ -522,6 +597,22 @@
 
 #messagePostBtn.active {
   @apply bg-blue-500 text-white font-bold active:bg-blue-600;
+}
+
+.dynamicMessagePostBtn.active {
+  @apply bg-blue-500 text-white font-bold active:bg-blue-600;
+}
+
+.dynamicDmSendBtn.active {
+  @apply bg-blue-500 text-white font-bold active:bg-blue-600;
+}
+
+.dynamicFollowToggleBtn.is-following {
+  @apply bg-blue-500 text-white;
+}
+
+svg[stroke-width] {
+  stroke-width: 1.5;
 }
 
 .singleCommentsLi:not(:last-child):after {
