@@ -24,7 +24,7 @@ $(document).ready(function () {
   const $newsBodyInners = $(".newsBodyInner");
   const $postsBannerViewport = $("#postsBannerViewport");
   const $postsBannerDots = $(".postsBannerDot");
-  const $homePostToggleItems = $("#homePostToggle > div");
+  const $postSortToggleItems = $(".postSortToggleItem");
   const $postLiImages = $(".postLiImages");
   const $postImageModal = $("#postImageModal");
   const $postImageModalViewport = $("#postImageModalViewport");
@@ -76,6 +76,13 @@ $(document).ready(function () {
   const $mypageOptionSlide = $("#mypageOptionSlide");
   const $mypageMainBody = $("#mypageMainBody");
   const $profileEditImageInput = $("#profileEditImageInput");
+  const $authRoot = $("#authRoot");
+  const $authScreens = $(".authScreen");
+  const $authInitialScreen = $("#authInitialScreen");
+  const $authRegisterScreen = $("#authRegisterScreen");
+  const $authLoginScreen = $("#authLoginScreen");
+  const $openAuthRegisterBtn = $("#openAuthRegisterBtn");
+  const $openAuthLoginBtn = $("#openAuthLoginBtn");
   const CREATE_POST_MAX_IMAGES = 4;
   let createPostSelectedFiles = [];
   let activeCreatePostType = "post";
@@ -739,10 +746,79 @@ $(document).ready(function () {
     $openPostFormBtn.toggle(menuIndex === 0);
   }
 
+  function applySearchShopTagFilter(tag) {
+    const selectedTag = (tag || "all").toString();
+    const $filterButtons = $(".searchShopTagBtn");
+    const $shopItems = $(".searchShopItem");
+
+    $filterButtons
+      .removeClass("bg-blue-500 text-white border-blue-500")
+      .addClass("bg-white text-sky-500 border-blue-300");
+
+    const $activeButton = $filterButtons.filter(`[data-tag="${selectedTag}"]`);
+    $activeButton
+      .removeClass("bg-white text-sky-500 border-blue-300")
+      .addClass("bg-blue-500 text-white border-blue-500");
+
+    $shopItems.each(function () {
+      const tags = ($(this).data("tags") || "")
+        .toString()
+        .split(",")
+        .map((value) => value.trim())
+        .filter(Boolean);
+      const shouldShow = selectedTag === "all" || tags.includes(selectedTag);
+      $(this).toggleClass("hidden", !shouldShow);
+    });
+  }
+
   function syncMessagePostBtnActive() {
     if ($messageInput.length === 0 || $messagePostBtn.length === 0) return;
     const hasValue = ($messageInput.val() || "").toString().trim().length > 0;
     $messagePostBtn.toggleClass("active", hasValue);
+  }
+
+  function switchAuthScreen(screenType) {
+    if ($authScreens.length === 0) return;
+    const target = (screenType || "initial").toString();
+    $authScreens.removeClass("active");
+    if (target === "register") {
+      $authRegisterScreen.addClass("active");
+      return;
+    }
+    if (target === "login") {
+      $authLoginScreen.addClass("active");
+      return;
+    }
+    $authInitialScreen.addClass("active");
+  }
+
+  function showHomePostScreen() {
+    if ($bottomMenus.length > 0) {
+      $bottomMenus.removeClass("active");
+      $bottomMenus.eq(0).addClass("active");
+    }
+    if ($contentsWrappers.length > 0) {
+      $contentsWrappers.removeClass("active");
+      $contentsWrappers.eq(0).addClass("active");
+    }
+    if (maxHomeSlideIndex >= 0) {
+      setHomeSlide(0, "auto");
+    }
+    if ($mainHeaderMenuWrapper.length > 0) {
+      const menuWrapperEl = $mainHeaderMenuWrapper.get(0);
+      if (menuWrapperEl) {
+        menuWrapperEl.scrollTo({ left: 0, behavior: "auto" });
+        setTimeout(function () {
+          menuWrapperEl.scrollTo({ left: 0, behavior: "auto" });
+        }, 0);
+        setTimeout(function () {
+          menuWrapperEl.scrollTo({ left: 0, behavior: "auto" });
+        }, 120);
+      }
+    }
+    $mainHeaderWrapper.removeClass("hidden");
+    syncOpenPostFormBtnVisibility(0);
+    setHomeChromeHiddenByScroll(false);
   }
 
   function showCreatePostTypeView() {
@@ -879,9 +955,41 @@ $(document).ready(function () {
   const initialBottomMenuIndex = $bottomMenus.index($bottomMenus.filter(".active"));
   $mainHeaderWrapper.toggleClass("hidden", initialBottomMenuIndex !== 0);
   syncOpenPostFormBtnVisibility(initialBottomMenuIndex);
+  applySearchShopTagFilter("all");
+  $authRoot.addClass("active");
+  switchAuthScreen("initial");
 
   $mainHeaderMenuBtns.on("click", function () {
     setHomeSlide($mainHeaderMenuBtns.index(this));
+  });
+
+  $openAuthRegisterBtn.on("click", function () {
+    switchAuthScreen("register");
+  });
+
+  $openAuthLoginBtn.on("click", function () {
+    switchAuthScreen("login");
+  });
+
+  $(document).on("click", ".authRegisterCloseBtn", function () {
+    switchAuthScreen("initial");
+  });
+
+  $(document).on(
+    "click",
+    "#authRegisterScreen .authRegisterSubmitBtn, #authLoginScreen .authRegisterSubmitBtn",
+    function () {
+      showHomePostScreen();
+      switchAuthScreen("initial");
+      $authRoot.removeClass("active");
+    }
+  );
+
+  $(document).on("click", "#authLogoutBtn", function () {
+    switchAuthScreen("initial");
+    $authRoot.addClass("active");
+    $mypageOptionSlide.removeClass("active");
+    $mypageMainBody.removeClass("slideLeft");
   });
 
   $bottomMenus.on("click", function () {
@@ -1096,8 +1204,9 @@ $(document).ready(function () {
     setNewsHeaderToggle($newsHeaderToggles.index(this));
   });
 
-  $homePostToggleItems.on("click", function () {
-    $homePostToggleItems.removeClass("active");
+  $postSortToggleItems.on("click", function () {
+    const $toggle = $(this).parent(".postSortToggle");
+    $toggle.find(".postSortToggleItem").removeClass("active");
     $(this).addClass("active");
   });
 
@@ -1223,6 +1332,12 @@ $(document).ready(function () {
     openDynamicUserInfo(iconBackgroundImage);
   });
 
+  $(document).on("click", ".searchShopTagBtn", function (event) {
+    event.stopPropagation();
+    const tag = ($(this).data("tag") || "all").toString();
+    applySearchShopTagFilter(tag);
+  });
+
   $(document).on("click", ".dynamicPanelClose", function () {
     closeDynamicPanel($(this).closest(".dynamicSlidePanel"));
   });
@@ -1296,6 +1411,12 @@ $(document).ready(function () {
 
   $(document).on("keydown", function (event) {
     if (event.key !== "Escape") return;
+    if ($authRoot.hasClass("active")) {
+      if (!$authInitialScreen.hasClass("active")) {
+        switchAuthScreen("initial");
+      }
+      return;
+    }
     if ($postImageModal.hasClass("active")) {
       closePostImageModal();
     }

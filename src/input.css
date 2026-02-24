@@ -244,23 +244,23 @@
   @apply bg-red-500;
 }
 
-#homePostToggle {
+.postSortToggle {
   @apply overflow-hidden;
 }
 
-#homePostToggle > div {
+.postSortToggleItem {
   @apply text-gray-700 cursor-pointer rounded-none border border-red-500;
 }
 
-#homePostToggle > div:first-child {
+.postSortToggleItem:first-child {
   @apply rounded-l-full border-r-0;
 }
 
-#homePostToggle > div:last-child {
+.postSortToggleItem:last-child {
   @apply rounded-r-full;
 }
 
-#homePostToggle > div.active {
+.postSortToggleItem.active {
   @apply bg-red-500 text-white;
 }
 
@@ -583,6 +583,47 @@
   transform: translateX(-3rem);
 }
 
+#teachPostSeachBtns {
+  gap: 0.25rem;
+}
+
+.teachPostSearchCheck {
+  position: relative;
+  display: block;
+}
+
+.teachPostSearchCheckInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.teachPostSearchCheckLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: 1px solid #ef4444;
+  border-radius: 9999px;
+  background: #fff;
+  color: #ef4444;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
+
+.teachPostSearchCheckInput:checked + .teachPostSearchCheckLabel {
+  border-color: #ef4444;
+  background: #ef4444;
+  color: #fff;
+}
+
+.yuzuriPostSearchCheckLabel {
+  border-width: 1px;
+}
+
 .createPostTags {
   display: flex;
   flex-wrap: wrap;
@@ -863,4 +904,207 @@ svg[stroke-width] {
 
 .userInfoData > div {
   flex: 1 1 0;
+}
+
+#authRoot {
+  @apply absolute inset-0 z-[90] bg-white;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#authRoot.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.authScreen {
+  @apply absolute inset-0 hidden;
+}
+
+.authScreen.active {
+  @apply block;
+}
+
+.authLogoArea {
+  @apply flex-grow fij px-8 pt-16 pb-8;
+}
+
+.authAppIcon {
+  width: min(8.8rem, 40vw);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 1.4rem;
+}
+
+.authActionArea {
+  @apply p-5 space-y-3 bg-white;
+  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+}
+
+.authPrimaryBtn {
+  @apply w-full h-12 text-base font-bold text-white bg-red-500 rounded;
+}
+
+.authPrimaryBtn:active {
+  @apply bg-red-600;
+}
+
+.authSecondaryBtn {
+  @apply w-full h-12 text-base font-bold text-red-500 bg-white border border-red-300 rounded;
+}
+
+.authSecondaryBtn:active {
+  @apply bg-red-50;
+}
+
+.authFormScreen {
+  @apply bg-gray-100;
+}
+
+.authFormHeader {
+  @apply relative flex items-center h-12 bg-white border-b;
+}
+
+.authBackBtn {
+  @apply absolute left-0 size-12 fij text-gray-700;
+}
+
+.authFormTitle {
+  @apply w-full text-base font-bold text-center;
+}
+
+.authFormBody {
+  @apply p-4 bg-white border-b space-y-2.5;
+}
+
+.authInputLabel {
+  @apply block mt-2 text-sm font-bold text-gray-700;
+}
+
+.authInput {
+  @apply w-full px-3 text-sm bg-gray-50 border border-gray-200 rounded h-9;
+}
+
+.authAgreeLabel {
+  @apply flex items-center mt-2 text-xs text-gray-600 gap-x-2;
+}
+
+.authAgreeCheck {
+  @apply size-4 accent-red-500;
+}
+
+#authInitialScreen.active,
+#authRegisterScreen.active,
+#authLoginScreen.active {
+  @apply flex flex-col;
+}
+
+#authRegisterScreen,
+#authLoginScreen {
+  @apply bg-gray-100;
+}
+
+.authRegisterHeader {
+  @apply relative h-20 pt-4 bg-white border-b border-gray-200;
+}
+
+.authLoginHeader {
+  @apply relative h-14 bg-white border-b border-gray-200;
+}
+
+.authRegisterCloseBtn {
+  @apply absolute top-2 left-2 size-10 text-gray-400 fij;
+}
+
+.authRegisterTitle {
+  @apply text-base font-bold leading-none text-center;
+}
+
+.authRegisterSubtitle {
+  @apply mt-1 text-xs text-center text-gray-600;
+}
+
+.authLoginTitle {
+  @apply pt-3 text-base font-bold text-center;
+}
+
+.authRegisterBody {
+  @apply flex-1 px-3 pt-3 pb-6 space-y-3 overflow-auto;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+}
+
+.authSnsBtn {
+  @apply w-full h-12 text-base font-bold text-white rounded flex items-center justify-center gap-x-2;
+}
+
+.authSnsBtn.line {
+  background: #06c755;
+}
+
+.authSnsBtn.line:active {
+  background: #05ad4a;
+}
+
+.authSnsBtn.apple {
+  background: #000000;
+}
+
+.authSnsBtn.apple:active {
+  background: #1f1f1f;
+}
+
+.authSnsBtn.facebook {
+  background: #5f78b9;
+}
+
+.authSnsBtn.facebook:active {
+  background: #4f66a0;
+}
+
+.authBrandIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.authBrandIcon.facebook {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.authRegisterMailLead {
+  @apply py-3 text-sm text-center text-gray-600;
+}
+
+.authRegisterInput {
+  @apply w-full h-12 px-3 text-base text-gray-700 bg-white border border-gray-200 rounded-none;
+}
+
+.authRegisterInput::placeholder {
+  color: #d1d5db;
+}
+
+.authRegisterSubmitBtn {
+  @apply w-full h-12 mt-4 text-base font-bold text-white bg-red-500 rounded;
+}
+
+.authRegisterSubmitBtn:active {
+  @apply bg-red-600;
+}
+
+.authRegisterAgreement {
+  @apply pt-2 text-xs leading-6 text-center text-gray-600;
+}
+
+.authRegisterAgreement span {
+  @apply font-bold text-blue-500 cursor-pointer;
+}
+
+.authLoginForgotLink {
+  @apply pt-2 text-xs text-center;
+}
+
+.authLoginForgotLink span {
+  @apply inline-block font-bold text-blue-500 cursor-pointer;
 }
