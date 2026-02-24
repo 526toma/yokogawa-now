@@ -104,6 +104,13 @@
 .bottomMenu.active p {
   @apply font-bold;
 }
+.bottomMenu {
+  @apply opacity-50;
+}
+
+.bottomMenu.active {
+  @apply opacity-100;
+}
 
 .contentsWrapper {
   @apply hidden;
@@ -125,7 +132,7 @@
 
 .homeWrapperInner {
   @apply h-full w-full flex-shrink-0 overflow-auto pb-20 pt-24;
-  padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+  padding-bottom: calc(4.6rem + env(safe-area-inset-bottom));
 }
 #homeInner.slideLeft {
   transform: translateX(-3rem);
@@ -148,7 +155,7 @@
 }
 
 #bottomMenuWrapper {
-  height: calc(5rem + env(safe-area-inset-bottom));
+  height: calc(4.6rem + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -161,7 +168,7 @@
 }
 
 #openPostFormBtn {
-  bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  bottom: calc(5.1rem + env(safe-area-inset-bottom));
   transition: bottom 0.25s ease;
   will-change: bottom;
 }
@@ -549,6 +556,31 @@
 
 #toUpSlide.active.slideLeft {
   transform: translateY(0%) translateX(-3rem);
+}
+
+#profileEditSlide {
+  transform: translateY(100%);
+}
+
+#profileEditSlide.active {
+  transform: translateY(0%);
+}
+
+#mypageOptionSlide {
+  transform: translateX(100%);
+}
+
+#mypageOptionSlide.active {
+  transform: translateX(0%);
+}
+
+#mypageMainBody {
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+
+#mypageMainBody.slideLeft {
+  transform: translateX(-3rem);
 }
 
 .createPostTags {

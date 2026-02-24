@@ -1,4 +1,4 @@
-const CACHE_NAME = "yokogawa-now-v1";
+const CACHE_NAME = "yokogawa-now-v2";
 const PRECACHE_URLS = ["/", "/index.html", "/main.js", "/dist/output.css", "/app.webmanifest", "/icons/icon-192.svg", "/icons/icon-512.svg"];
 
 self.addEventListener("install", (event) => {
@@ -43,6 +43,20 @@ self.addEventListener("fetch", (event) => {
           return networkResponse;
         })
         .catch(() => caches.match("/index.html"))
+    );
+    return;
+  }
+
+  // Keep firebase-config.js fresh to avoid serving stale analytics imports.
+  if (requestUrl.pathname.endsWith("/firebase-config.js")) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
     );
     return;
   }

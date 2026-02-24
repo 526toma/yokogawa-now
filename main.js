@@ -10,6 +10,7 @@ $(document).ready(function () {
   const $contentsWrappers = $(".contentsWrapper");
   const $mainHeaderWrapper = $("#mainHeaderWrapper");
   const $bottomMenuWrapper = $("#bottomMenuWrapper");
+  const $openPostFormBtn = $("#openPostFormBtn");
   const $openToLeftSlide = $(".openToLeftSlide");
   const $openToUpSlide = $(".openToUpSlide");
   const $closeToLeftSlide = $(".closeToLeftSlide");
@@ -71,6 +72,10 @@ $(document).ready(function () {
   const $createPostEventEndDate = $("#createPostEventEndDate");
   const $toUpSlideCloseIcon = $("#toUpSlideCloseIcon");
   const $toUpSlideBackIcon = $("#toUpSlideBackIcon");
+  const $profileEditSlide = $("#profileEditSlide");
+  const $mypageOptionSlide = $("#mypageOptionSlide");
+  const $mypageMainBody = $("#mypageMainBody");
+  const $profileEditImageInput = $("#profileEditImageInput");
   const CREATE_POST_MAX_IMAGES = 4;
   let createPostSelectedFiles = [];
   let activeCreatePostType = "post";
@@ -729,6 +734,11 @@ $(document).ready(function () {
     setHomeChromeHiddenByScroll(false);
   }
 
+  function syncOpenPostFormBtnVisibility(menuIndex) {
+    if ($openPostFormBtn.length === 0) return;
+    $openPostFormBtn.toggle(menuIndex === 0);
+  }
+
   function syncMessagePostBtnActive() {
     if ($messageInput.length === 0 || $messagePostBtn.length === 0) return;
     const hasValue = ($messageInput.val() || "").toString().trim().length > 0;
@@ -866,7 +876,9 @@ $(document).ready(function () {
   $toLeftSlideInners = $(".toLeftSlideInner");
   setNewsHeaderToggle(Math.max(0, $newsHeaderToggles.index($newsHeaderToggles.filter(".active"))));
 
-  $mainHeaderWrapper.toggleClass("hidden", $bottomMenus.index($bottomMenus.filter(".active")) !== 0);
+  const initialBottomMenuIndex = $bottomMenus.index($bottomMenus.filter(".active"));
+  $mainHeaderWrapper.toggleClass("hidden", initialBottomMenuIndex !== 0);
+  syncOpenPostFormBtnVisibility(initialBottomMenuIndex);
 
   $mainHeaderMenuBtns.on("click", function () {
     setHomeSlide($mainHeaderMenuBtns.index(this));
@@ -880,7 +892,11 @@ $(document).ready(function () {
 
     $contentsWrappers.removeClass("active");
     $contentsWrappers.eq(menuIndex).addClass("active");
+    $mypageOptionSlide.removeClass("active");
+    $mypageMainBody.removeClass("slideLeft");
+    $profileEditSlide.removeClass("active");
     $mainHeaderWrapper.toggleClass("hidden", menuIndex !== 0);
+    syncOpenPostFormBtnVisibility(menuIndex);
     setHomeChromeHiddenByScroll(false);
   });
 
@@ -902,6 +918,33 @@ $(document).ready(function () {
     renderCreatePostImagePreview();
     $toUpSlide.removeClass("slideLeft");
     $toUpSlide.addClass("active");
+  });
+
+  $(document).on("click", ".openProfileEditSlide", function (event) {
+    event.stopPropagation();
+    $profileEditSlide.addClass("active");
+  });
+
+  $(document).on("click", ".closeProfileEditSlide", function () {
+    $profileEditSlide.removeClass("active");
+  });
+
+  $(document).on("click", ".openMypageOptionSlide", function (event) {
+    event.stopPropagation();
+    $mypageOptionSlide.addClass("active");
+    $mypageMainBody.addClass("slideLeft");
+  });
+
+  $(document).on("click", ".closeMypageOptionSlide", function () {
+    $mypageOptionSlide.removeClass("active");
+    $mypageMainBody.removeClass("slideLeft");
+  });
+
+  $profileEditImageInput.on("change", function () {
+    const file = (this.files || [])[0];
+    if (!file) return;
+    const imageUrl = URL.createObjectURL(file);
+    $profileEditSlide.find(".profileEditIcon").css("background-image", `url("${imageUrl}")`);
   });
 
   $closeToLeftSlide.on("click", function () {
@@ -960,6 +1003,7 @@ $(document).ready(function () {
 
   $toUpSlide.on("touchend", function (event) {
     if (!$toUpSlide.hasClass("active")) return;
+    if ($createPostFormView.length > 0 && !$createPostFormView.hasClass("hidden")) return;
     const touch = event.originalEvent.changedTouches[0];
     const deltaX = touch.clientX - toUpSlideTouchStartX;
     const deltaY = touch.clientY - toUpSlideTouchStartY;
@@ -988,6 +1032,16 @@ $(document).ready(function () {
 
   $createPostYuzuriBody.on("input", function () {
     syncCreatePostSubmitBtnActive();
+  });
+
+  $(document).on("focus", ".createPostDateInput", function () {
+    this.type = "date";
+  });
+
+  $(document).on("blur", ".createPostDateInput", function () {
+    if (!this.value) {
+      this.type = "text";
+    }
   });
 
   $createPostAnonymousToggle.on("click", function () {
@@ -1061,6 +1115,11 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".openDynamicMessageSlide", function (event) {
+    event.stopPropagation();
+    openDynamicMessageSlide();
+  });
+
+  $(document).on("click", ".messageListItem", function (event) {
     event.stopPropagation();
     openDynamicMessageSlide();
   });
@@ -1155,6 +1214,12 @@ $(document).ready(function () {
     event.stopPropagation();
     const $clickedIcon = $(event.target).closest(".icon_bg");
     const iconBackgroundImage = ($clickedIcon.length > 0 ? $clickedIcon.css("background-image") : $(this).css("background-image")) || "";
+    openDynamicUserInfo(iconBackgroundImage);
+  });
+
+  $(document).on("click", ".searchShopItem", function (event) {
+    event.stopPropagation();
+    const iconBackgroundImage = ($(this).find(".icon_bg").first().css("background-image") || "").toString();
     openDynamicUserInfo(iconBackgroundImage);
   });
 
