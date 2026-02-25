@@ -708,6 +708,9 @@ $(document).ready(function () {
     if (isClosingLastDynamicPanel && $toUpSlide.hasClass("active")) {
       $toUpSlide.removeClass("slideLeft");
     }
+    if (isClosingLastDynamicPanel && $toLeftSlide.hasClass("active")) {
+      $toLeftSlide.removeClass("slideLeft");
+    }
     $panel.removeClass("active");
     setTimeout(function () {
       $panel.remove();
@@ -1336,6 +1339,19 @@ $(document).ready(function () {
     event.stopPropagation();
     const tag = ($(this).data("tag") || "all").toString();
     applySearchShopTagFilter(tag);
+  });
+
+  $(document).on("click", ".newsServiceNotification", function (event) {
+    event.stopPropagation();
+    let $sourcePost = $(".homeWrapperInner").eq(0).find(".postLi").first();
+    if ($sourcePost.length === 0) {
+      $sourcePost = $(".postLi").first();
+    }
+    if ($sourcePost.length === 0) return;
+    if ($toLeftSlide.hasClass("active")) {
+      $toLeftSlide.addClass("slideLeft");
+    }
+    openDynamicSingleFromPost($sourcePost);
   });
 
   $(document).on("click", ".dynamicPanelClose", function () {

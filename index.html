@@ -113,7 +113,8 @@
                       <div
                         class="postsBannerCard"
                         style="
-                          background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+                          background-image:
+                            linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
                             url(https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80);
                           background-size: cover;
                           background-position: center;
@@ -127,7 +128,8 @@
                       <div
                         class="postsBannerCard"
                         style="
-                          background-image: linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)),
+                          background-image:
+                            linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)),
                             url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80);
                           background-size: cover;
                           background-position: center;
@@ -141,7 +143,8 @@
                       <div
                         class="postsBannerCard"
                         style="
-                          background-image: linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)),
+                          background-image:
+                            linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)),
                             url(https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80);
                           background-size: cover;
                           background-position: center;
@@ -2416,7 +2419,9 @@
             <div class="h-full pt-12 overflow-auto" style="padding-bottom: 5rem">
               <div class="h-10 px-4 text-xs text-gray-500 bg-gray-200 fi">横川なうについて</div>
               <ul class="bg-white">
-                <li class="flex items-center h-12 px-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50">
+                <li
+                  class="flex items-center h-12 px-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50"
+                >
                   <p class="text-sm">会社概要</p>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -2433,7 +2438,9 @@
                     <path d="M9 18l6-6-6-6"></path>
                   </svg>
                 </li>
-                <li class="flex items-center h-12 px-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50">
+                <li
+                  class="flex items-center h-12 px-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50"
+                >
                   <p class="text-sm">利用規約</p>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -2450,7 +2457,9 @@
                     <path d="M9 18l6-6-6-6"></path>
                   </svg>
                 </li>
-                <li class="flex items-center h-12 px-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50">
+                <li
+                  class="flex items-center h-12 px-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50"
+                >
                   <p class="text-sm">利用ガイドライン</p>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -3032,8 +3041,79 @@
             </div>
           </div>
           <div id="newsBody" class="h-full pt-24 overflow-auto bg-gray-100">
-            <div class="newsBodyInner active" data-title="services">services</div>
-            <div class="newsBodyInner" data-title="operations">operations</div>
+            <div class="newsBodyInner active" data-title="services">
+              <ul class="bg-white">
+                <li class="flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer gap-x-3 hover:bg-gray-50 newsServiceNotification">
+                  <div
+                    class="flex-shrink-0 bg-gray-100 rounded-full size-11 icon_bg"
+                    style="
+                      background-image: url(https://xsgames.co/randomusers/assets/avatars/female/44.jpg);
+                    "
+                  ></div>
+                  <div class="min-w-0">
+                    <p class="text-sm clamp2">
+                      <span class="font-bold">name</span> さんがあなたの投稿に
+                      <span class="font-bold text-pink-500">いいね</span> しました
+                    </p>
+                    <p class="mt-0.5 text-xs text-gray-400">2分前</p>
+                  </div>
+                  <div class="flex-shrink-0 ml-auto size-2 rounded-full bg-red-500"></div>
+                </li>
+                <li class="flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer gap-x-3 hover:bg-gray-50 newsServiceNotification">
+                  <div
+                    class="flex-shrink-0 bg-gray-100 rounded-full size-11 icon_bg"
+                    style="
+                      background-image: url(https://xsgames.co/randomusers/assets/avatars/male/16.jpg);
+                    "
+                  ></div>
+                  <div class="min-w-0">
+                    <p class="text-sm clamp2">
+                      <span class="font-bold">name</span> さんがあなたの投稿に
+                      <span class="font-bold text-blue-500">コメント</span> しました
+                    </p>
+                    <p class="mt-0.5 text-xs text-gray-400">12分前</p>
+                  </div>
+                </li>
+                <li class="flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer gap-x-3 hover:bg-gray-50 newsServiceNotification">
+                  <div
+                    class="flex-shrink-0 bg-gray-100 rounded-full size-11 icon_bg"
+                    style="
+                      background-image: url(https://xsgames.co/randomusers/assets/avatars/female/20.jpg);
+                    "
+                  ></div>
+                  <div class="min-w-0">
+                    <p class="text-sm clamp2">
+                      <span class="font-bold">name</span> さんと
+                      <span class="font-bold">2人</span> があなたのコメントに
+                      <span class="font-bold text-pink-500">いいね</span> しました
+                    </p>
+                    <p class="mt-0.5 text-xs text-gray-400">1時間前</p>
+                  </div>
+                </li>
+                <li class="flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer gap-x-3 hover:bg-gray-50 newsServiceNotification">
+                  <div
+                    class="flex-shrink-0 bg-gray-100 rounded-full size-11 icon_bg"
+                    style="
+                      background-image: url(https://xsgames.co/randomusers/assets/avatars/male/72.jpg);
+                    "
+                  ></div>
+                  <div class="min-w-0">
+                    <p class="text-sm clamp2">
+                      <span class="font-bold">name</span> さんがあなた宛てのコメントに返信しました
+                    </p>
+                    <p class="mt-0.5 text-xs text-gray-400">昨日 19:42</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="newsBodyInner" data-title="operations">
+              <div class="p-4">
+                <div class="p-4 bg-white rounded-lg">
+                  <p class="mb-1 text-sm font-bold">運営からのお知らせ</p>
+                  <p class="text-sm text-gray-500">現在、新着のお知らせはありません。</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <!-- single -->
@@ -3509,7 +3589,10 @@
                   </div>
                 </div>
               </div>
-              <div class="absolute bottom-0 left-0 w-full p-3 bg-white border-t">
+              <div
+                id="createPostSubmitWrap"
+                class="absolute bottom-0 left-0 w-full p-3 bg-white border-t"
+              >
                 <div class="fi gap-x-3">
                   <label for="createPostImageInput" class="cursor-pointer" aria-label="画像を追加">
                     <svg
@@ -3545,7 +3628,7 @@
       </div>
       <div
         id="dynamicSlideRoot"
-        class="absolute top-0 left-0 z-30 w-full h-full pointer-events-none"
+        class="absolute top-0 left-0 z-50 w-full h-full pointer-events-none"
       ></div>
       <!-- userInfoSlide -->
       <div
@@ -3938,7 +4021,9 @@
             />
           </div>
           <div class="authActionArea">
-            <button id="openAuthRegisterBtn" type="button" class="authPrimaryBtn">無料で新規登録</button>
+            <button id="openAuthRegisterBtn" type="button" class="authPrimaryBtn">
+              無料で新規登録
+            </button>
             <button id="openAuthLoginBtn" type="button" class="authSecondaryBtn">ログイン</button>
           </div>
         </div>
