@@ -4,18 +4,32 @@
 
 /* カスタムスタイルをここに追加できます */
 @layer base {
-  html,
+  html {
+    height: 100%;
+    min-height: 100%;
+    min-height: -webkit-fill-available;
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
   body {
     height: 100%;
     min-height: 100%;
     min-height: -webkit-fill-available;
-    min-height: 100svh;
+    min-height: 100dvh;
     margin: 0;
     padding: 0;
+    max-width: 100%;
+    overflow: hidden;
     background: #fff;
+    font-family: "Noto Sans JP", "Hiragino Sans", Meiryo, sans-serif;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
     word-wrap: break-word;
     word-break: break-word;
     overflow-wrap: break-word;
+    touch-action: manipulation; /* ダブルタップ拡大を無効化 */
   }
 
   p {
@@ -24,7 +38,10 @@
     overflow-wrap: break-word;
   }
 
-  input:focus {
+  input,
+  input:focus,
+  textarea,
+  textarea:focus {
     outline: none;
     box-shadow: none;
   }
@@ -38,1084 +55,491 @@
   *::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+
+  /* 画像の横はみ出し防止 */
+  img {
+    max-width: 100%;
+  }
 }
 
 #smaWrapper {
-  height: 100vh;
-  min-height: 100vh;
-  height: -webkit-fill-available;
-  min-height: -webkit-fill-available;
-  height: 100svh;
-  min-height: 100svh;
-  padding: 0;
+  @apply w-full overflow-hidden;
+  overflow-x: hidden !important;
+  max-width: 100%;
+  min-width: 0;
   box-sizing: border-box;
   background: #fff;
-}
-
-@supports (height: 100dvh) {
-  #smaWrapper {
-    height: 100dvh;
-    min-height: 100dvh;
-  }
+  /* スマホ: ビューポート全体を確実に埋める */
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
 }
 
 @screen md {
   #smaWrapper {
+    inset: auto;
     height: calc(100% - 2rem);
     min-height: auto;
     padding: 0;
+    @apply fixed border rounded-xl overflow-hidden;
+    width: 28rem;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
 }
 
-.fij {
-  @apply flex items-center justify-center;
+/* スマホ: ボトムナビ（高さ5rem＋セーフエリア） */
+.home-bottom-nav {
+  height: 5rem;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  box-sizing: content-box;
 }
 
-.mainHeaderMenuBtns p {
-  @apply text-sm leading-none text-gray-400 w-fit;
+/* ボトムメニュー: 投稿のpadding-bottomと高さを一致させる */
+#homeBottomMenuWrapper {
+  min-height: 5rem;
 }
 
-.mainHeaderMenuBtns p span {
-  @apply inline-block;
+/* 天気表示：アイコン大きく、右下に気温 */
+.tenkiDisplay {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-
-.mainHeaderMenuBtns.active p {
-  @apply font-bold text-black relative;
+.tenkiIcon {
+  font-size: 2rem;
+  line-height: 1;
+  @apply mb-0.5;
 }
-
-.mainHeaderMenuBtns.active p::after {
-  content: "";
-  @apply absolute left-1/2 h-1 bg-red-500 rounded-t-sm;
-  bottom: -1px;
-  width: 100%;
-  transform: translateX(-50%) scaleX(1.2);
-  transform-origin: center;
+.tenkiLoading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4b5563;
+  line-height: 1.2;
+  text-align: center;
+  animation: tenkiPulse 0.7s ease-in-out infinite;
 }
-
-.mainHeaderMenuBtns.active p span {
-  transform: scale(1.2);
-}
-.bottomMenu.active svg {
-  stroke-width: 2px;
-}
-.bottomMenu.active p {
-  @apply font-bold;
-}
-.bottomMenu {
-  @apply opacity-50;
-}
-
-.bottomMenu.active {
-  @apply opacity-100;
-}
-
-.contentsWrapper {
-  @apply hidden;
-}
-.contentsWrapper.active {
-  @apply block;
-}
-
-.homeSliderViewport {
-  @apply h-full w-full overflow-hidden;
-  touch-action: pan-y;
-}
-
-.homeSliderTrack {
-  @apply flex h-full w-full;
-  transition: transform 0.25s ease;
-  will-change: transform;
-}
-
-.homeWrapperInner {
-  @apply h-full w-full flex-shrink-0 overflow-auto pb-20 pt-24;
-  padding-bottom: calc(4.6rem + env(safe-area-inset-bottom));
-}
-#homeInner.slideLeft {
-  transform: translateX(-3rem);
-}
-#toLeftSlide {
-  transform: translateX(100%);
-}
-#toLeftSlide.active {
-  transform: translateX(0%);
-}
-
-#toLeftSlide.active.slideLeft {
-  transform: translateX(-3rem);
-}
-
-#mainHeaderWrapper,
-#bottomMenuWrapper {
-  transition: transform 0.25s ease;
-  will-change: transform;
-}
-
-#bottomMenuWrapper {
-  height: calc(4.6rem + env(safe-area-inset-bottom));
-  padding-bottom: max(0px, calc(env(safe-area-inset-bottom) - 8px));
-}
-
-@media (display-mode: standalone) {
-  #bottomMenuWrapper {
-    height: 4.5rem;
-    padding-bottom: 0;
+@keyframes tenkiPulse {
+  0%,
+  100% {
+    opacity: 0.5;
   }
-
-  #createPostSubmitWrap {
-    padding-bottom: 2.25rem;
+  50% {
+    opacity: 1;
   }
 }
-
-#mainHeaderWrapper.scroll-hidden {
-  transform: translateY(-100%);
-}
-
-#bottomMenuWrapper.scroll-hidden {
-  transform: translateY(calc(100% + env(safe-area-inset-bottom) + 8px));
-}
-
-#openPostFormBtn {
-  bottom: calc(4rem + max(0px, calc(env(safe-area-inset-bottom) - 8px)));
-  transition: bottom 0.25s ease;
-  will-change: bottom;
-}
-
-#bottomMenuWrapper.scroll-hidden ~ #openPostFormBtn {
-  bottom: calc(1rem + max(0px, calc(env(safe-area-inset-bottom) - 8px)));
-}
-
-.rhw {
-  @apply relative h-full w-full;
+.tenkiTemp {
+  position: absolute;
+  bottom: -2px;
+  right: -12px;
+  padding: 2px 3px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #6b7280;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
 }
 
 .fi {
   @apply flex items-center;
 }
-
-.toLeftSlideInner {
-  @apply hidden;
-}
-
-.toLeftSlideInner.active {
-  @apply block;
-}
-
-.newsBodyInner {
-  @apply hidden;
-}
-
-.newsBodyInner.active {
-  @apply block;
-}
-
-#newsHeader .newsHeaderToggle {
-  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
-}
-
-#newsHeader .newsHeaderToggle p {
-  font-weight: 400;
-}
-
-#newsHeader .newsHeaderToggle.active {
-  @apply text-black;
-}
-
-#newsHeader .newsHeaderToggle.active p {
-  font-weight: 700;
-}
-
-.postsBannerViewport {
-  @apply flex w-full overflow-x-auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-}
-
-.postsBannerItem {
-  @apply w-full flex-shrink-0 px-3;
-  scroll-snap-align: start;
-}
-
-.postsBannerCard {
-  @apply h-36 w-full rounded-xl bg-white px-4 text-sm font-bold text-gray-700 fij;
-}
-
-.postsBannerDots {
-  @apply pt-2 pb-4 fi justify-center gap-2;
-}
-
-.postsBannerDot {
-  @apply size-2 rounded-full bg-red-300 transition;
-}
-
-.postsBannerDot.active {
-  @apply bg-red-500;
-}
-
-.postSortToggle {
-  @apply overflow-hidden;
-}
-
-.postSortToggleItem {
-  @apply text-gray-700 cursor-pointer rounded-none border border-red-500;
-}
-
-.postSortToggleItem:first-child {
-  @apply rounded-l-full border-r-0;
-}
-
-.postSortToggleItem:last-child {
-  @apply rounded-r-full;
-}
-
-.postSortToggleItem.active {
-  @apply bg-red-500 text-white;
-}
-
-.clamp1 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.clamp4 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  line-clamp: 4;
-}
-
-.postLiImages {
-  @apply mt-3 grid gap-0 overflow-hidden rounded-xl bg-white;
-}
-
-.postLiImages:empty {
-  display: none;
-}
-
-.postLiImageWrap {
-  @apply relative overflow-hidden bg-gray-200;
-  aspect-ratio: 1 / 1;
-}
-
-.postLiImage {
-  @apply block h-full w-full object-cover transition-opacity duration-200;
-}
-
-.postLiImage:hover {
-  @apply opacity-75;
-}
-
-.postLiImages.count-1 {
-  grid-template-columns: 1fr;
-}
-
-.postLiImages.count-1 .postLiImageWrap {
-  aspect-ratio: 16 / 10;
-}
-
-.postLiImages.count-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.postLiImages.count-3 {
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-}
-
-.postLiImages.count-3 .postLiImageWrap:nth-child(1) {
-  grid-row: span 2 / span 2;
-}
-
-.postLiImages.count-3 .postLiImageWrap:nth-child(n + 2) {
-  aspect-ratio: auto;
-  height: 100%;
-  min-height: 0;
-}
-
-.postLiImages.count-4plus {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.postLiImageWrap.hidden-by-count {
-  display: none;
-}
-
-.postLiImageWrap.is-more::after {
-  content: attr(data-more);
-  @apply absolute inset-0 z-10 fij text-xl font-bold text-white;
-  background: rgb(0 0 0 / 45%);
-}
-
-.postImageModal {
-  @apply fixed inset-0 z-50 hidden;
-  background: rgb(0 0 0 / 75%);
-}
-
-.postImageModal.active {
+.fij {
   @apply flex items-center justify-center;
 }
 
-.postImageModalBody {
-  @apply w-full;
-}
-
-.postImageModalViewport {
-  @apply w-full overflow-hidden;
-  touch-action: pan-y;
-}
-
-.postImageModalTrack {
-  @apply flex w-full;
-  transition: transform 0.25s ease;
-  will-change: transform;
-}
-
-.postImageModalSlide {
-  @apply w-full flex-shrink-0;
-}
-
-.postImageModalImage {
-  @apply w-full max-h-screen object-contain;
-}
-
-.postImageModalCircleBtn {
-  @apply rounded-full text-white fij;
-  background: rgb(0 0 0 / 45%);
-}
-
-.postImageModalCloseBtn {
-  @apply absolute top-2 left-2 z-10 size-10;
-}
-
-.postImageModalNavBtn {
-  @apply absolute top-1/2 z-10 size-10 -translate-y-1/2;
-}
-
-.postImageModalNavBtn svg {
-  display: block;
-}
-
-.postImageModalPrev {
-  @apply left-2;
-}
-
-.postImageModalNext {
-  @apply right-2;
-}
-
-.postImageModalDots {
-  @apply absolute bottom-4 left-1/2 z-10 fi -translate-x-1/2 gap-2;
-}
-
-.postImageModalDot {
-  @apply size-2 rounded-full bg-white/40;
-}
-
-.postImageModalDot.active {
-  @apply bg-white;
-}
-
-.singleActionSheetRoot {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
-.singleActionSheetRoot.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.singleActionSheetCurtain {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: rgb(0 0 0 / 35%);
-}
-
-.singleActionSheet {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 0 0.75rem calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
-  transform: translateY(100%);
-  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.singleActionSheetRoot.active .singleActionSheet {
-  transform: translateY(0);
-}
-
-.singleActionSheetGroup {
-  overflow: hidden;
-  border-radius: 0.875rem;
-  background: rgb(248 248 248);
-  box-shadow: 0 10px 32px rgb(0 0 0 / 12%);
-}
-
-.singleActionSheetItem,
-.singleActionSheetCancel {
-  display: block;
-  width: 100%;
-  border: 0;
-  background: #fff;
-  padding: 0.95rem 1rem;
-  font-size: 1.05rem;
-  font-weight: 500;
-  line-height: 1.2;
-  color: #111827;
-  text-align: center;
-}
-
-.singleActionSheetItem + .singleActionSheetItem {
-  border-top: 1px solid rgb(0 0 0 / 0.08);
-}
-
-.singleActionSheetItem:hover,
-.singleActionSheetCancel:hover {
-  @apply bg-gray-50;
-}
-
-.singleActionSheetItem:active,
-.singleActionSheetCancel:active {
-  @apply bg-gray-100;
-}
-
-.singleActionSheetItem.danger {
-  color: #dc2626;
-}
-
-.singleActionSheetCancel {
-  margin-top: 0.5rem;
-  border-radius: 0.875rem;
-  background: rgb(255 255 255);
-  box-shadow: 0 10px 32px rgb(0 0 0 / 10%);
-}
-
-.dynamicDmProfileModalRoot {
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-
-.dynamicDmProfileModalRoot.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.dynamicDmProfileModalCurtain {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: rgb(0 0 0 / 35%);
-}
-
-.dynamicDmProfileModalCard {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(26rem, calc(100% - 2rem));
-  max-height: min(80vh, 36rem);
-  overflow-y: auto;
+#homeHeaderWrapperDown {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  transform: translate(-50%, -50%);
-  border-radius: 1rem;
-  background: #fff;
-  padding: 1.5rem;
+  touch-action: pan-y; /* 横フリック無効（クリックのみで切り替え） */
 }
-
-.dynamicDmProfileModalIcon {
-  width: 4.5rem;
-  height: 4.5rem;
-  margin: 0 auto 0.75rem;
-  border-radius: 9999px;
-  background-color: #f3f4f6;
+.homeMenuBtnsTrack {
+  min-width: min-content;
+  height: 100%;
 }
-
-.dynamicDmProfileModalName {
-  margin-bottom: 0.75rem;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.dynamicDmProfileModalDesc {
-  white-space: pre-line;
-  font-size: 0.9rem;
-  line-height: 1.75;
-  color: #111827;
-}
-
-#toUpSlide {
-  transform: translateY(100%);
-}
-#toUpSlide.active {
-  transform: translateY(0%);
-}
-
-#toUpSlide.active.slideLeft {
-  transform: translateY(0%) translateX(-3rem);
-}
-
-#profileEditSlide {
-  transform: translateY(100%);
-}
-
-#profileEditSlide.active {
-  transform: translateY(0%);
-}
-
-#mypageOptionSlide {
-  transform: translateX(100%);
-}
-
-#mypageOptionSlide.active {
-  transform: translateX(0%);
-}
-
-#mypageMainBody {
-  transition: transform 0.25s ease;
-  will-change: transform;
-}
-
-#mypageMainBody.slideLeft {
-  transform: translateX(-3rem);
-}
-
-#teachPostSeachBtns {
-  gap: 0.25rem;
-}
-
-.teachPostSearchCheck {
-  position: relative;
-  display: block;
-}
-
-.teachPostSearchCheckInput {
+.homeMenuBtnsIndicator {
   position: absolute;
-  opacity: 0;
+  top: 0;
+  height: 100%;
+  @apply bg-orange-500;
+  transition: left 0.18s ease, width 0.18s ease;
   pointer-events: none;
+  z-index: 0;
 }
-
-.teachPostSearchCheckLabel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 2rem;
-  padding: 0 0.75rem;
-  border: 1px solid #ef4444;
-  border-radius: 9999px;
-  background: #fff;
-  color: #ef4444;
-  font-size: 0.75rem;
-  font-weight: 700;
-  cursor: pointer;
-  user-select: none;
-}
-
-.teachPostSearchCheckInput:checked + .teachPostSearchCheckLabel {
-  border-color: #ef4444;
-  background: #ef4444;
-  color: #fff;
-}
-
-.yuzuriPostSearchCheckLabel {
-  border-width: 1px;
-}
-
-.createPostTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.createPostTagBtn {
-  border-radius: 9999px;
-  border: 1px solid #93c5fd;
-  background: #fff;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.82rem;
-  color: #0284c7;
-}
-
-.createPostTagBtn:hover {
-  background: #f8fafc;
-}
-
-.createPostTagBtn:active {
-  background: #f1f5f9;
-}
-
-.createPostTagBtn.is-active {
-  border-color: #3b82f6;
-  background: #3b82f6;
-  color: #fff;
-}
-
-.createPostTagBtn.is-active:hover {
-  border-color: #3b82f6;
-  background: #3b82f6;
-  color: #fff;
-}
-
-#createPostContent {
-  min-height: 8rem;
-}
-
-.createPostImagePreview {
-  margin-top: 0.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.createPostImageTile {
+.homeMenuBtns {
   position: relative;
+  z-index: 1;
 }
-
-.createPostImageThumb,
-.createPostImageAddTile {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.45rem;
-}
-
-.createPostImageThumb {
-  border: 1px solid #d1d5db;
-  background-color: #f3f4f6;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.createPostImageAddTile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #d1d5db;
-  color: #9ca3af;
-  cursor: pointer;
-}
-
-.createPostImageAddTile span {
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.createPostImageAddTile:hover {
-  background: #f9fafb;
-}
-
-.createPostImageAddTile:active {
-  background: #f3f4f6;
-}
-
-.createPostImageRemoveBtn {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  width: 1.35rem;
-  height: 1.35rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 0;
-  border-radius: 9999px;
-  background: rgb(0 0 0 / 55%);
-  color: #fff;
-  font-size: 0.75rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.createPostAnonymousToggle {
-  position: relative;
-  width: 2.5rem;
-  height: 1.45rem;
-  border: 0;
-  border-radius: 9999px;
-  background: #d1d5db;
-}
-
-.createPostAnonymousToggleKnob {
-  position: absolute;
-  top: 0.14rem;
-  left: 0.14rem;
-  width: 1.15rem;
-  height: 1.15rem;
-  border-radius: 9999px;
-  background: #fff;
-  transition: transform 0.15s ease;
-}
-
-.createPostAnonymousToggle.is-active {
-  background: #3b82f6;
-}
-
-.createPostAnonymousToggle.is-active .createPostAnonymousToggleKnob {
-  transform: translateX(1.05rem);
-}
-
-.createPostBinaryBtn {
-  min-width: 4.5rem;
-  height: 2rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 9999px;
-  background: #fff;
-  padding: 0 0.75rem;
-  font-size: 0.8rem;
-  color: #475569;
-}
-
-.createPostBinaryBtn.is-active {
-  border-color: #3b82f6;
-  background: #3b82f6;
-  color: #fff;
-}
-
-.createPostSelect {
-  cursor: pointer;
-  outline: none;
-}
-
-.createPostSelect:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-#createPostSubmitBtn:disabled {
-  background: #d1d5db;
-  color: #ffffff;
-  cursor: not-allowed;
-}
-
-#createPostSubmitBtn.active {
-  background: #3b82f6;
-  color: #ffffff;
-}
-
-#createPostSubmitBtn.active:active {
-  background: #2563eb;
-}
-
-#createPostTypeView .rounded-xl,
-#createPostFormView .rounded-xl {
-  border-radius: 0.6rem;
-}
-
-#createPostTypeView .rounded-lg,
-#createPostFormView .rounded-lg {
-  border-radius: 0.5rem;
-}
-
-#dynamicSlideRoot .dynamicSlidePanel {
-  transform: translateX(100%);
-}
-
-#dynamicSlideRoot .dynamicSlidePanel.active {
-  transform: translateX(0%);
-}
-
-#dynamicSlideRoot .dynamicSlidePanel.slideLeft {
-  transform: translateX(-3rem);
-}
-
-#userInfoSlide {
-  transform: translateX(100%);
-}
-
-#userInfoSlide.active {
-  transform: translateX(0%);
-}
-
-.postLi:hover {
-  @apply bg-gray-50 transition;
-}
-
-#singleBodyInner .postLi:hover {
-  @apply bg-white;
-}
-
-.dynamicSingleBodyInner .postLi:hover {
-  @apply bg-white;
-}
-
-#singleBodyInner .postLi:last-child {
-  border-bottom-width: 0;
-}
-
-#singleBodyInner .postLi {
-  cursor: auto;
-}
-
-#singleBodyInner .potLiBtns button {
-  cursor: pointer;
-}
-
-#singleBodyInner .postLiImage,
-#singleBodyInner .potLiBtns .gap-x-1 {
-  cursor: pointer;
-}
-
-.postLiIcon,
-.postLiCommentsLi > div:first-child,
-.singleCommentsLi > div:first-child {
-  cursor: pointer;
-}
-
-#messagePostBtn.active {
-  @apply bg-blue-500 text-white font-bold active:bg-blue-600;
-}
-
-.dynamicMessagePostBtn.active {
-  @apply bg-blue-500 text-white font-bold active:bg-blue-600;
-}
-
-.dynamicDmSendBtn.active {
-  @apply bg-blue-500 text-white font-bold active:bg-blue-600;
-}
-
-.dynamicFollowToggleBtn.is-following {
-  @apply bg-blue-500 text-white;
-}
-
-.dynamicFollowToggleBtn.is-following:hover {
-  @apply bg-blue-500 text-white;
-}
-
-svg[stroke-width] {
-  stroke-width: 1.5;
-}
-
-.singleCommentsLi:not(:last-child):after {
-  content: " ";
-  @apply absolute top-10 w-1 bg-gray-100;
-  left: 1.1rem;
-  height: calc(100% - 2.5rem);
+.homeMenuBtns.active {
+  @apply font-bold text-white;
 }
 
 .icon_bg {
+  background-size: contain;
   background-position: center;
-  background-size: cover;
   background-repeat: no-repeat;
 }
 
-.userInfoData > div {
-  flex: 1 1 0;
+.homeBottomMenus.active {
+  @apply font-bold;
 }
 
-#authRoot {
-  @apply absolute inset-0 z-[90] bg-white;
-  opacity: 0;
-  pointer-events: none;
+.homeBottomMenus img {
+  opacity: 0.4;
 }
-
-#authRoot.active {
+.homeBottomMenus.active img {
   opacity: 1;
-  pointer-events: auto;
 }
 
-.authScreen {
-  @apply absolute inset-0 hidden;
+/* 横スライドバナー */
+#homeBannerWrapper {
+  overflow: hidden;
+  /* padding-bottom: 0.5rem; */
+}
+.homeBannerViewport {
+  @apply w-full overflow-hidden;
+  max-width: 100%;
+}
+.homeBannerTrack {
+  display: flex;
+  transition: transform 0.25s ease;
+  will-change: transform;
+  box-sizing: border-box;
+}
+.homeBannerSlide {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.homeBannerCard {
+  @apply w-full h-48 rounded-lg overflow-hidden;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.homeBannerDotsWrapper {
+  @apply flex items-center justify-center gap-2;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+}
+.homeBannerDot {
+  @apply rounded-full bg-gray-300;
+  width: 0.5rem;
+  height: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.homeBannerDot.active {
+  @apply bg-black;
+  transform: scale(1.2);
 }
 
-.authScreen.active {
+.homeContents {
+  @apply hidden;
+}
+.homeContents.active {
   @apply block;
 }
 
-.authLogoArea {
-  @apply flex-grow fij px-8 pt-16 pb-8;
+.homeContents {
+  @apply h-full;
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0));
+  overflow-x: hidden;
 }
 
-.authAppIcon {
-  width: min(8.8rem, 40vw);
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 1.4rem;
+/* homeUl リスト */
+.homeUl {
+  @apply list-none p-0 m-0;
+  max-width: 100%;
+}
+.homeLi {
+  @apply bg-white;
+}
+.homeLiLink {
+  @apply cursor-pointer block;
+}
+.homeUlBadge {
+  @apply text-[10px] px-2 py-0.5 rounded font-medium;
+}
+.homeUlBadge-new {
+  @apply bg-red-500 text-white rounded-full;
+}
+.homeUlBadge-news {
+  @apply bg-blue-100 text-blue-700;
+}
+.homeUlBadge-event {
+  @apply bg-green-100 text-green-700;
+}
+.homeUlBadge-tsubuyaki {
+  @apply bg-amber-100 text-amber-700;
+}
+.homeUlBadge-oshiete {
+  @apply bg-purple-100 text-purple-700;
+}
+.homeUlBadge-yuzuri {
+  @apply bg-orange-100 text-orange-700;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* 地図をボトムメニュー（h-20=5rem）の上に収める */
+.homeContents[data-title="shop"] {
+  overflow: hidden;
+}
+#shopMapContainer {
+  height: 100%;
 }
 
-.authActionArea {
-  @apply p-5 space-y-3 bg-white;
-  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+#slideStack {
+  z-index: 100;
+  pointer-events: none;
+  overflow: visible;
+}
+#slideStack > * {
+  pointer-events: auto;
+  transition: transform 0.3s ease-out;
+}
+#singleSlide {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+}
+#singleSlide button,
+#singleSlide img[class*="rounded-full"],
+#singleSlide .cursor-pointer {
+  cursor: pointer;
+}
+#singleSlide.active {
+  transform: translateX(0);
 }
 
-.authPrimaryBtn {
-  @apply w-full h-12 text-base font-bold text-white bg-red-500 rounded;
+/* userInfoSlide: 右からスライド */
+#userInfoSlide {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+}
+#userInfoSlide.active {
+  transform: translateX(0);
+}
+/* 閉じるアニメ中は最前面に（appendで下が背面に回っても見えるように） */
+#slideStack > *.slideClosing {
+  z-index: 10;
 }
 
-.authPrimaryBtn:active {
-  @apply bg-red-600;
+/* userInfo プロフィール（Instagram風・白背景） */
+.userInfoProfile {
+  padding: 1rem 1rem 1.5rem;
+  background: #fff;
 }
-
-.authSecondaryBtn {
-  @apply w-full h-12 text-base font-bold text-red-500 bg-white border border-red-300 rounded;
+.userInfoProfileHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
-
-.authSecondaryBtn:active {
-  @apply bg-red-50;
-}
-
-.authFormScreen {
-  @apply bg-gray-100;
-}
-
-.authFormHeader {
-  @apply relative flex items-center h-12 bg-white border-b;
-}
-
-.authBackBtn {
-  @apply absolute left-0 size-12 fij text-gray-700;
-}
-
-.authFormTitle {
-  @apply w-full text-base font-bold text-center;
-}
-
-.authFormBody {
-  @apply p-4 bg-white border-b space-y-2.5;
-}
-
-.authInputLabel {
-  @apply block mt-2 text-sm font-bold text-gray-700;
-}
-
-.authInput {
-  @apply w-full px-3 text-sm bg-gray-50 border border-gray-200 rounded h-9;
-}
-
-.authAgreeLabel {
-  @apply flex items-center mt-2 text-xs text-gray-600 gap-x-2;
-}
-
-.authAgreeCheck {
-  @apply size-4 accent-red-500;
-}
-
-#authInitialScreen.active,
-#authRegisterScreen.active,
-#authLoginScreen.active {
-  @apply flex flex-col;
-}
-
-#authRegisterScreen,
-#authLoginScreen {
-  @apply bg-gray-100;
-}
-
-.authRegisterHeader {
-  @apply relative h-20 pt-4 bg-white border-b border-gray-200;
-}
-
-.authLoginHeader {
-  @apply relative h-14 bg-white border-b border-gray-200;
-}
-
-.authRegisterCloseBtn {
-  @apply absolute top-2 left-2 size-10 text-gray-400 fij;
-}
-
-.authRegisterTitle {
-  @apply text-base font-bold leading-none text-center;
-}
-
-.authRegisterSubtitle {
-  @apply mt-1 text-xs text-center text-gray-600;
-}
-
-.authLoginTitle {
-  @apply pt-3 text-base font-bold text-center;
-}
-
-.authRegisterBody {
-  @apply flex-1 px-3 pt-3 pb-6 space-y-3 overflow-auto;
-  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
-}
-
-.authSnsBtn {
-  @apply w-full h-12 text-base font-bold text-white rounded flex items-center justify-center gap-x-2;
-}
-
-.authSnsBtn.line {
-  background: #06c755;
-}
-
-.authSnsBtn.line:active {
-  background: #05ad4a;
-}
-
-.authSnsBtn.apple {
-  background: #000000;
-}
-
-.authSnsBtn.apple:active {
-  background: #1f1f1f;
-}
-
-.authSnsBtn.facebook {
-  background: #5f78b9;
-}
-
-.authSnsBtn.facebook:active {
-  background: #4f66a0;
-}
-
-.authBrandIcon {
-  width: 1rem;
-  height: 1rem;
+.userInfoAvatarWrap {
   flex-shrink: 0;
+  padding: 3px;
+  background: linear-gradient(135deg, #a855f7 0%, #f97316 25%, #ec4899 50%, #3b82f6 75%, #22c55e 100%);
+  border-radius: 50%;
+}
+.userInfoAvatar {
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: block;
+}
+.userInfoName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+.userInfoStats {
+  font-size: 0.8125rem;
+  color: #262626;
+}
+.userInfoStats strong {
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+.userInfoBioWrap {
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+.userInfoNameSub {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #8e8e8e;
+  margin-bottom: 0.25rem;
+}
+.userInfoBio {
+  color: #262626;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+.userInfoHandle {
+  color: #262626;
+  font-size: 0.8125rem;
+}
+.userInfoButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.userInfoBtn {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: opacity 0.15s;
+}
+.userInfoBtn:active {
+  opacity: 0.8;
+}
+.userInfoBtnEdit {
+  color: #262626;
+  background: #efefef;
+}
+.userInfoBtnFollow {
+  color: #fff;
+  background: #0095f6;
+  flex: 1.5;
+}
+.userInfoBtnMessage {
+  color: #262626;
+  background: #efefef;
+  flex: 1;
+}
+.userInfoBtnMore {
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+#homeContentsWrapper {
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+#homeContentsWrapper,
+#homeBottomMenuWrapper {
+  transform: translateX(0);
+  transition: transform 0.3s ease-out;
+}
+/* スライド表示時：その下を少し左にずらす */
+#smaWrapper.is-slide-open #homeContentsWrapper,
+#smaWrapper.is-slide-open #homeBottomMenuWrapper {
+  transform: translateX(-56px);
+}
+/* スライド同士：下のスライドは slide-shifted で左にずらす（append しないので transition が効く） */
+#slideStack > *.active.slide-shifted {
+  transform: translateX(-56px);
+}
+.rhw {
+  @apply relative w-full h-full;
+}
+
+/* singleSlide 画像スライダー */
+.singleSlideDot.active {
+  @apply bg-black;
+}
+
+/* 画像モーダル カーテン＋スライダー */
+.imageModalImages {
+  overscroll-behavior-x: none;
+  -webkit-overflow-scrolling: touch;
+}
+.imageModalCurtain {
+  display: none;
+}
+.imageModalCurtain.imageModalCurtainActive {
+  display: block;
+}
+.imageModalScrollInstant {
+  scroll-behavior: auto !important;
+}
+.imageModalImgEl {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+.imageModalDot {
+  @apply w-2 h-2 rounded-full bg-gray-400 transition-colors;
+}
+.imageModalDot.active {
+  @apply bg-white;
+}
+
+/* singleCommentWrapper: コメントスレッド */
+.singleCommentList {
+  @apply list-none p-0 m-0;
+}
+.singleCommentItem {
+  @apply border-b border-gray-100;
+}
+.singleCommentItem:last-child {
+  @apply border-b-0;
+}
+.singleCommentReply .singleCommentReplyInner {
+  margin-left: 2.5rem;
+}
+.commentLikeBtn.commentLiked {
+  @apply text-red-500;
+}
+.commentLikeBtn.commentLiked .commentLikeIcon {
+  fill: currentColor;
+}
+.postLikeBtn.postLiked {
+  @apply text-red-500;
+}
+.postLikeBtn.postLiked .postLikeIcon {
   fill: currentColor;
 }
 
-.authBrandIcon.facebook {
-  width: 0.95rem;
-  height: 0.95rem;
+/* singleBottomWrapper: PWA時はpb-7相当＋safe-area分を追加 */
+@media (display-mode: standalone) {
+  #singleBottomWrapper {
+    padding-bottom: calc(1.75rem + env(safe-area-inset-bottom, 0)); /* pb-7 + safe-area */
+  }
 }
 
-.authRegisterMailLead {
-  @apply py-3 text-sm text-center text-gray-600;
+/* openPostBtn: PWA時はBottomMenuにかからないようsafe-area分を追加 */
+#openPostBtn {
+  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0));
 }
-
-.authRegisterInput {
-  @apply w-full h-12 px-3 text-base text-gray-700 bg-white border border-gray-200 rounded-none;
-}
-
-.authRegisterInput::placeholder {
-  color: #d1d5db;
-}
-
-.authRegisterSubmitBtn {
-  @apply w-full h-12 mt-4 text-base font-bold text-white bg-red-500 rounded;
-}
-
-.authRegisterSubmitBtn:active {
-  @apply bg-red-600;
-}
-
-.authRegisterAgreement {
-  @apply pt-2 text-xs leading-6 text-center text-gray-600;
-}
-
-.authRegisterAgreement span {
-  @apply font-bold text-blue-500 cursor-pointer;
-}
-
-.authLoginForgotLink {
-  @apply pt-2 text-xs text-center;
-}
-
-.authLoginForgotLink span {
-  @apply inline-block font-bold text-blue-500 cursor-pointer;
+/* openPostBtn: home以外では非表示（flex崩れ防止のためvisibility+幅ゼロ） */
+#openPostBtn.openPostBtn-hidden {
+  visibility: hidden;
+  pointer-events: none;
+  width: 0;
+  min-width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  overflow: hidden;
 }
