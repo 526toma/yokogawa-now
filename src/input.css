@@ -358,7 +358,14 @@
 .userInfoAvatarWrap {
   flex-shrink: 0;
   padding: 3px;
-  background: linear-gradient(135deg, #a855f7 0%, #f97316 25%, #ec4899 50%, #3b82f6 75%, #22c55e 100%);
+  background: linear-gradient(
+    135deg,
+    #a855f7 0%,
+    #f97316 25%,
+    #ec4899 50%,
+    #3b82f6 75%,
+    #22c55e 100%
+  );
   border-radius: 50%;
 }
 .userInfoAvatar {
@@ -542,4 +549,62 @@
   padding-left: 0;
   padding-right: 0;
   overflow: hidden;
+}
+
+#postSlide {
+  transform: translateY(100%);
+}
+#postSlide.active {
+  transform: translateY(0%);
+}
+
+/* postSlideInner 投稿フォーム */
+.postTypeBadge {
+  @apply inline-block px-3 py-1.5 text-sm font-medium rounded transition-all;
+}
+.postTypeBadge-tsubuyaki {
+  background: #fef3c7;
+  color: #b45309;
+}
+.postTypeBadge-news {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.postTypeBadge-event {
+  background: #dcfce7;
+  color: #15803d;
+}
+.postTypeBadge-oshiete {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+.postTypeBadge-yuzuri {
+  background: #ffedd5;
+  color: #c2410c;
+}
+.postTypeOption input:checked + .postTypeBadge {
+  @apply ring-2 ring-blue-500 ring-offset-1;
+}
+.postImageAddWrap:hover {
+  @apply border-gray-400 bg-gray-100;
+}
+.postImagePreview {
+  background-size: cover;
+  background-position: center;
+}
+.postImageRemove {
+  @apply transition-colors;
+}
+
+/* イベント日付: スマホでカレンダーがはみ出ないよう幅を制限 */
+#postEventDatesWrap input[type="date"] {
+  max-width: 100%;
+  min-width: 0;
+}
+#postSubmitBtn:active {
+  @apply bg-blue-600;
+}
+#postSubmitBtn:disabled,
+#postSubmitBtn:disabled:active {
+  @apply opacity-[30%] cursor-not-allowed bg-blue-500;
 }

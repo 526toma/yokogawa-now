@@ -37,7 +37,7 @@
           <div id="homeFeedScroll" class="h-full min-w-0 overflow-x-hidden overflow-y-auto">
             <!-- homeHeaderWrapperUpper -->
             <div id="homeHeaderWrapperUpper" class="h-16 min-w-0 pr-3 fi">
-              <div id="tenkiWrapper" class="flex-shrink-0 w-16 h-10 fij cursor-pointer"></div>
+              <div id="tenkiWrapper" class="flex-shrink-0 w-16 h-10 cursor-pointer fij"></div>
               <div
                 class="flex-grow h-10 min-w-0 px-3 border-t border-b border-l border-blue-500 rounded-l fi gap-x-3"
               >
@@ -438,529 +438,529 @@
       </div>
       <!-- slideStack: 開いたスライドを末尾にappendして常に最前面に -->
       <div id="slideStack" class="absolute inset-0">
-      <!-- singleSlide -->
-      <div
-        id="singleSlide"
-        class="absolute top-0 right-0 w-full h-full transition-transform duration-300 ease-out bg-white"
-      >
-        <div class="rhw">
-          <div
-            id="singleHeader"
-            class="absolute top-0 left-0 z-20 w-full px-2 pointer-events-none h-14 fi"
-          >
-            <button
-              type="button"
-              class="flex-shrink-0 h-10 pl-2 pr-3 transition bg-white rounded-full shadow opacity-75 pointer-events-auto active:bg-gray-50 fi closeSingleBtn gap-x-1 hover:opacity-100"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#000000"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-              <p class="text-sm font-bold">戻る</p>
-            </button>
-            <button
-              type="button"
-              class="flex-shrink-0 ml-auto transition bg-white rounded-full shadow opacity-75 pointer-events-auto active:bg-gray-50 fi favoSingleBtn size-10 fij hover:opacity-100"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#000000"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div class="flex flex-col h-full min-h-0 bg-white">
-            <div class="flex-grow min-h-0 overflow-auto pt-14">
-              <div id="singleSlideWrapper" class="flex flex-col w-full">
-                <div class="relative flex-shrink-0 w-full h-64">
-                  <div
-                    class="w-full h-full overflow-hidden cursor-pointer singleSlideViewport singleSlideImageClickArea"
-                  >
-                    <div class="flex transition-transform duration-300 singleSlideTrack">
-                      <div class="flex-shrink-0 w-full h-full singleSlideSlide">
-                        <img
-                          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=400&fit=crop"
-                          alt=""
-                          class="object-cover w-full h-full"
-                        />
-                      </div>
-                      <div class="flex-shrink-0 w-full h-full singleSlideSlide">
-                        <img
-                          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=600&fit=crop"
-                          alt=""
-                          class="object-cover w-full h-full"
-                        />
-                      </div>
-                      <div class="flex-shrink-0 w-full h-full singleSlideSlide">
-                        <img
-                          src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=600&fit=crop"
-                          alt=""
-                          class="object-cover w-full h-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    class="absolute z-10 justify-center w-8 h-8 -translate-y-1/2 rounded-full shadow singleSlideArrowPrev left-2 top-1/2 bg-white/80 fi singleSlideNoModal"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M15 18l-6-6 6-6" />
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    class="absolute z-10 justify-center w-8 h-8 -translate-y-1/2 rounded-full shadow singleSlideArrowNext right-2 top-1/2 bg-white/80 fi singleSlideNoModal"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M9 18l6-6-6-6" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="flex justify-center gap-2 py-2 singleSlideDots">
-                  <button
-                    type="button"
-                    class="w-2 h-2 bg-gray-300 rounded-full singleSlideDot active"
-                    data-index="0"
-                  ></button>
-                  <button
-                    type="button"
-                    class="w-2 h-2 bg-gray-300 rounded-full singleSlideDot"
-                    data-index="1"
-                  ></button>
-                  <button
-                    type="button"
-                    class="w-2 h-2 bg-gray-300 rounded-full singleSlideDot"
-                    data-index="2"
-                  ></button>
-                </div>
-                <!-- 投稿内容 -->
-                <div class="px-4 singleSlidePost">
-                  <div class="pt-2 pb-3 border-b">
-                    <div class="flex-wrap mb-2 fi gap-x-2">
-                      <span
-                        class="singleSlideBadge px-2 py-0.5 text-xs font-medium rounded bg-amber-100 text-amber-700"
-                        >イベント</span
-                      >
-                      <span class="text-sm text-gray-500 singleSlideDate">2/28(土) 10:00</span>
-                    </div>
-                    <h2 class="mb-2 text-lg font-bold singleSlideTitle line-clamp-2">
-                      横川商店街 春の大感謝祭 3/15開催
-                    </h2>
-                    <div class="mb-3 singleSlideAuthor fi gap-x-2">
-                      <img
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop"
-                        alt=""
-                        class="flex-shrink-0 object-cover rounded-full cursor-pointer userIconBtn size-10"
-                        data-user-name="横川商店街振興組合"
-                        data-user-avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop"
-                        data-user-bio="横川商店街の活性化に取り組んでいます。イベントやセール情報をお届けします。"
-                        data-user-is-me="false"
-                        data-user-posts="12"
-                        data-user-followers="320"
-                        data-user-following="45"
-                        data-user-handle="yokogawa_shoutengai"
-                        data-user-type="商店街"
-                      />
-                      <span class="text-sm font-medium">横川商店街振興組合</span>
-                    </div>
-                    <div class="flex-wrap mb-2 singleSlideTags fi gap-x-2">
-                      <span class="px-2 py-0.5 text-xs rounded bg-gray-100">商店街</span>
-                      <span class="px-2 py-0.5 text-xs rounded bg-gray-100">イベント</span>
-                      <span class="px-2 py-0.5 text-xs rounded bg-gray-100">春祭り</span>
-                    </div>
-                    <p class="text-sm leading-relaxed text-gray-700 singleSlideText">
-                      横川商店街では3月15日（土）に春の大感謝祭を開催します。各店舗でお得なセールやスタンプラリーを実施。ぜひお越しください！
-                    </p>
-                    <!-- いいね・コメントバー -->
-                    <div class="flex items-center gap-4 pt-3 singlePostActions">
-                      <button
-                        type="button"
-                        class="postLikeBtn fi gap-x-1.5 text-gray-500 hover:text-red-500 active:text-red-500"
-                        data-count="12"
-                      >
-                        <svg
-                          class="w-5 h-5 postLikeIcon"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                          ></path>
-                        </svg>
-                        <span class="text-sm font-medium postLikeCount">12</span>
-                      </button>
-                      <button
-                        type="button"
-                        class="postCommentBtn fi gap-x-1.5 text-gray-500 hover:text-blue-500 active:text-blue-500"
-                      >
-                        <svg
-                          class="w-5 h-5"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                          ></path>
-                        </svg>
-                        <span class="text-sm font-medium postCommentCount">3</span>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- コメントのやり取り（スレッド型） -->
-                  <div id="singleCommentSection" class="pt-3 pb-2 singleCommentWrapper">
-                    <h3 class="mb-3 text-sm font-bold text-gray-700">コメント</h3>
-                    <ul class="space-y-0 singleCommentList">
-                      <!-- 親コメント1 -->
-                      <li class="singleCommentItem">
-                        <div class="flex gap-3 py-3">
-                          <img
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop"
-                            alt=""
-                            class="flex-shrink-0 object-cover rounded-full cursor-pointer userIconBtn size-9"
-                            data-user-name="地域住民A"
-                            data-user-avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop"
-                            data-user-bio="横川エリア在住。商店街のイベントが好きです。"
-                            data-user-is-me="true"
-                            data-user-posts="8"
-                            data-user-followers="24"
-                            data-user-following="56"
-                            data-user-handle="chiiki_jumin_a"
-                            data-user-type="地域住民"
-                          />
-                          <div class="flex-1 min-w-0">
-                            <div class="flex flex-wrap items-center gap-1.5">
-                              <span class="text-sm font-medium text-gray-800">地域住民A</span>
-                              <span class="text-xs text-gray-500">2/28 10:30</span>
-                              <span
-                                class="px-1.5 py-0.5 text-[10px] font-medium rounded bg-amber-100 text-amber-700"
-                                >投稿者</span
-                              >
-                            </div>
-                            <p class="mt-0.5 text-sm text-gray-700 leading-relaxed">
-                              楽しみにしています！スタンプラリーの景品は何ですか？
-                            </p>
-                            <div class="mt-1 fi gap-x-2">
-                              <button
-                                type="button"
-                                class="text-xs text-blue-500 active:text-blue-600 commentReplyBtn"
-                              >
-                                返信
-                              </button>
-                              <button
-                                type="button"
-                                class="text-gray-400 commentLikeBtn fi gap-x-1 hover:text-red-500 active:text-red-500"
-                                data-count="3"
-                              >
-                                <svg
-                                  class="commentLikeIcon w-3.5 h-3.5"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                >
-                                  <path
-                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                                  ></path>
-                                </svg>
-                                <span class="text-xs commentLikeCount">3</span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- 返信 -->
-                      <li class="singleCommentItem singleCommentReply">
-                        <div class="flex gap-3 py-3 singleCommentReplyInner">
-                          <img
-                            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=40&h=40&fit=crop"
-                            alt=""
-                            class="flex-shrink-0 object-cover rounded-full cursor-pointer userIconBtn size-8"
-                            data-user-name="横川商店街振興組合"
-                            data-user-avatar="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=96&h=96&fit=crop"
-                            data-user-bio="横川商店街の活性化に取り組んでいます。イベントやセール情報をお届けします。"
-                            data-user-is-me="false"
-                            data-user-posts="12"
-                            data-user-followers="320"
-                            data-user-following="45"
-                            data-user-handle="yokogawa_shoutengai"
-                            data-user-type="商店街"
-                          />
-                          <div class="flex-1 min-w-0">
-                            <div class="flex flex-wrap items-center gap-1.5">
-                              <span class="text-sm font-medium text-gray-800"
-                                >横川商店街振興組合</span
-                              >
-                              <span class="text-xs text-gray-500">2/28 11:00</span>
-                              <span
-                                class="px-1.5 py-0.5 text-[10px] font-medium rounded bg-amber-100 text-amber-700"
-                                >投稿者</span
-                              >
-                            </div>
-                            <p class="mt-0.5 text-sm text-gray-700 leading-relaxed">
-                              各店舗でお菓子や文具などをご用意しています。詳細は後日お知らせしますね！
-                            </p>
-                            <div class="mt-1 fi gap-x-2">
-                              <button
-                                type="button"
-                                class="text-xs text-blue-500 active:text-blue-600 commentReplyBtn"
-                              >
-                                返信
-                              </button>
-                              <button
-                                type="button"
-                                class="text-gray-400 commentLikeBtn fi gap-x-1 hover:text-red-500 active:text-red-500"
-                                data-count="1"
-                              >
-                                <svg
-                                  class="commentLikeIcon w-3.5 h-3.5"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                >
-                                  <path
-                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                                  ></path>
-                                </svg>
-                                <span class="text-xs commentLikeCount">1</span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- 親コメント2 -->
-                      <li class="singleCommentItem">
-                        <div class="flex gap-3 py-3">
-                          <img
-                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop"
-                            alt=""
-                            class="flex-shrink-0 object-cover rounded-full cursor-pointer userIconBtn size-9"
-                            data-user-name="カフェ店主"
-                            data-user-avatar="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop"
-                            data-user-bio="横川商店街でカフェを営んでいます。コーヒーとスイーツが自慢です。"
-                            data-user-is-me="false"
-                            data-user-posts="5"
-                            data-user-followers="89"
-                            data-user-following="12"
-                            data-user-handle="cafe_yokogawa"
-                            data-user-type="お店"
-                          />
-                          <div class="flex-1 min-w-0">
-                            <div class="flex flex-wrap items-center gap-1.5">
-                              <span class="text-sm font-medium text-gray-800">カフェ店主</span>
-                              <span class="text-xs text-gray-500">2/28 12:15</span>
-                            </div>
-                            <p class="mt-0.5 text-sm text-gray-700 leading-relaxed">
-                              当店も参加します。コーヒー無料券を景品に出す予定です☕
-                            </p>
-                            <div class="mt-1 fi gap-x-2">
-                              <button
-                                type="button"
-                                class="text-xs text-blue-500 active:text-blue-600 commentReplyBtn"
-                              >
-                                返信
-                              </button>
-                              <button
-                                type="button"
-                                class="text-gray-400 commentLikeBtn fi gap-x-1 hover:text-red-500 active:text-red-500"
-                                data-count="0"
-                              >
-                                <svg
-                                  class="commentLikeIcon w-3.5 h-3.5"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                >
-                                  <path
-                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                                  ></path>
-                                </svg>
-                                <span class="text-xs commentLikeCount">0</span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <!-- singleSlide -->
+        <div
+          id="singleSlide"
+          class="absolute top-0 right-0 w-full h-full transition-transform duration-300 ease-out bg-white"
+        >
+          <div class="rhw">
             <div
-              id="singleBottomWrapper"
-              class="flex-shrink-0 w-full p-3 pb-6 bg-white border-t border-gray-300 rounded-t-xl"
+              id="singleHeader"
+              class="absolute top-0 left-0 z-20 w-full px-2 pointer-events-none h-14 fi"
             >
-              <div class="fi">
-                <div class="flex-grow w-full h-10 overflow-hidden">
-                  <input
-                    type="text"
-                    class="w-full h-full px-3 border border-blue-500 rounded-l"
-                    placeholder="コメント（気をつかって書きんさいよ）"
-                  />
-                </div>
-                <button
-                  type="button"
-                  class="flex-shrink-0 h-10 px-3 text-white bg-blue-500 rounded-r active:bg-blue-600 fi"
-                >
-                  <p class="text-sm font-bold">コメント</p>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- userInfoSlide（右からスライド） -->
-      <div
-        id="userInfoSlide"
-        class="absolute top-0 right-0 w-full h-full transition-transform duration-300 ease-out bg-white"
-      >
-        <div class="relative w-full h-full">
-          <div
-            class="absolute top-0 left-0 z-10 flex-shrink-0 w-full px-2 pointer-events-none h-14 fi"
-          >
-            <button
-              type="button"
-              class="flex-shrink-0 h-10 pl-2 pr-3 transition bg-white rounded-full shadow opacity-75 pointer-events-auto active:bg-gray-50 fi closeUserInfoBtn gap-x-1 hover:opacity-100"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
+              <button
+                type="button"
+                class="flex-shrink-0 h-10 pl-2 pr-3 transition bg-white rounded-full shadow opacity-75 pointer-events-auto active:bg-gray-50 fi closeSingleBtn gap-x-1 hover:opacity-100"
               >
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-              <span class="text-sm font-bold">戻る</span>
-            </button>
-          </div>
-          <div class="h-full overflow-auto bg-white pt-14">
-            <div class="userInfoProfile">
-              <div class="gap-4 userInfoProfileHeader fi">
-                <div class="userInfoAvatarWrap">
-                  <img id="userInfoAvatar" src="" alt="" class="userInfoAvatar" />
-                </div>
-                <div class="flex-1 min-w-0">
-                  <h2 id="userInfoName" class="userInfoName"></h2>
-                  <div id="userInfoStats" class="gap-6 userInfoStats fi">
-                    <span><strong id="userInfoPostsCount">0</strong> 投稿</span>
-                    <span><strong id="userInfoFollowersCount">0</strong> フォロワー</span>
-                    <span><strong id="userInfoFollowingCount">0</strong> フォロー中</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#000000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+                <p class="text-sm font-bold">戻る</p>
+              </button>
+              <button
+                type="button"
+                class="flex-shrink-0 ml-auto transition bg-white rounded-full shadow opacity-75 pointer-events-auto active:bg-gray-50 fi favoSingleBtn size-10 fij hover:opacity-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#000000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div class="flex flex-col h-full min-h-0 bg-white">
+              <div class="flex-grow min-h-0 overflow-auto pt-14">
+                <div id="singleSlideWrapper" class="flex flex-col w-full">
+                  <div class="relative flex-shrink-0 w-full h-64">
+                    <div
+                      class="w-full h-full overflow-hidden cursor-pointer singleSlideViewport singleSlideImageClickArea"
+                    >
+                      <div class="flex transition-transform duration-300 singleSlideTrack">
+                        <div class="flex-shrink-0 w-full h-full singleSlideSlide">
+                          <img
+                            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=400&fit=crop"
+                            alt=""
+                            class="object-cover w-full h-full"
+                          />
+                        </div>
+                        <div class="flex-shrink-0 w-full h-full singleSlideSlide">
+                          <img
+                            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=600&fit=crop"
+                            alt=""
+                            class="object-cover w-full h-full"
+                          />
+                        </div>
+                        <div class="flex-shrink-0 w-full h-full singleSlideSlide">
+                          <img
+                            src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=600&fit=crop"
+                            alt=""
+                            class="object-cover w-full h-full"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="absolute z-10 justify-center hidden w-8 h-8 -translate-y-1/2 rounded-full shadow singleSlideArrowPrev left-2 top-1/2 bg-white/80 fi singleSlideNoModal md:flex"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M15 18l-6-6 6-6" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="absolute z-10 justify-center hidden w-8 h-8 -translate-y-1/2 rounded-full shadow singleSlideArrowNext right-2 top-1/2 bg-white/80 fi singleSlideNoModal md:flex"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M9 18l6-6-6-6" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="flex justify-center gap-2 py-2 singleSlideDots">
+                    <button
+                      type="button"
+                      class="w-2 h-2 bg-gray-300 rounded-full singleSlideDot active"
+                      data-index="0"
+                    ></button>
+                    <button
+                      type="button"
+                      class="w-2 h-2 bg-gray-300 rounded-full singleSlideDot"
+                      data-index="1"
+                    ></button>
+                    <button
+                      type="button"
+                      class="w-2 h-2 bg-gray-300 rounded-full singleSlideDot"
+                      data-index="2"
+                    ></button>
+                  </div>
+                  <!-- 投稿内容 -->
+                  <div class="px-4 singleSlidePost">
+                    <div class="pt-2 pb-3 border-b">
+                      <div class="flex-wrap mb-2 fi gap-x-2">
+                        <span
+                          class="singleSlideBadge px-2 py-0.5 text-xs font-medium rounded bg-amber-100 text-amber-700"
+                          >イベント</span
+                        >
+                        <span class="text-sm text-gray-500 singleSlideDate">2/28(土) 10:00</span>
+                      </div>
+                      <h2 class="mb-2 text-lg font-bold singleSlideTitle line-clamp-2">
+                        横川商店街 春の大感謝祭 3/15開催
+                      </h2>
+                      <div class="mb-3 singleSlideAuthor fi gap-x-2">
+                        <img
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop"
+                          alt=""
+                          class="flex-shrink-0 object-cover rounded-full cursor-pointer userIconBtn size-10"
+                          data-user-name="横川商店街振興組合"
+                          data-user-avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop"
+                          data-user-bio="横川商店街の活性化に取り組んでいます。イベントやセール情報をお届けします。"
+                          data-user-is-me="false"
+                          data-user-posts="12"
+                          data-user-followers="320"
+                          data-user-following="45"
+                          data-user-handle="yokogawa_shoutengai"
+                          data-user-type="商店街"
+                        />
+                        <span class="text-sm font-medium">横川商店街振興組合</span>
+                      </div>
+                      <div class="flex-wrap mb-2 singleSlideTags fi gap-x-2">
+                        <span class="px-2 py-0.5 text-xs rounded bg-gray-100">商店街</span>
+                        <span class="px-2 py-0.5 text-xs rounded bg-gray-100">イベント</span>
+                        <span class="px-2 py-0.5 text-xs rounded bg-gray-100">春祭り</span>
+                      </div>
+                      <p class="text-sm leading-relaxed text-gray-700 singleSlideText">
+                        横川商店街では3月15日（土）に春の大感謝祭を開催します。各店舗でお得なセールやスタンプラリーを実施。ぜひお越しください！
+                      </p>
+                      <!-- いいね・コメントバー -->
+                      <div class="flex items-center gap-4 pt-3 singlePostActions">
+                        <button
+                          type="button"
+                          class="postLikeBtn fi gap-x-1.5 text-gray-500 hover:text-red-500 active:text-red-500"
+                          data-count="12"
+                        >
+                          <svg
+                            class="w-5 h-5 postLikeIcon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                            ></path>
+                          </svg>
+                          <span class="text-sm font-medium postLikeCount">12</span>
+                        </button>
+                        <button
+                          type="button"
+                          class="postCommentBtn fi gap-x-1.5 text-gray-500 hover:text-blue-500 active:text-blue-500"
+                        >
+                          <svg
+                            class="w-5 h-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                            ></path>
+                          </svg>
+                          <span class="text-sm font-medium postCommentCount">3</span>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- コメントのやり取り（スレッド型） -->
+                    <div id="singleCommentSection" class="pt-3 pb-2 singleCommentWrapper">
+                      <h3 class="mb-3 text-sm font-bold text-gray-700">コメント</h3>
+                      <ul class="space-y-0 singleCommentList">
+                        <!-- 親コメント1 -->
+                        <li class="singleCommentItem">
+                          <div class="flex gap-3 py-3">
+                            <img
+                              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop"
+                              alt=""
+                              class="flex-shrink-0 object-cover rounded-full cursor-pointer userIconBtn size-9"
+                              data-user-name="地域住民A"
+                              data-user-avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop"
+                              data-user-bio="横川エリア在住。商店街のイベントが好きです。"
+                              data-user-is-me="true"
+                              data-user-posts="8"
+                              data-user-followers="24"
+                              data-user-following="56"
+                              data-user-handle="chiiki_jumin_a"
+                              data-user-type="地域住民"
+                            />
+                            <div class="flex-1 min-w-0">
+                              <div class="flex flex-wrap items-center gap-1.5">
+                                <span class="text-sm font-medium text-gray-800">地域住民A</span>
+                                <span class="text-xs text-gray-500">2/28 10:30</span>
+                                <span
+                                  class="px-1.5 py-0.5 text-[10px] font-medium rounded bg-amber-100 text-amber-700"
+                                  >投稿者</span
+                                >
+                              </div>
+                              <p class="mt-0.5 text-sm text-gray-700 leading-relaxed">
+                                楽しみにしています！スタンプラリーの景品は何ですか？
+                              </p>
+                              <div class="mt-1 fi gap-x-2">
+                                <button
+                                  type="button"
+                                  class="text-xs text-blue-500 active:text-blue-600 commentReplyBtn"
+                                >
+                                  返信
+                                </button>
+                                <button
+                                  type="button"
+                                  class="text-gray-400 commentLikeBtn fi gap-x-1 hover:text-red-500 active:text-red-500"
+                                  data-count="3"
+                                >
+                                  <svg
+                                    class="commentLikeIcon w-3.5 h-3.5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                  >
+                                    <path
+                                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                                    ></path>
+                                  </svg>
+                                  <span class="text-xs commentLikeCount">3</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <!-- 返信 -->
+                        <li class="singleCommentItem singleCommentReply">
+                          <div class="flex gap-3 py-3 singleCommentReplyInner">
+                            <img
+                              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=40&h=40&fit=crop"
+                              alt=""
+                              class="flex-shrink-0 object-cover rounded-full cursor-pointer userIconBtn size-8"
+                              data-user-name="横川商店街振興組合"
+                              data-user-avatar="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=96&h=96&fit=crop"
+                              data-user-bio="横川商店街の活性化に取り組んでいます。イベントやセール情報をお届けします。"
+                              data-user-is-me="false"
+                              data-user-posts="12"
+                              data-user-followers="320"
+                              data-user-following="45"
+                              data-user-handle="yokogawa_shoutengai"
+                              data-user-type="商店街"
+                            />
+                            <div class="flex-1 min-w-0">
+                              <div class="flex flex-wrap items-center gap-1.5">
+                                <span class="text-sm font-medium text-gray-800"
+                                  >横川商店街振興組合</span
+                                >
+                                <span class="text-xs text-gray-500">2/28 11:00</span>
+                                <span
+                                  class="px-1.5 py-0.5 text-[10px] font-medium rounded bg-amber-100 text-amber-700"
+                                  >投稿者</span
+                                >
+                              </div>
+                              <p class="mt-0.5 text-sm text-gray-700 leading-relaxed">
+                                各店舗でお菓子や文具などをご用意しています。詳細は後日お知らせしますね！
+                              </p>
+                              <div class="mt-1 fi gap-x-2">
+                                <button
+                                  type="button"
+                                  class="text-xs text-blue-500 active:text-blue-600 commentReplyBtn"
+                                >
+                                  返信
+                                </button>
+                                <button
+                                  type="button"
+                                  class="text-gray-400 commentLikeBtn fi gap-x-1 hover:text-red-500 active:text-red-500"
+                                  data-count="1"
+                                >
+                                  <svg
+                                    class="commentLikeIcon w-3.5 h-3.5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                  >
+                                    <path
+                                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                                    ></path>
+                                  </svg>
+                                  <span class="text-xs commentLikeCount">1</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <!-- 親コメント2 -->
+                        <li class="singleCommentItem">
+                          <div class="flex gap-3 py-3">
+                            <img
+                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop"
+                              alt=""
+                              class="flex-shrink-0 object-cover rounded-full cursor-pointer userIconBtn size-9"
+                              data-user-name="カフェ店主"
+                              data-user-avatar="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop"
+                              data-user-bio="横川商店街でカフェを営んでいます。コーヒーとスイーツが自慢です。"
+                              data-user-is-me="false"
+                              data-user-posts="5"
+                              data-user-followers="89"
+                              data-user-following="12"
+                              data-user-handle="cafe_yokogawa"
+                              data-user-type="お店"
+                            />
+                            <div class="flex-1 min-w-0">
+                              <div class="flex flex-wrap items-center gap-1.5">
+                                <span class="text-sm font-medium text-gray-800">カフェ店主</span>
+                                <span class="text-xs text-gray-500">2/28 12:15</span>
+                              </div>
+                              <p class="mt-0.5 text-sm text-gray-700 leading-relaxed">
+                                当店も参加します。コーヒー無料券を景品に出す予定です☕
+                              </p>
+                              <div class="mt-1 fi gap-x-2">
+                                <button
+                                  type="button"
+                                  class="text-xs text-blue-500 active:text-blue-600 commentReplyBtn"
+                                >
+                                  返信
+                                </button>
+                                <button
+                                  type="button"
+                                  class="text-gray-400 commentLikeBtn fi gap-x-1 hover:text-red-500 active:text-red-500"
+                                  data-count="0"
+                                >
+                                  <svg
+                                    class="commentLikeIcon w-3.5 h-3.5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                  >
+                                    <path
+                                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                                    ></path>
+                                  </svg>
+                                  <span class="text-xs commentLikeCount">0</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="userInfoBioWrap">
-                <p id="userInfoNameSub" class="userInfoNameSub"></p>
-                <p id="userInfoBio" class="userInfoBio"></p>
-                <p id="userInfoHandle" class="userInfoHandle"></p>
-              </div>
-              <div id="userInfoButtons" class="gap-2 userInfoButtons fi">
-                <!-- 自分のとき: プロフィール編集 -->
-                <button
-                  type="button"
-                  id="userInfoEditBtn"
-                  class="hidden userInfoBtn userInfoBtnEdit"
-                >
-                  プロフィール編集
-                </button>
-                <!-- 他人のとき: フォロー + メッセージ -->
-                <button
-                  type="button"
-                  id="userInfoFollowBtn"
-                  class="hidden userInfoBtn userInfoBtnFollow"
-                >
-                  フォロー
-                </button>
-                <button
-                  type="button"
-                  id="userInfoMessageBtn"
-                  class="hidden userInfoBtn userInfoBtnMessage"
-                >
-                  メッセージ
-                </button>
-                <button
-                  type="button"
-                  id="userInfoBtnMore"
-                  class="justify-center hidden w-10 bg-gray-100 rounded userInfoBtn userInfoBtnMore fi h-9 active:bg-gray-200"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
+              <div
+                id="singleBottomWrapper"
+                class="flex-shrink-0 w-full p-3 pb-6 bg-white border-t border-gray-300 rounded-t-xl"
+              >
+                <div class="fi">
+                  <div class="flex-grow w-full h-10 overflow-hidden">
+                    <input
+                      type="text"
+                      class="w-full h-full px-3 border border-blue-500 rounded-l"
+                      placeholder="コメント（気をつかって書きんさいよ）"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    class="flex-shrink-0 h-10 px-3 text-white bg-blue-500 rounded-r active:bg-blue-600 fi"
                   >
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </button>
+                    <p class="text-sm font-bold">コメント</p>
+                  </button>
+                </div>
               </div>
-            </div>
-            <div class="pb-4">
-              <ul id="userInfoPostList" class="homeUl">
-                <!-- JSで動的生成 -->
-              </ul>
             </div>
           </div>
         </div>
-      </div>
+        <!-- userInfoSlide（右からスライド） -->
+        <div
+          id="userInfoSlide"
+          class="absolute top-0 right-0 w-full h-full transition-transform duration-300 ease-out bg-white"
+        >
+          <div class="relative w-full h-full">
+            <div
+              class="absolute top-0 left-0 z-10 flex-shrink-0 w-full px-2 pointer-events-none h-14 fi"
+            >
+              <button
+                type="button"
+                class="flex-shrink-0 h-10 pl-2 pr-3 transition bg-white rounded-full shadow opacity-75 pointer-events-auto active:bg-gray-50 fi closeUserInfoBtn gap-x-1 hover:opacity-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+                <span class="text-sm font-bold">戻る</span>
+              </button>
+            </div>
+            <div class="h-full overflow-auto bg-white pt-14">
+              <div class="userInfoProfile">
+                <div class="gap-4 userInfoProfileHeader fi">
+                  <div class="userInfoAvatarWrap">
+                    <img id="userInfoAvatar" src="" alt="" class="userInfoAvatar" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <h2 id="userInfoName" class="userInfoName"></h2>
+                    <div id="userInfoStats" class="gap-6 userInfoStats fi">
+                      <span><strong id="userInfoPostsCount">0</strong> 投稿</span>
+                      <span><strong id="userInfoFollowersCount">0</strong> フォロワー</span>
+                      <span><strong id="userInfoFollowingCount">0</strong> フォロー中</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="userInfoBioWrap">
+                  <p id="userInfoNameSub" class="userInfoNameSub"></p>
+                  <p id="userInfoBio" class="userInfoBio"></p>
+                  <p id="userInfoHandle" class="userInfoHandle"></p>
+                </div>
+                <div id="userInfoButtons" class="gap-2 userInfoButtons fi">
+                  <!-- 自分のとき: プロフィール編集 -->
+                  <button
+                    type="button"
+                    id="userInfoEditBtn"
+                    class="hidden userInfoBtn userInfoBtnEdit"
+                  >
+                    プロフィール編集
+                  </button>
+                  <!-- 他人のとき: フォロー + メッセージ -->
+                  <button
+                    type="button"
+                    id="userInfoFollowBtn"
+                    class="hidden userInfoBtn userInfoBtnFollow"
+                  >
+                    フォロー
+                  </button>
+                  <button
+                    type="button"
+                    id="userInfoMessageBtn"
+                    class="hidden userInfoBtn userInfoBtnMessage"
+                  >
+                    メッセージ
+                  </button>
+                  <button
+                    type="button"
+                    id="userInfoBtnMore"
+                    class="justify-center hidden w-10 bg-gray-100 rounded userInfoBtn userInfoBtnMore fi h-9 active:bg-gray-200"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="pb-4">
+                <ul id="userInfoPostList" class="homeUl">
+                  <!-- JSで動的生成 -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- 画像モーダル（カーテン＋画像横並び） -->
       <div
@@ -985,7 +985,7 @@
         </button>
         <button
           type="button"
-          class="absolute z-20 justify-center w-8 h-8 -translate-y-1/2 rounded-full shadow cursor-pointer imageModalArrowPrev left-2 top-1/2 bg-white/80 fi hover:bg-white"
+          class="absolute z-20 justify-center hidden w-8 h-8 -translate-y-1/2 rounded-full shadow cursor-pointer imageModalArrowPrev left-2 top-1/2 bg-white/80 fi hover:bg-white md:flex"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -1001,7 +1001,7 @@
         </button>
         <button
           type="button"
-          class="absolute z-20 justify-center w-8 h-8 -translate-y-1/2 rounded-full shadow cursor-pointer imageModalArrowNext right-2 top-1/2 bg-white/80 fi hover:bg-white"
+          class="absolute z-20 justify-center hidden w-8 h-8 -translate-y-1/2 rounded-full shadow cursor-pointer imageModalArrowNext right-2 top-1/2 bg-white/80 fi hover:bg-white md:flex"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -1023,6 +1023,147 @@
         <div
           class="absolute left-0 right-0 z-20 flex justify-center gap-2 pointer-events-none imageModalDots bottom-4"
         ></div>
+      </div>
+      <!-- postSlide（下からスライド） -->
+      <div
+        id="postSlide"
+        class="absolute top-0 left-0 z-20 w-full h-full transition duration-300 bg-white"
+      >
+        <div class="rhw">
+          <div class="absolute top-0 left-0 z-10 w-full bg-white border-b border-gray-200 h-14">
+            <div class="rhw fij">
+              <p class="font-bold text-md">横川なうに投稿しよう</p>
+              <button
+                type="button"
+                class="absolute bg-white rounded-full shadow size-10 fij closeBottomSlide active:bg-gray-50 left-3"
+                style="top: 50%; transform: translateY(-50%)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#000000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+              <button
+                id="postSubmitBtn"
+                type="button"
+                class="absolute px-3 text-sm font-bold text-white bg-blue-500 rounded-full right-2 h-9 fij"
+                style="top: 50%; transform: translateY(-50%)"
+                disabled
+              >
+                投稿する
+              </button>
+            </div>
+          </div>
+          <div id="postSlideInner" class="h-full px-4 pt-16 pb-6 overflow-x-hidden overflow-y-auto">
+            <div class="mt-4">
+              <p class="mb-2 text-sm font-medium text-gray-700">投稿の種類</p>
+              <div class="flex flex-wrap gap-2 postTypeOptions">
+                <label class="cursor-pointer postTypeOption">
+                  <input
+                    type="radio"
+                    name="postType"
+                    value="tsubuyaki"
+                    class="sr-only peer"
+                    checked
+                  />
+                  <span class="postTypeBadge postTypeBadge-tsubuyaki">つぶやき</span>
+                </label>
+                <label class="cursor-pointer postTypeOption">
+                  <input type="radio" name="postType" value="news" class="sr-only peer" />
+                  <span class="postTypeBadge postTypeBadge-news">ニュース</span>
+                </label>
+                <label class="cursor-pointer postTypeOption">
+                  <input type="radio" name="postType" value="event" class="sr-only peer" />
+                  <span class="postTypeBadge postTypeBadge-event">イベント</span>
+                </label>
+                <label class="cursor-pointer postTypeOption">
+                  <input type="radio" name="postType" value="oshiete" class="sr-only peer" />
+                  <span class="postTypeBadge postTypeBadge-oshiete">おしえて</span>
+                </label>
+                <label class="cursor-pointer postTypeOption">
+                  <input type="radio" name="postType" value="yuzuri" class="sr-only peer" />
+                  <span class="postTypeBadge postTypeBadge-yuzuri">譲り合い</span>
+                </label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="mb-2 text-sm font-medium text-gray-700">画像</p>
+              <div id="postImagesContainer" class="flex flex-wrap gap-2">
+                <label
+                  class="flex-shrink-0 w-24 h-24 border-2 border-gray-300 border-dashed cursor-pointer postImageAddWrap rounded-lg bg-gray-50 fij active:bg-gray-100"
+                >
+                  <input type="file" id="postImageInput" class="hidden" accept="image/*" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#9ca3af"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <label for="postTextarea" class="block mb-2 text-sm font-medium text-gray-700"
+                >投稿の内容</label
+              >
+              <textarea
+                id="postTextarea"
+                class="w-full min-h-[120px] p-3 text-base border border-gray-300 rounded-lg resize-none placeholder:text-gray-400"
+                placeholder="横川なうに投稿しよう"
+                rows="4"
+              ></textarea>
+            </div>
+            <div id="postEventDatesWrap" class="mt-4 hidden max-w-[66.666vw] min-w-0">
+              <div class="mb-2">
+                <label for="postEventStart" class="block mb-1 text-sm font-medium text-gray-700"
+                  >イベント開始日</label
+                >
+                <input
+                  type="date"
+                  id="postEventStart"
+                  class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg"
+                />
+              </div>
+              <div>
+                <label for="postEventEnd" class="block mb-1 text-sm font-medium text-gray-700"
+                  >イベント終了日</label
+                >
+                <input
+                  type="date"
+                  id="postEventEnd"
+                  class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg"
+                />
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="mb-2 text-sm font-medium text-gray-700">タグ</p>
+              <input
+                type="text"
+                id="postTagsInput"
+                class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg placeholder:text-gray-400"
+                placeholder="例: 商店街 春祭り（スペース区切り）"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

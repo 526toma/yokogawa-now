@@ -201,6 +201,48 @@ $(function () {
     }
   });
 
+  // openPostBtn: クリックで postSlide に active を付与（下からスライド表示）
+  $(document).on("click", "#openPostBtn", function () {
+    $("#postSlide").addClass("active");
+  });
+
+  // closeBottomSlide: クリックで postSlide から active を除去
+  $(document).on("click", ".closeBottomSlide", function () {
+    $("#postSlide").removeClass("active");
+  });
+
+  // 投稿の種類: イベント選択時に開始日・終了日を表示
+  $(document).on("change", "input[name='postType']", function () {
+    const isEvent = $(this).val() === "event";
+    $("#postEventDatesWrap").toggleClass("hidden", !isEvent);
+  });
+
+  // postImageInput: 画像選択でプレビュー追加（背景表示・右上✕で削除・次の四角で追加可能）
+  $(document).on("change", "#postImageInput", function () {
+    const file = this.files && this.files[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const dataUrl = e.target.result;
+      const $preview = $(
+        '<div class="postImagePreview relative flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-gray-100 bg-cover bg-center">' +
+          '<button type="button" class="postImageRemove absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 fij text-white hover:bg-black/80">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+          "</button>" +
+        "</div>"
+      );
+      $preview.css("background-image", "url(" + dataUrl + ")");
+      $preview.insertBefore($("#postImagesContainer .postImageAddWrap"));
+    };
+    reader.readAsDataURL(file);
+    this.value = "";
+  });
+  $(document).on("click", ".postImageRemove", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).closest(".postImagePreview").remove();
+  });
+
   // スライドを最前面に: appendでDOM末尾に移動＋アニメーション用に1フレーム待つ
   function openSlide($el, onOpen) {
     const $stack = $("#slideStack");
