@@ -161,7 +161,6 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-y; /* 横フリック無効（クリックのみで切り替え） */
 }
 .homeMenuBtnsTrack {
   min-width: min-content;
@@ -172,7 +171,9 @@
   top: 0;
   height: 100%;
   @apply bg-orange-500;
-  transition: left 0.18s ease, width 0.18s ease;
+  transition:
+    left 0.18s ease,
+    width 0.18s ease;
   pointer-events: none;
   z-index: 0;
 }
@@ -237,7 +238,9 @@
   @apply rounded-full bg-gray-300;
   width: 0.5rem;
   height: 0.5rem;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 .homeBannerDot.active {
   @apply bg-black;
@@ -255,6 +258,21 @@
   @apply h-full;
   padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0));
   overflow-x: hidden;
+}
+
+/* homeFeedTabs: おすすめ / フォロー中（Twitter風） */
+.homeFeedTab {
+  @apply relative transition-colors;
+}
+.homeFeedTab.active {
+  @apply text-gray-900 font-semibold;
+}
+.homeFeedTab.active::after {
+  content: "";
+  @apply absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500;
+}
+.homeFeedTab:not(.active) {
+  @apply text-gray-500 font-medium;
 }
 
 /* homeUl リスト */
@@ -288,6 +306,9 @@
 }
 .homeUlBadge-yuzuri {
   @apply bg-orange-100 text-orange-700;
+}
+.homeFeedEnd {
+  @apply list-none;
 }
 .line-clamp-2 {
   display: -webkit-box;
@@ -536,9 +557,13 @@
   }
 }
 
-/* openPostBtn: PWA時はBottomMenuにかからないようsafe-area分を追加 */
+/* openPostBtn: 押したときに縮む / PWA時はBottomMenuにかからないようsafe-area分を追加 */
 #openPostBtn {
+  transition: transform 0.15s ease-out;
   bottom: calc(5.5rem + env(safe-area-inset-bottom, 0));
+}
+#openPostBtn:active {
+  transform: scale(0.9);
 }
 /* openPostBtn: home以外では非表示（flex崩れ防止のためvisibility+幅ゼロ） */
 #openPostBtn.openPostBtn-hidden {
@@ -551,6 +576,30 @@
   overflow: hidden;
 }
 
+/* shopSearchBtn: トマトンボタンと同じ位置（下）、Leaflet(z-index 400)より上に表示 */
+#shopSearchBtn {
+  transition: transform 0.15s ease-out;
+  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0));
+  z-index: 1000;
+}
+#shopSearchBtn:active {
+  transform: scale(0.9);
+}
+#shopSearchBtn.shopSearchBtn-hidden {
+  visibility: hidden;
+  pointer-events: none;
+  width: 0;
+  min-width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  overflow: hidden;
+}
+/* スライド表示中（single/userInfo/post等）は検索ボタンを非表示・非クリックに（コメント入力時の誤タップ防止） */
+#smaWrapper.is-slide-open #shopSearchBtn {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 #postSlide {
   transform: translateY(100%);
 }
@@ -558,9 +607,43 @@
   transform: translateY(0%);
 }
 
+/* shopSearchSlide: カテゴリガード（ラジオ）・サブカテゴリ（チェックボックス） */
+.shopCategoryGuardBadge {
+  @apply inline-block px-3 py-1.5 text-sm font-medium rounded;
+  background: #f3f4f6;
+  color: #374151;
+}
+.shopCategoryGuard input:checked + .shopCategoryGuardBadge {
+  @apply ring-2 ring-blue-500 ring-offset-1;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.shopSubCategoryBadge {
+  @apply inline-block px-2.5 py-1 text-xs font-medium rounded;
+  background: #f9fafb;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+.shopSubCategory input:checked + .shopSubCategoryBadge {
+  @apply border-blue-500;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* shopSearchSlide: 下から半分の高さでスライド、rounded-t-xl */
+.shopSearchSlide {
+  height: 50vh;
+  transform: translateY(100%);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+}
+.shopSearchSlide.active {
+  transform: translateY(0%);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 /* postSlideInner 投稿フォーム */
 .postTypeBadge {
-  @apply inline-block px-3 py-1.5 text-sm font-medium rounded transition-all;
+  @apply inline-block px-3 py-1.5 text-sm font-medium rounded;
 }
 .postTypeBadge-tsubuyaki {
   background: #fef3c7;
@@ -596,10 +679,24 @@
   @apply transition-colors;
 }
 
-/* イベント日付: スマホでカレンダーがはみ出ないよう幅を制限 */
+/* 必須バッジ：地味め */
+.postRequiredBadge {
+  @apply inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium rounded-full;
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+/* 投稿の内容: 改行を有効に */
+#postTextarea {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* イベント日付: スマホでカレンダーがはみ出ないよう幅を制限、背景は白 */
 #postEventDatesWrap input[type="date"] {
   max-width: 100%;
   min-width: 0;
+  background-color: #fff;
 }
 #postSubmitBtn:active {
   @apply bg-blue-600;

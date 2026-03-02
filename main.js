@@ -192,6 +192,7 @@ $(function () {
     $(".homeContents").removeClass("active");
     $(`.homeContents[data-title="${title}"]`).addClass("active");
     $("#openPostBtn").toggleClass("openPostBtn-hidden", title !== "home");
+    $("#shopSearchBtn").toggleClass("shopSearchBtn-hidden", title !== "shop");
     if (title === "shop" && typeof L !== "undefined") {
       setTimeout(initShopMap, 50);
     }
@@ -201,14 +202,78 @@ $(function () {
     }
   });
 
-  // openPostBtn: クリックで postSlide に active を付与（下からスライド表示）
+  // openPostBtn: クリックで postSlide に active を付与（下からスライド表示）、フォームをクリア
+  function clearPostForm() {
+    $("#postTitleInput").val("");
+    $("#postTextarea").val("");
+    $("#postTextareaCount").text("0 / 500");
+    $("#postImageInput").val("");
+    $("#postImagesContainer .postImagePreview").remove();
+    $("#postEventStart").val("");
+    $("#postEventEnd").val("");
+    $("#postTagsInput").val("");
+    $("input[name='postType'][value='tsubuyaki']").prop("checked", true);
+    $("#postEventDatesWrap").addClass("hidden");
+  }
   $(document).on("click", "#openPostBtn", function () {
+    clearPostForm();
     $("#postSlide").addClass("active");
+    setTimeout(function () {
+      if (typeof updatePostSubmitBtn === "function") updatePostSubmitBtn();
+      if (typeof updatePostTextareaCount === "function") updatePostTextareaCount();
+    }, 0);
   });
 
   // closeBottomSlide: クリックで postSlide から active を除去
   $(document).on("click", ".closeBottomSlide", function () {
     $("#postSlide").removeClass("active");
+  });
+
+  // shopSearchBtn: クリックで shopSearchSlide に active を付与（下からスライド表示）
+  $(document).on("click", "#shopSearchBtn", function () {
+    $("#shopSearchSlide").addClass("active");
+  });
+  // closeShopSearchSlide: クリックで shopSearchSlide から active を除去
+  $(document).on("click", ".closeShopSearchSlide", function () {
+    $("#shopSearchSlide").removeClass("active");
+  });
+
+  // shopSearchClearBtn: カテゴリ・サブカテゴリ・キーワードをクリア（選択なし・チェック外し・サブ非表示）
+  $(document).on("click", ".shopSearchClearBtn", function () {
+    $("input[name='shopCategory'][value='none']").prop("checked", true);
+    $(".shopSubCategoryWrap").addClass("hidden");
+    $("input[name^='shopSub']").prop("checked", false);
+    $("#shopSearchInput").val("");
+  });
+
+  // shopCategory: ラジオでカテゴリ選択 → サブカテゴリ表示切り替え（選択なしのときは非表示）
+  $(document).on("change", "input[name='shopCategory']", function () {
+    const val = $(this).val();
+    $(".shopSubCategoryWrap").addClass("hidden");
+    if (val !== "none") {
+      $("#shopSubCategoryWrap-" + val).removeClass("hidden");
+    }
+  });
+
+  // 投稿の内容: 入力されたら投稿するボタンの disabled を解除、文字数カウント更新
+  function updatePostSubmitBtn() {
+    const hasContent = $.trim($("#postTextarea").val()).length > 0;
+    $("#postSubmitBtn").prop("disabled", !hasContent);
+  }
+  function updatePostTextareaCount() {
+    const len = $("#postTextarea").val().length;
+    const max = 500;
+    $("#postTextareaCount").text(len + " / " + max);
+  }
+  $(document).on("input", "#postTextarea", function () {
+    updatePostSubmitBtn();
+    updatePostTextareaCount();
+  });
+  $(document).on("paste", "#postTextarea", function () {
+    setTimeout(function () {
+      updatePostSubmitBtn();
+      updatePostTextareaCount();
+    }, 0);
   });
 
   // 投稿の種類: イベント選択時に開始日・終了日を表示
@@ -623,6 +688,7 @@ $(function () {
     updateHomeMenuIndicator();
     $("#homeFeedScroll").scrollTop(0);
     $("#homeBannerWrapper").toggle(category === "all");
+    $("#homeFeedTabs").toggle(category === "all");
     if (category === "all") fixBannerWhenVisible();
     $(".homeLi").each(function () {
       const liCat = $(this).data("category");
@@ -651,6 +717,14 @@ $(function () {
   // homeMenuBtns: クリックでカテゴリ切り替え
   $(document).on("click", ".homeMenuBtns", function () {
     switchToCategory($(this).data("category"));
+  });
+
+  // homeFeedTab: おすすめ / フォロー中 切り替え
+  $(document).on("click", ".homeFeedTab", function () {
+    $(".homeFeedTab").removeClass("active");
+    $(this).addClass("active");
+    const feed = $(this).data("feed");
+    // TODO: フォロー中フィードの表示切り替え
   });
 
   // 左右フリックでheadメニューを切り替え（headerメニュー上では発火しない・バナー上でも発火しない）

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -145,6 +145,10 @@
                 <button type="button" class="homeBannerDot" data-index="1"></button>
                 <button type="button" class="homeBannerDot" data-index="2"></button>
               </div>
+            </div>
+            <div id="homeFeedTabs" class="flex w-full border-b border-gray-200 bg-white">
+              <button type="button" class="homeFeedTab flex-1 py-3 active" data-feed="recommended">おすすめ</button>
+              <button type="button" class="homeFeedTab flex-1 py-3" data-feed="following">フォロー中</button>
             </div>
             <div class="pb-[5.5rem]">
               <ul id="homeUl" class="homeUl">
@@ -376,6 +380,9 @@
                     </div>
                   </a>
                 </li>
+                <li class="homeFeedEnd">
+                  <p class="py-6 text-center text-sm text-gray-400">投稿は以上です</p>
+                </li>
               </ul>
             </div>
           </div>
@@ -388,22 +395,20 @@
         <button
           id="openPostBtn"
           type="button"
-          class="absolute right-2 bottom-[5.5rem] size-[4.5rem] rounded-full bg-orange-500 fij active:bg-orange-600 border-2 border-white shadow-lg z-10"
+          class="absolute right-2 bottom-[6rem] size-[5rem] rounded-full bg-white fij overflow-hidden border border-gray-200 shadow-lg z-10 openPostBtn"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="35"
-            height="35"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#fff"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
+          <img
+            src="https://localchara.jp/data/character/52/539904fc6694d.jpg"
+            alt="投稿"
+            class="object-contain w-full h-full p-1"
+          />
+        </button>
+        <button
+          id="shopSearchBtn"
+          type="button"
+          class="absolute right-2 bottom-[6rem] size-[4rem] rounded-full bg-white fij overflow-hidden border border-gray-200 shadow-lg z-[1000] shopSearchBtn shopSearchBtn-hidden"
+        >
+          <img src="assets/icon-search.png" alt="検索" class="object-contain w-11 h-11" />
         </button>
       </div>
       <!-- homeBottomMenuWrapper -->
@@ -1030,7 +1035,7 @@
         class="absolute top-0 left-0 z-20 w-full h-full transition duration-300 bg-white"
       >
         <div class="rhw">
-          <div class="absolute top-0 left-0 z-10 w-full bg-white border-b border-gray-200 h-14">
+          <div class="absolute top-0 left-0 z-10 w-full bg-white h-14">
             <div class="rhw fij">
               <p class="font-bold text-md">横川なうに投稿しよう</p>
               <button
@@ -1038,20 +1043,7 @@
                 class="absolute bg-white rounded-full shadow size-10 fij closeBottomSlide active:bg-gray-50 left-3"
                 style="top: 50%; transform: translateY(-50%)"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#000000"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
               </button>
               <button
                 id="postSubmitBtn"
@@ -1066,7 +1058,10 @@
           </div>
           <div id="postSlideInner" class="h-full px-4 pt-16 pb-6 overflow-x-hidden overflow-y-auto">
             <div class="mt-4">
-              <p class="mb-2 text-sm font-medium text-gray-700">投稿の種類</p>
+              <p class="mb-2 text-sm font-medium text-gray-700 fi gap-1.5">
+                <span>投稿の種類</span>
+                <span class="postRequiredBadge">必須</span>
+              </p>
               <div class="flex flex-wrap gap-2 postTypeOptions">
                 <label class="cursor-pointer postTypeOption">
                   <input
@@ -1121,15 +1116,32 @@
               </div>
             </div>
             <div class="mt-4">
-              <label for="postTextarea" class="block mb-2 text-sm font-medium text-gray-700"
-                >投稿の内容</label
+              <label for="postTitleInput" class="block mb-2 text-sm font-medium text-gray-700"
+                >タイトル</label
               >
+              <input
+                type="text"
+                id="postTitleInput"
+                class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg placeholder:text-gray-400"
+                placeholder="タイトルを入力"
+              />
+            </div>
+            <div class="mt-4">
+              <label
+                for="postTextarea"
+                class="block mb-2 text-sm font-medium text-gray-700 fi gap-1.5"
+              >
+                <span>投稿の内容</span>
+                <span class="postRequiredBadge">必須</span>
+              </label>
               <textarea
                 id="postTextarea"
                 class="w-full min-h-[120px] p-3 text-base border border-gray-300 rounded-lg resize-none placeholder:text-gray-400"
                 placeholder="横川なうに投稿しよう"
                 rows="4"
+                maxlength="500"
               ></textarea>
+              <p class="text-right text-xs text-gray-400" id="postTextareaCount">0 / 500</p>
             </div>
             <div id="postEventDatesWrap" class="mt-4 hidden max-w-[66.666vw] min-w-0">
               <div class="mb-2">
@@ -1139,7 +1151,7 @@
                 <input
                   type="date"
                   id="postEventStart"
-                  class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg"
+                  class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg bg-white"
                 />
               </div>
               <div>
@@ -1149,7 +1161,7 @@
                 <input
                   type="date"
                   id="postEventEnd"
-                  class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg"
+                  class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg bg-white"
                 />
               </div>
             </div>
@@ -1160,6 +1172,162 @@
                 id="postTagsInput"
                 class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg placeholder:text-gray-400"
                 placeholder="例: 商店街 春祭り（スペース区切り）"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- shopSearchSlide（下からスライド、画面の半分） -->
+      <div
+        id="shopSearchSlide"
+        class="shopSearchSlide absolute left-0 right-0 bottom-0 z-[1000] w-full transition duration-300 bg-white rounded-t-xl"
+      >
+        <div class="rhw h-full">
+          <div class="absolute top-0 left-0 z-10 w-full bg-white h-14 rounded-t-xl">
+            <div class="rhw fij">
+              <p class="font-bold text-md">検索</p>
+              <button
+                type="button"
+                class="absolute bg-white rounded-full shadow size-10 fij closeShopSearchSlide active:bg-gray-50 left-3"
+                style="top: 50%; transform: translateY(-50%)"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <button
+                type="button"
+                class="absolute right-3 text-sm font-medium text-gray-600 shopSearchClearBtn active:text-gray-800"
+                style="top: 50%; transform: translateY(-50%)"
+              >
+                クリア
+              </button>
+            </div>
+          </div>
+          <div id="shopSearchSlideInner" class="h-full px-4 pt-16 pb-6 overflow-x-hidden overflow-y-auto">
+            <p class="mb-2 text-sm font-medium text-gray-700">カテゴリ</p>
+            <div class="flex flex-wrap gap-2 mb-4 shopCategoryGuards">
+              <label class="cursor-pointer shopCategoryGuard">
+                <input type="radio" name="shopCategory" value="none" class="sr-only peer" checked />
+                <span class="shopCategoryGuardBadge">すべて</span>
+              </label>
+              <label class="cursor-pointer shopCategoryGuard">
+                <input type="radio" name="shopCategory" value="food" class="sr-only peer" />
+                <span class="shopCategoryGuardBadge">飲食店</span>
+              </label>
+              <label class="cursor-pointer shopCategoryGuard">
+                <input type="radio" name="shopCategory" value="retail" class="sr-only peer" />
+                <span class="shopCategoryGuardBadge">物販</span>
+              </label>
+              <label class="cursor-pointer shopCategoryGuard">
+                <input type="radio" name="shopCategory" value="service" class="sr-only peer" />
+                <span class="shopCategoryGuardBadge">サービス</span>
+              </label>
+              <label class="cursor-pointer shopCategoryGuard">
+                <input type="radio" name="shopCategory" value="other" class="sr-only peer" />
+                <span class="shopCategoryGuardBadge">その他</span>
+              </label>
+            </div>
+            <div id="shopSubCategoryWrap-food" class="shopSubCategoryWrap shopSubCategoryWrap-food hidden">
+              <p class="mb-2 text-sm font-medium text-gray-700">飲食店の種類</p>
+              <div class="flex flex-wrap gap-2 shopSubCategories">
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubFood" value="chuka" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">中華</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubFood" value="izakaya" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">居酒屋</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubFood" value="bar" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">バー</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubFood" value="tachinomi" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">立ち飲み</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubFood" value="cafe" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">カフェ</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubFood" value="ramen" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">ラーメン</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubFood" value="teishoku" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">定食</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubFood" value="sushi" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">寿司</span>
+                </label>
+              </div>
+            </div>
+            <div id="shopSubCategoryWrap-retail" class="shopSubCategoryWrap shopSubCategoryWrap-retail hidden">
+              <p class="mb-2 text-sm font-medium text-gray-700">物販の種類</p>
+              <div class="flex flex-wrap gap-2 shopSubCategories">
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubRetail" value="kouri" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">小売</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubRetail" value="fuku" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">服</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubRetail" value="zakka" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">雑貨</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubRetail" value="supa" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">スーパー</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubRetail" value="convenience" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">コンビニ</span>
+                </label>
+              </div>
+            </div>
+            <div id="shopSubCategoryWrap-service" class="shopSubCategoryWrap shopSubCategoryWrap-service hidden">
+              <p class="mb-2 text-sm font-medium text-gray-700">サービスの種類</p>
+              <div class="flex flex-wrap gap-2 shopSubCategories">
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubService" value="hair" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">美容室</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubService" value="clinic" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">クリニック</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubService" value="bank" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">銀行・ATM</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubService" value="gas" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">ガソリンスタンド</span>
+                </label>
+              </div>
+            </div>
+            <div id="shopSubCategoryWrap-other" class="shopSubCategoryWrap shopSubCategoryWrap-other hidden">
+              <p class="mb-2 text-sm font-medium text-gray-700">その他</p>
+              <div class="flex flex-wrap gap-2 shopSubCategories">
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubOther" value="parking" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">駐車場</span>
+                </label>
+                <label class="cursor-pointer shopSubCategory">
+                  <input type="checkbox" name="shopSubOther" value="toilet" class="sr-only peer" />
+                  <span class="shopSubCategoryBadge">トイレ</span>
+                </label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <input
+                type="text"
+                id="shopSearchInput"
+                class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg placeholder:text-gray-400"
+                placeholder="キーワードで検索"
               />
             </div>
           </div>
